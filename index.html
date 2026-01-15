@@ -3,38 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ルーチンアプリ【AIリサーチ強化・完全統合版】</title>
+    <title>ルーチンアプリ【大型ボタン・AIリサーチ版】</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 80px; }
-        h1 { text-align: center; color: #007aff; font-size: 18px; margin: 10px 0; }
+        h1 { text-align: center; color: #007aff; font-size: 20px; margin: 15px 0; }
         
-        /* タブデザイン */
-        .tab-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; background: white; padding: 6px; border-radius: 12px; margin-bottom: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
-        .tab { padding: 8px 0; background: #f0f0f0; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 11px; color: #666; text-align: center; border: none; }
+        /* タブデザイン（大きく押しやすく） */
+        .tab-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; background: white; padding: 8px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .tab { padding: 12px 0; background: #f0f0f0; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; color: #666; text-align: center; border: none; }
         .tab.active { background: #007aff; color: white; }
 
-        #random-message { background: #fff; margin: 5px; padding: 10px; border-radius: 8px; font-size: 11px; color: #777; font-style: italic; text-align: center; border-left: 4px solid #007aff; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        #random-message { background: #fff; margin: 5px; padding: 12px; border-radius: 8px; font-size: 12px; color: #777; font-style: italic; text-align: center; border-left: 5px solid #007aff; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 15px; }
 
-        .section { background: white; padding: 12px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: none; }
+        .section { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: none; }
         .section.active { display: block; }
         
-        /* サブ項目背景色の調整（若干濃く鮮やかに） */
-        .sub-group { margin-bottom: 15px; padding: 10px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); }
+        .sub-group { margin-bottom: 20px; padding: 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); }
         .bg-blue   { background-color: #e3f2fd; }
         .bg-green  { background-color: #e8f5e9; }
         .bg-orange { background-color: #fff3e0; }
         .bg-purple { background-color: #f3e5f5; }
         .bg-gray   { background-color: #eeeeee; }
-        .subgroup-title { font-size: 14px; font-weight: 700; color: #007aff; margin: 0 0 8px 0; padding-left: 8px; border-left: 4px solid #007aff; }
+        .subgroup-title { font-size: 15px; font-weight: 700; color: #007aff; margin: 0 0 12px 0; padding-left: 10px; border-left: 5px solid #007aff; }
         
-        .checklist-item { display: flex; align-items: center; justify-content: space-between; gap: 5px; margin: 4px 0; padding: 8px; background: white; border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .checklist-main { display: flex; align-items: center; gap: 8px; flex: 1; font-size: 14px; }
-        .checklist-item input[type="checkbox"] { transform: scale(1.3); }
+        .checklist-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 6px 0; padding: 10px; background: white; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .checklist-main { display: flex; align-items: center; gap: 10px; flex: 1; font-size: 15px; }
+        .checklist-item input[type="checkbox"] { transform: scale(1.4); }
         
-        .btn-box { display: flex; gap: 4px; }
-        .action-button { padding: 6px 8px; font-size: 10px; border-radius: 6px; border: none; color: white; font-weight: 700; cursor: pointer; text-align: center; min-width: 32px; line-height: 1; text-decoration: none; }
+        /* アクションボタン（一回り大きく） */
+        .btn-box { display: flex; gap: 6px; }
+        .action-button { padding: 10px 12px; font-size: 12px; border-radius: 8px; border: none; color: white; font-weight: 700; cursor: pointer; text-align: center; min-width: 45px; line-height: 1; text-decoration: none; }
         
-        /* 各種ボタン色 */
         .sushi-button { background: #FF6B6B; } .anger-button { background: #607D8B; } .diezero-button { background: #FF9F43; }
         .pdf-button { background: #8E44AD; } .wn-button { background: #4CAF50; } .y-button { background: #FF0033; }
         .wash-button { background: #2196F3; } .nhk-button { background: #e50012; } .streaks-button { background: #ff9500; }
@@ -45,19 +44,19 @@
         .train-button { background: #333; } .finish-button { background: #8b7355; } .mirario-button { background: #9370DB; }
 
         .dynamic-item { border: 2px solid #ffcc00 !important; background: #fffdf0 !important; }
-        .reset-button { width: 100%; padding: 15px; background: #34c759; color: white; border: none; border-radius: 10px; font-size: 18px; margin-top: 15px; font-weight: bold; }
+        .reset-button { width: 100%; padding: 18px; background: #34c759; color: white; border: none; border-radius: 12px; font-size: 20px; margin-top: 20px; font-weight: bold; }
 
-        /* AIモーダル UI調整 */
+        /* AIモーダル */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
-        .modal-content { background: white; width: 92%; max-width: 380px; padding: 18px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
-        .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; color: #555; }
-        .form-group select, .form-group input, .form-group textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 15px; box-sizing: border-box; display: block; }
-        .time-row { display: flex; gap: 10px; }
+        .modal-content { background: white; width: 92%; max-width: 400px; padding: 20px; border-radius: 24px; max-height: 90vh; overflow-y: auto; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 6px; color: #555; }
+        .form-group select, .form-group input, .form-group textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; font-size: 16px; box-sizing: border-box; }
+        .time-row { display: flex; gap: 12px; }
         .time-row .form-group { flex: 1; }
-        .modal-buttons { display: flex; gap: 10px; margin-top: 15px; }
-        .btn-cancel { flex: 1; padding: 12px; border-radius: 8px; border: none; background: #eee; font-weight: bold; }
-        .btn-submit { flex: 2; padding: 12px; border-radius: 8px; border: none; background: #8E44AD; color: white; font-weight: bold; }
+        .modal-buttons { display: flex; gap: 12px; margin-top: 20px; }
+        .btn-cancel { flex: 1; padding: 15px; border-radius: 10px; border: none; background: #eee; font-weight: bold; font-size: 15px; }
+        .btn-submit { flex: 2; padding: 15px; border-radius: 10px; border: none; background: #8E44AD; color: white; font-weight: bold; font-size: 15px; }
     </style>
 </head>
 <body>
@@ -77,7 +76,7 @@
 
     <div class="modal-overlay" id="aiModal">
         <div class="modal-content">
-            <h2 style="text-align:center; font-size:16px; color:#8E44AD; margin-top:0;">✨ AIおでかけプラン(リサーチ版)</h2>
+            <h2 style="text-align:center; font-size:18px; color:#8E44AD; margin-top:0;">✨ AIおでかけプラン(Pro検索)</h2>
             <div class="time-row">
                 <div class="form-group"><label>開始時間</label><input type="time" id="startTime" value="09:00"></div>
                 <div class="form-group"><label>終了時間</label><input type="time" id="endTime" value="17:00"></div>
@@ -117,7 +116,7 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group"><label>環境（テーマ）</label>
+            <div class="form-group"><label>テーマ</label>
                 <select id="envSelect">
                     <option value="屋内施設">屋内</option>
                     <option value="屋外（公園等）">屋外</option>
@@ -128,8 +127,8 @@
                     <option value="プール">プール</option>
                 </select>
             </div>
-            <div class="form-group"><label>自由記入欄</label>
-                <textarea id="freeText" rows="2" placeholder="こだわり等"></textarea>
+            <div class="form-group"><label>備考（自由記入）</label>
+                <textarea id="freeText" rows="2" placeholder="こだわりを入力"></textarea>
             </div>
             <div class="modal-buttons">
                 <button class="btn-cancel" onclick="closeModal()">戻る</button>
@@ -298,36 +297,35 @@
             const env = document.getElementById('envSelect').value;
             const free = document.getElementById('freeText').value;
 
-            // Perplexityリサーチ機能を起動させるための強化プロンプト
+            // [Pro Search: ON] を冒頭に配置し、リサーチ機能を強力に誘発
             const prompt = `
-[命令: ウェブ検索とPro Search(リサーチ機能)をフル活用して最新情報を収集してください]
+[システム命令: Pro Search機能を強制ONにして、ウェブ検索を駆使してください]
 千葉市美浜区打瀬を出発地点として、家族三人(夫婦、2021年生まれ女の子)が楽しめるおでかけ計画を立てて下さい。
-以下の制約条件と入力文をもとに、最高の結果を【${plans}個】のプランで出力してください。
+以下の条件を元に、最新情報をリサーチして【${plans}個】のプランを出力してください。
 
-#出力形式の厳守:
-・各プランは必ずマークダウンの【テーブル形式】（時刻、内容、費用）で出力。
-・各プランの最後に必ず【費用合計】を表示。
-・カーシェア費用は「1日5,000円」として計算に含めること。
+#出力形式:
+・必ずマークダウンの【テーブル形式】（時刻、内容、費用）で出力。
+・プラン毎に必ず【費用合計】を表示。
+・カーシェア費用は「1日5,000円」として計算。
 
 #リサーチ指示:
-・各施設の最新の営業時間、2026年現在の利用料金、休館情報をウェブ検索で確認してください。
-・打瀬からの正確な移動ルートと時間をリサーチしてください。
-・ランチ場所は「子連れ歓迎」「目的地から徒歩5分以内」を条件に最新情報を探してください。
+・2026年現在の営業時間、利用料金、最新イベントをウェブ検索。
+・打瀬からの正確な移動ルート/時間をリサーチ。
+・ランチは目的地から徒歩5分以内、かつ子連れ歓迎の店を特定。
 
 #制約条件:
 ・出発地：千葉市美浜区打瀬
-・外での遊び重視（屋内指定時は屋内優先）
-・オムツ交換・休憩所の考慮
-・ランチは10:30〜11:00厳守
-・めぐる施設数：${facility}を厳守
-・移動手段：${transport}を最優先
+・ランチ時間：10:30〜11:00
+・めぐる施設数：${facility}
+・移動手段：${transport}
 
 #入力データ:
 出発：${start}、帰宅：${end}、場所：${place}、環境：${env}、備考：${free}
 
-出力：【結論(テーブル)】【費用合計】【リサーチした最新情報・根拠】【注意点】【出典】
+出力：【結論(テーブル)】【費用合計】【リサーチ根拠】【注意点】【出典】
 `;
-            window.open("https://www.perplexity.ai/search?q=" + encodeURIComponent(prompt), '_blank');
+            // copilot=1 パラメータを付加してProモードの挙動を促す
+            window.open("https://www.perplexity.ai/search?q=" + encodeURIComponent(prompt) + "&copilot=1", '_blank');
             closeModal();
         }
 
