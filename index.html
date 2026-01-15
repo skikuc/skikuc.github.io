@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ルーチンチェック【AI完全版・項目欠損なし】</title>
+    <title>ルーチンアプリ【AI完全版・機能欠損なし】</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 80px; }
         h1 { text-align: center; color: #007aff; font-size: 18px; margin: 10px 0; }
         
+        /* タブデザイン */
         .tab-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; background: white; padding: 6px; border-radius: 12px; margin-bottom: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
         .tab { padding: 8px 0; background: #f0f0f0; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 11px; color: #666; text-align: center; border: none; }
         .tab.active { background: #007aff; color: white; }
@@ -17,6 +18,7 @@
         .section { background: white; padding: 12px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: none; }
         .section.active { display: block; }
         
+        /* サブ項目グループの色分け */
         .sub-group { margin-bottom: 15px; padding: 8px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.05); }
         .bg-blue   { background-color: #f0f7ff; }
         .bg-green  { background-color: #f2fff5; }
@@ -32,6 +34,7 @@
         .btn-box { display: flex; gap: 4px; }
         .action-button { padding: 6px 8px; font-size: 10px; border-radius: 6px; border: none; color: white; font-weight: 700; cursor: pointer; text-align: center; min-width: 32px; line-height: 1; text-decoration: none; }
         
+        /* ボタン色一覧（維持） */
         .sushi-button { background: #FF6B6B; } .anger-button { background: #607D8B; } .diezero-button { background: #FF9F43; }
         .pdf-button { background: #8E44AD; } .wn-button { background: #4CAF50; } .y-button { background: #FF0033; }
         .wash-button { background: #2196F3; } .nhk-button { background: #e50012; } .streaks-button { background: #ff9500; }
@@ -77,19 +80,19 @@
             <div class="form-group"><label>終了時間</label><input type="time" id="endTime" value="17:00"></div>
             <div class="form-group"><label>場所</label>
                 <select id="placeSelect">
-                    <option value="千葉市美浜区、花見区周辺（幕張）">幕張周辺</option>
+                    <option value="千葉市美浜区、花見区周辺（幕張周辺）">幕張周辺</option>
                     <option value="千葉県内">千葉県内</option>
                     <option value="東京(山手線より東側)">東京(山手線より東側)</option>
                     <option value="埼玉県">埼玉県</option>
                     <option value="神奈川県">神奈川県</option>
                     <option value="茨城県">茨城県</option>
-                    <option value="関東甲信、東北方面（遠出）">関東甲信・東北方面</option>
+                    <option value="関東甲信、東北（遠方）">関東甲信・東北</option>
                 </select>
             </div>
             <div class="form-group"><label>環境（テーマ）</label>
                 <select id="envSelect">
                     <option value="屋内施設">屋内</option>
-                    <option value="屋外（公園・アスレチック等）">屋外</option>
+                    <option value="屋外（公園等）">屋外</option>
                     <option value="美術館">美術館</option>
                     <option value="博物館">博物館</option>
                     <option value="動物園">動物園</option>
@@ -98,7 +101,7 @@
                 </select>
             </div>
             <div class="form-group"><label>自由記入欄・こだわり</label>
-                <textarea id="freeText" rows="2" placeholder="例：駐車場がある、ベビーカー利用など"></textarea>
+                <textarea id="freeText" rows="2" placeholder="例：駐車場あり、ベビーカー利用など"></textarea>
             </div>
             <div class="modal-buttons">
                 <button class="btn-cancel" onclick="closeModal()">戻る</button>
@@ -254,11 +257,11 @@
     <script>
         const messages = ["「今やっていることで、本当は何から逃げている？」", "「小さな習慣」", "「一生“安全パターン”から出ないと、何を失うか」"];
 
-        // AIモーダル操作
+        // モーダル操作
         function openModal() { document.getElementById('aiModal').style.display = 'flex'; }
         function closeModal() { document.getElementById('aiModal').style.display = 'none'; }
 
-        // AIプラン提出
+        // AIプラン提出（テーブル形式、費用算出ロジックをプロンプトに追加）
         function submitAIPlan() {
             const start = document.getElementById('startTime').value;
             const end = document.getElementById('endTime').value;
@@ -269,44 +272,40 @@
             const prompt = `
 #命令書: あなたは子育てと計画立案のエキスパートです。
 休みの日、家族三人(夫婦、2021年生まれ女の子)が楽しめるおでかけ計画を立てて下さい。
-以下の制約条件と入力文をもとに、 最高の結果を15個のプランを出力してください。  
+以下の制約条件と入力文をもとに、最高の結果を15個のプランを出力してください。
+
+#出力形式の厳守:
+・各プランの結果は、必ずマークダウンの【テーブル形式】で出力してください。
+・テーブルの列は「時刻」「内容」「費用」の3列としてください。
+・各プランの最後には、必ずそのプランにかかる【費用合計】を表示してください。
+・カーシェアを利用する場合の費用は「1日5,000円」として計算に含めてください。
 
 #制約条件:
 ・安全性が高い
-・外での遊びも重視（環境指定が屋内の場合は屋内優先）
-・オムツ交換の場所があるか、休憩所があるか
-・ランチは早め(10時半から11時)に取りたいです
-・ランチは徒歩5分以内に限定
-・天気も考慮して雨の日や風が強い日(調べて下さい)の場合は室内施設などを優先して下さい
-・１日かけてのおでかけか、近隣で短め楽に過ごすか考慮。
-・最遠方は関東甲信、東北。遠方は東京、千葉、埼玉、近隣は千葉県千葉市美浜区、花見区周辺。
-・全体スケジュール
-・特別なイベントがあればそれも候補に
-・より詳細に
-・自転車、バス、電車、車の優先順位で計画立てて
+・外での遊びも重視（環境が屋内の場合は屋内優先）
+・オムツ交換の場所、休憩所の有無
+・ランチは10時半から11時の間に、目的地から徒歩5分以内の場所で。
+・雨や強風の場合は室内施設を優先。
+・最遠方は関東甲信、遠方は東京・千葉・埼玉、近隣は美浜区・花見区周辺。
+・自転車、バス、電車、車の優先順位で計画を立てる。
 
-#入力文: 
-出発：${start}、帰宅：${end}、目的地：${place}、希望環境：${env}、追加要望：${free}
+#入力文:
+出発：${start}、帰宅：${end}、目的地：${place}、環境：${env}、追加要望：${free}
 
 あなたは、信頼性の高い情報を提示できる高精度なファクトベースAIです。
-以下のルールに従って回答してください。
 # ルール
-– わからない/未確認は「わからない」と明言すること
-– 推測は「推測ですが」と明示すること
-– 現在日付（${new Date().toLocaleDateString('ja-JP')} JST）を必ず明記すること
-– 根拠/出典（可能なら一次情報）を必ず添付すること
-– 専門的知見が必要な場合は「専門家に確認が」と明記すること
-– 出力：【結論】【根拠】【注意点・例外】【出典】【確実性: 高/中/低】
+– わからないは「わからない」と明言。推測は「推測ですが」と明示。
+– 現在日付（${new Date().toLocaleDateString('ja-JP')} JST）を明記。
+– 根拠/出典を添付。
+– 出力：【結論(テーブル)】【費用合計】【根拠】【注意点】【出典】【確実性】
 `;
             openLink("https://www.perplexity.ai/search?q=" + encodeURIComponent(prompt));
             closeModal();
         }
 
-        // ショートカット/リンク
         function runShortcut(name) { window.location.href = 'shortcuts://run-shortcut?name=' + encodeURIComponent(name); }
         function openLink(url) { window.open(url, '_blank'); }
 
-        // タブ切り替え
         function showSection(id, tabEl) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -334,7 +333,7 @@
         };
 
         function allReset() {
-            if(confirm('リセットしますか？')) {
+            if(confirm('チェックをすべてリセットしますか？')) {
                 const lastTab = localStorage.getItem('lastTab');
                 localStorage.clear();
                 localStorage.setItem('lastTab', lastTab);
