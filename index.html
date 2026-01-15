@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ルーチンアプリ【大型ボタン・AIリサーチ版】</title>
+    <title>ルーチンアプリ【知恵の格言・完全版】</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 80px; }
         h1 { text-align: center; color: #007aff; font-size: 20px; margin: 15px 0; }
@@ -13,11 +13,13 @@
         .tab { padding: 12px 0; background: #f0f0f0; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; color: #666; text-align: center; border: none; }
         .tab.active { background: #007aff; color: white; }
 
-        #random-message { background: #fff; margin: 5px; padding: 12px; border-radius: 8px; font-size: 12px; color: #777; font-style: italic; text-align: center; border-left: 5px solid #007aff; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 15px; }
+        /* ランダムメッセージエリア */
+        #random-message { background: #fff; margin: 5px; padding: 14px; border-radius: 10px; font-size: 13px; color: #444; font-weight: 500; text-align: center; border-left: 6px solid #007aff; box-shadow: 0 2px 4px rgba(0,0,0,0.08); margin-bottom: 18px; min-height: 40px; display: flex; align-items: center; justify-content: center; line-height: 1.5; }
 
         .section { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: none; }
         .section.active { display: block; }
         
+        /* 背景色調整 */
         .sub-group { margin-bottom: 20px; padding: 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); }
         .bg-blue   { background-color: #e3f2fd; }
         .bg-green  { background-color: #e8f5e9; }
@@ -30,7 +32,7 @@
         .checklist-main { display: flex; align-items: center; gap: 10px; flex: 1; font-size: 15px; }
         .checklist-item input[type="checkbox"] { transform: scale(1.4); }
         
-        /* アクションボタン（一回り大きく） */
+        /* ボタン大型化 */
         .btn-box { display: flex; gap: 6px; }
         .action-button { padding: 10px 12px; font-size: 12px; border-radius: 8px; border: none; color: white; font-weight: 700; cursor: pointer; text-align: center; min-width: 45px; line-height: 1; text-decoration: none; }
         
@@ -282,7 +284,31 @@
     <button class="reset-button" onclick="allReset()">全チェックリセット</button>
 
     <script>
-        const messages = ["「今やっていることで、本当は何から逃げている？」", "「小さな習慣」", "「一生“安全パターン”から出ないと、何を失うか」"];
+        // ランダム文章リスト（全22件）
+        const messages = [
+            "人生で大切なのは、富の最大化ではなく経験の最大化",
+            "喜びを先延ばしにしないで、タイミングは「今」",
+            "「ゼロで死ぬ」とは、必要以上にため込まず、今しかできない経験に時間とお金を振り向けるという意思決定",
+            "人生の最後に残るのは思い出であり、思い出は後からも“配当”を与える",
+            "お金は「ライフエネルギー」として捉えると、使い方の精度が上がる",
+            "「お金の価値には有効期限がある」健康や感性があるうちに使わないと価値を発揮しにくい",
+            "「今の1000万円」と「60代の1000万円」は意味が違う",
+            "最強の投資先は経験であり、経験は“記憶の配当”として人生を豊かにし続ける",
+            "「モチベーションは信頼できない」",
+            "「失敗しようがないほど小さく始める」",
+            "「ばかばかしいほど小さく始める」",
+            "「既にある習慣の後に新しい行動をくっつける」",
+            "「モチベーションに頼らず、確実にできる行動を設定する」",
+            "怒りは否定でも我慢でもなく、「ある」と理解する",
+            "怒りは“反応”。自分そのものではない",
+            "怒りは「期待」と「コントロール欲望」から生まれる",
+            "怒りの原因を分ける：自分発／相手発",
+            "伝えるなら「事実・感情・希望」で整える",
+            "感情的になると、怒りが「結生」して暴走する",
+            "「嫌われたかも」「怒らせたかも」も妄想の一種",
+            "相手の気持ちを、過剰に妄想しない",
+            "末尾に「…と思っただけ」を付けてみる（妄想の識別）"
+        ];
 
         function openModal() { document.getElementById('aiModal').style.display = 'flex'; }
         function closeModal() { document.getElementById('aiModal').style.display = 'none'; }
@@ -297,7 +323,6 @@
             const env = document.getElementById('envSelect').value;
             const free = document.getElementById('freeText').value;
 
-            // [Pro Search: ON] を冒頭に配置し、リサーチ機能を強力に誘発
             const prompt = `
 [システム命令: Pro Search機能を強制ONにして、ウェブ検索を駆使してください]
 千葉市美浜区打瀬を出発地点として、家族三人(夫婦、2021年生まれ女の子)が楽しめるおでかけ計画を立てて下さい。
@@ -324,7 +349,6 @@
 
 出力：【結論(テーブル)】【費用合計】【リサーチ根拠】【注意点】【出典】
 `;
-            // copilot=1 パラメータを付加してProモードの挙動を促す
             window.open("https://www.perplexity.ai/search?q=" + encodeURIComponent(prompt) + "&copilot=1", '_blank');
             closeModal();
         }
@@ -342,19 +366,26 @@
 
         window.onload = () => {
             const now = new Date();
+            // 金曜チェック
             if (now.getDay() === 5) {
                 const fri = document.getElementById('fri-dynamic-item');
                 if(fri) fri.style.display = 'flex';
             }
+            // 第1・3火曜チェック
             const weekNum = Math.ceil(now.getDate() / 7);
             if (now.getDay() === 2 && (weekNum === 1 || weekNum === 3)) {
                 const tue = document.getElementById('tue-dynamic-item');
                 if(tue) tue.style.display = 'flex';
             }
+            // ランダムメッセージ表示
             document.getElementById('random-message').innerText = messages[Math.floor(Math.random() * messages.length)];
+            
+            // タブ復元
             const lastTab = localStorage.getItem('lastTab') || 'daily';
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(t => { if(t.getAttribute('onclick').includes("'" + lastTab + "'")) showSection(lastTab, t); });
+            
+            // チェック状態復元
             document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
                 if (localStorage.getItem(cb.id) === 'true') cb.checked = true;
                 cb.addEventListener('change', () => localStorage.setItem(cb.id, cb.checked));
