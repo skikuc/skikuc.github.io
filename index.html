@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ルーチンアプリ【AI完全復元・欠損なし】</title>
+    <title>ルーチンアプリ【AI完全版・欠損なし】</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 80px; }
         h1 { text-align: center; color: #007aff; font-size: 18px; margin: 10px 0; }
@@ -17,12 +17,13 @@
         .section { background: white; padding: 12px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: none; }
         .section.active { display: block; }
         
-        .sub-group { margin-bottom: 15px; padding: 8px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.05); }
-        .bg-blue   { background-color: #f0f7ff; }
-        .bg-green  { background-color: #f2fff5; }
-        .bg-orange { background-color: #fff9f0; }
-        .bg-purple { background-color: #f9f4ff; }
-        .bg-gray   { background-color: #f8f9fa; }
+        /* 背景色を若干濃く調整 */
+        .sub-group { margin-bottom: 15px; padding: 10px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); }
+        .bg-blue   { background-color: #e3f2fd; }
+        .bg-green  { background-color: #e8f5e9; }
+        .bg-orange { background-color: #fff3e0; }
+        .bg-purple { background-color: #f3e5f5; }
+        .bg-gray   { background-color: #eeeeee; }
         .subgroup-title { font-size: 14px; font-weight: 700; color: #007aff; margin: 0 0 8px 0; padding-left: 8px; border-left: 4px solid #007aff; }
         
         .checklist-item { display: flex; align-items: center; justify-content: space-between; gap: 5px; margin: 4px 0; padding: 8px; background: white; border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
@@ -45,12 +46,15 @@
         .dynamic-item { border: 2px solid #ffcc00 !important; background: #fffdf0 !important; }
         .reset-button { width: 100%; padding: 15px; background: #34c759; color: white; border: none; border-radius: 10px; font-size: 18px; margin-top: 15px; font-weight: bold; }
 
-        /* AIモーダル */
+        /* AIモーダル UI調整 */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
-        .modal-content { background: white; width: 92%; max-width: 380px; padding: 18px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
+        .modal-content { background: white; width: 92%; max-width: 380px; padding: 18px; border-radius: 20px; max-height: 90vh; overflow-y: auto; }
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; color: #555; }
-        .form-group select, .form-group input, .form-group textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 15px; box-sizing: border-box; }
+        .form-group select, .form-group input, .form-group textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 15px; box-sizing: border-box; display: block; }
+        /* 時間入力の幅を調整 */
+        .time-row { display: flex; gap: 10px; }
+        .time-row .form-group { flex: 1; }
         .modal-buttons { display: flex; gap: 10px; margin-top: 15px; }
         .btn-cancel { flex: 1; padding: 12px; border-radius: 8px; border: none; background: #eee; font-weight: bold; }
         .btn-submit { flex: 2; padding: 12px; border-radius: 8px; border: none; background: #8E44AD; color: white; font-weight: bold; }
@@ -74,8 +78,10 @@
     <div class="modal-overlay" id="aiModal">
         <div class="modal-content">
             <h2 style="text-align:center; font-size:16px; color:#8E44AD; margin-top:0;">✨ AIおでかけプラン作成</h2>
-            <div class="form-group"><label>開始時間</label><input type="time" id="startTime" value="09:00"></div>
-            <div class="form-group"><label>終了時間</label><input type="time" id="endTime" value="17:00"></div>
+            <div class="time-row">
+                <div class="form-group"><label>開始時間</label><input type="time" id="startTime" value="09:00"></div>
+                <div class="form-group"><label>終了時間</label><input type="time" id="endTime" value="17:00"></div>
+            </div>
             <div class="form-group"><label>場所</label>
                 <select id="placeSelect">
                     <option value="千葉市美浜区、花見区周辺（幕張周辺）">幕張周辺</option>
@@ -95,12 +101,21 @@
                     <option value="バス">バス</option>
                 </select>
             </div>
-            <div class="form-group"><label>巡る施設数</label>
-                <select id="facilityCount">
-                    <option value="1箇所">1箇所をゆっくり</option>
-                    <option value="2箇所">2箇所を効率よく</option>
-                    <option value="3箇所">3箇所をアクティブに</option>
-                </select>
+            <div class="time-row">
+                <div class="form-group"><label>施設数</label>
+                    <select id="facilityCount">
+                        <option value="1箇所">1箇所</option>
+                        <option value="2箇所">2箇所</option>
+                        <option value="3箇所">3箇所</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>プラン数</label>
+                    <select id="planCount">
+                        <option value="5">5個</option>
+                        <option value="10">10個</option>
+                        <option value="15" selected>15個</option>
+                    </select>
+                </div>
             </div>
             <div class="form-group"><label>環境（テーマ）</label>
                 <select id="envSelect">
@@ -113,8 +128,8 @@
                     <option value="プール">プール</option>
                 </select>
             </div>
-            <div class="form-group"><label>自由記入欄・こだわり</label>
-                <textarea id="freeText" rows="2" placeholder="例：ベビーカー利用など"></textarea>
+            <div class="form-group"><label>自由記入欄</label>
+                <textarea id="freeText" rows="2" placeholder="例：駐車場ありなど"></textarea>
             </div>
             <div class="modal-buttons">
                 <button class="btn-cancel" onclick="closeModal()">戻る</button>
@@ -278,36 +293,37 @@
             const end = document.getElementById('endTime').value;
             const place = document.getElementById('placeSelect').value;
             const transport = document.getElementById('transportSelect').value;
-            const count = document.getElementById('facilityCount').value;
+            const facility = document.getElementById('facilityCount').value;
+            const plans = document.getElementById('planCount').value;
             const env = document.getElementById('envSelect').value;
             const free = document.getElementById('freeText').value;
 
             const prompt = `
 #命令書: あなたは子育てと計画立案のエキスパートです。
-休みの日、家族三人(夫婦、2021年生まれ女の子)が楽しめるおでかけ計画を立てて下さい。
-以下の制約条件と入力文をもとに、最高の結果を15個のプランを出力してください。
+千葉市美浜区打瀬を出発地点として、家族三人(夫婦、2021年生まれ女の子)が楽しめるおでかけ計画を立てて下さい。
+以下の制約条件と入力文をもとに、最高の結果を【${plans}個】のプランで出力してください。
 
-#出力形式の厳守:
-・各プランの結果は、必ずマークダウンの【テーブル形式】で出力してください。
-・テーブルの列は「時刻」「内容」「費用」の3列としてください。
-・各プランの最後には、必ずそのプランにかかる【費用合計】を表示してください。
-・カーシェアを利用する場合の費用は「1日5,000円」として計算に含めてください。
+#出力形式:
+・各プランは必ずマークダウンの【テーブル形式】（時刻、内容、費用）で出力。
+・各プランの最後に必ず【費用合計】を表示。
+・カーシェア費用は「1日5,000円」として計算。
 
 #制約条件:
 ・安全性が高い
-・外での遊びも重視（環境が屋内の場合は屋内優先）
-・オムツ交換の場所、休憩所の有無
-・ランチは10時半から11時の間に、目的地から徒歩5分以内の場所で。
-・雨や強風の場合は室内施設を優先。
-・めぐる施設数は「${count}」を厳守してください。
-・移動手段は「${transport}」を最優先にしたスケジュールを立ててください。
+・出発地：千葉市美浜区打瀬
+・外での遊びも重視（環境指定が屋内の場合は屋内優先）
+・オムツ交換・休憩所の考慮
+・ランチは10:30〜11:00、目的地から徒歩5分以内限定
+・雨や強風時は室内優先
+・めぐる施設数：${facility}を厳守
+・移動手段：${transport}を最優先
 
 #入力文:
-出発：${start}、帰宅：${end}、目的地：${place}、環境：${env}、追加要望：${free}
+出発：${start}、帰宅：${end}、場所：${place}、環境：${env}、備考：${free}
 
-あなたは、信頼性の高い情報を提示できる高精度なファクトベースAIです。
+あなたは高精度なファクトベースAIです。
 # ルール
-– 現在日付（${new Date().toLocaleDateString('ja-JP')} JST）を明記。
+– 現在日付（${new Date().toLocaleDateString('ja-JP')} JST）を明記
 – 出力：【結論(テーブル)】【費用合計】【根拠】【注意点】【出典】【確実性】
 `;
             openLink("https://www.perplexity.ai/search?q=" + encodeURIComponent(prompt));
@@ -327,7 +343,10 @@
 
         window.onload = () => {
             const now = new Date();
-            if (now.getDay() === 5) document.getElementById('fri-dynamic-item').style.display = 'flex';
+            if (now.getDay() === 5) {
+                const fri = document.getElementById('fri-dynamic-item');
+                if(fri) fri.style.display = 'flex';
+            }
             const weekNum = Math.ceil(now.getDate() / 7);
             if (now.getDay() === 2 && (weekNum === 1 || weekNum === 3)) {
                 const tue = document.getElementById('tue-dynamic-item');
