@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ルーチンアプリ【タスク追加・大型ボタン版】</title>
+    <title>ルーチンアプリ【配置最適化版】</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 80px; }
         h1 { text-align: center; color: #007aff; font-size: 20px; margin: 15px 0; }
         
-        /* タブデザイン（大きく押しやすく） */
+        /* タブデザイン */
         .tab-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; background: white; padding: 8px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
         .tab { padding: 14px 0; background: #f0f0f0; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; color: #666; text-align: center; border: none; }
         .tab.active { background: #007aff; color: white; }
 
-        /* ランダムメッセージエリア */
+        /* ランダムメッセージ */
         #random-message { background: #fff; margin: 5px; padding: 14px; border-radius: 10px; font-size: 13px; color: #444; font-weight: 500; text-align: center; border-left: 6px solid #007aff; box-shadow: 0 2px 4px rgba(0,0,0,0.08); margin-bottom: 18px; min-height: 40px; display: flex; align-items: center; justify-content: center; line-height: 1.5; }
 
         .section { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: none; }
@@ -31,7 +31,7 @@
         .checklist-main { display: flex; align-items: center; gap: 10px; flex: 1; font-size: 15px; }
         .checklist-item input[type="checkbox"] { transform: scale(1.5); }
         
-        /* アクションボタン（一回り大きく） */
+        /* ボタン設定 */
         .btn-box { display: flex; gap: 6px; }
         .action-button { padding: 12px 14px; font-size: 12px; border-radius: 8px; border: none; color: white; font-weight: 700; cursor: pointer; text-align: center; min-width: 50px; line-height: 1; text-decoration: none; }
         
@@ -43,10 +43,12 @@
         .ikoyo-button { background: #FFD700; color: #333; } .rank-button { background: #FF9500; } .rakuten-button { background: #FF8C00; }
         .alexa-button { background: #00CAFF; } .sp-button { background: #20B2AA; } .marine-button { background: #8B4513; }
         .train-button { background: #333; } .finish-button { background: #8b7355; } .mirario-button { background: #9370DB; }
+        .cajico-button { background: #FF9800; } /* CAJICO用カラー */
 
         .dynamic-item { border: 2px solid #ffcc00 !important; background: #fffdf0 !important; }
         .reset-button { width: 100%; padding: 20px; background: #34c759; color: white; border: none; border-radius: 12px; font-size: 20px; margin-top: 20px; font-weight: bold; }
 
+        /* モーダル */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
         .modal-content { background: white; width: 92%; max-width: 400px; padding: 20px; border-radius: 24px; max-height: 90vh; overflow-y: auto; }
         .form-group { margin-bottom: 15px; }
@@ -154,7 +156,6 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d8"><span>✓ タスク</span></div><button class="action-button tick-button" onclick="runShortcut('ticktick')">tick</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d9"><span>📅 カレンダー</span></div><div class="btn-box"><button class="action-button g-button" onclick="runShortcut('Googleカレンダー')">Gカレ</button><button class="action-button tt-button" onclick="runShortcut('TimeTree')">TT</button></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d10"><span>🪟 窓の結露拭き</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d11"><span>👕 洗濯物干し</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d12"><span>🛁 お風呂洗い確認</span></div><button class="action-button bath-button" onclick="runShortcut('お風呂掃除済み')">風呂</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d13"><span>💧 加湿器の水</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d14"><span>🗑️ ゴミ捨て</span></div></div>
@@ -198,6 +199,11 @@
     </div>
 
     <div id="holiday" class="section">
+        <div class="sub-group bg-gray">
+            <div class="subgroup-title">やる事</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_laundry"><span>👕 洗濯物を干す</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho7"><span>📺 祖父母電話</span></div><button class="action-button alexa-button" onclick="runShortcut('Alexa')">Alexa</button></div>
+        </div>
         <div class="sub-group bg-purple">
             <div class="subgroup-title">✨ AIおでかけ計画</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho0"><span>✨ AIおでかけプラン提案</span></div><button class="action-button pdf-button" onclick="openModal()">AI実行</button></div>
@@ -210,10 +216,6 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho4"><span>🎒 カバン準備</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho5"><span>🔋 バッテリー</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho6"><span>🔌 ケーブル</span></div></div>
-        </div>
-        <div class="sub-group bg-gray">
-            <div class="subgroup-title">やる事</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho7"><span>📺 祖父母電話</span></div><button class="action-button alexa-button" onclick="runShortcut('Alexa')">Alexa</button></div>
         </div>
         <div class="sub-group bg-orange">
             <div class="subgroup-title">カーシェア</div>
@@ -254,13 +256,13 @@
         </div>
         <div class="sub-group bg-blue">
             <div class="subgroup-title">午前</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h4"><span>👕 洗濯物を干す</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h1"><span>🚽 トイレ掃除</span></div><button class="action-button finish-button" onclick="runShortcut('トイレ掃除済み')">完了</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h2"><span>🪟 窓開け</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h3"><span>🤖 ルンバ確認</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h4"><span>👕 洗濯物を干す</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h5"><span>🍽️ 食洗機をかける</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h6"><span>🥛 牛乳ヨーグルト確認</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h7"><span>📦 消耗品確認</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h7"><span>🛒 買い物リスト</span></div><button class="action-button cajico-button" onclick="runShortcut('CAJICO')">CAJICO</button></div>
         </div>
         <div class="sub-group bg-purple">
             <div class="subgroup-title">午後</div>
