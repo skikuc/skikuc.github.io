@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ルーチンアプリ【配置最適化版】</title>
+    <title>ルーチンアプリ【配置・項目完全版】</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 80px; }
         h1 { text-align: center; color: #007aff; font-size: 20px; margin: 15px 0; }
@@ -43,7 +43,7 @@
         .ikoyo-button { background: #FFD700; color: #333; } .rank-button { background: #FF9500; } .rakuten-button { background: #FF8C00; }
         .alexa-button { background: #00CAFF; } .sp-button { background: #20B2AA; } .marine-button { background: #8B4513; }
         .train-button { background: #333; } .finish-button { background: #8b7355; } .mirario-button { background: #9370DB; }
-        .cajico-button { background: #FF9800; } /* CAJICO用カラー */
+        .cajico-button { background: #FF9800; } .journal-button { background: #007aff; }
 
         .dynamic-item { border: 2px solid #ffcc00 !important; background: #fffdf0 !important; }
         .reset-button { width: 100%; padding: 20px; background: #34c759; color: white; border: none; border-radius: 12px; font-size: 20px; margin-top: 20px; font-weight: bold; }
@@ -67,11 +67,9 @@
     
     <div class="tab-container" id="tabMenu">
         <div class="tab active" onclick="showSection('daily', this)">⏰ 毎日</div>
-        <div class="tab" onclick="showSection('work', this)">👨 出社</div>
-        <div class="tab" onclick="showSection('touen', this)">🌅 登園</div>
+        <div class="tab" onclick="showSection('home', this)">🏠 在宅</div> <div class="tab" onclick="showSection('touen', this)">🌅 登園</div>
         <div class="tab" onclick="showSection('holiday', this)">🎒 休日</div>
-        <div class="tab" onclick="showSection('home', this)">🏠 在宅</div>
-        <div class="tab" onclick="showSection('return', this)">🌆 降園</div>
+        <div class="tab" onclick="showSection('work', this)">👨 出社</div> <div class="tab" onclick="showSection('return', this)">🌆 降園</div>
     </div>
 
     <div id="random-message"></div>
@@ -155,6 +153,7 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d7"><span>📺 テレビ体操</span></div><div class="btn-box"><button class="action-button nhk-button" onclick="runShortcut('NHK one')">NHK</button><button class="action-button streaks-button" onclick="runShortcut('Streaks')">Streaks</button></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d8"><span>✓ タスク</span></div><button class="action-button tick-button" onclick="runShortcut('ticktick')">tick</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d9"><span>📅 カレンダー</span></div><div class="btn-box"><button class="action-button g-button" onclick="runShortcut('Googleカレンダー')">Gカレ</button><button class="action-button tt-button" onclick="runShortcut('TimeTree')">TT</button></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_diary"><span>📔 日記</span></div><button class="action-button journal-button" onclick="runShortcut('ジャーナル')">起動</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d10"><span>🪟 窓の結露拭き</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d12"><span>🛁 お風呂洗い確認</span></div><button class="action-button bath-button" onclick="runShortcut('お風呂掃除済み')">風呂</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d13"><span>💧 加湿器の水</span></div></div>
@@ -169,8 +168,31 @@
         </div>
     </div>
 
+    <div id="home" class="section">
+        <div class="sub-group bg-blue">
+            <div class="subgroup-title">午前</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h4"><span>👕 洗濯物を干す</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h1"><span>🚽 トイレ掃除</span></div><button class="action-button finish-button" onclick="runShortcut('トイレ掃除済み')">完了</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h2"><span>🪟 窓開け</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h3"><span>🤖 ルンバ確認</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h5"><span>🍽️ 食食機をかける</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h6"><span>🥛 牛乳ヨーグルト確認</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h7"><span>🛒 買い物リスト</span></div><button class="action-button cajico-button" onclick="runShortcut('CAJICO')">CAJICO</button></div>
+        </div>
+        <div class="sub-group bg-purple">
+            <div class="subgroup-title">午後</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h8"><span>🧺 洗濯物の取り込み</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h9"><span>👕 洗濯物畳み</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h10"><span>🌙 パジャマ準備</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h11"><span>🩷 オムツ補充</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_window_close"><span>🪟 窓閉め</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h12"><span>🔥 追い焚き</span></div></div>
+        </div>
+    </div>
+
     <div id="work" class="section">
         <div class="sub-group bg-blue">
+            <div class="subgroup-title">出社準備</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w1"><span>🪒 髭剃り</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w2"><span>👕 着替え</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w3"><span>🚽 トイレ</span></div></div>
@@ -201,7 +223,7 @@
     <div id="holiday" class="section">
         <div class="sub-group bg-gray">
             <div class="subgroup-title">やる事</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_laundry"><span>👕 洗濯物を干す</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_laundry_top"><span>👕 洗濯物を干す</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho7"><span>📺 祖父母電話</span></div><button class="action-button alexa-button" onclick="runShortcut('Alexa')">Alexa</button></div>
         </div>
         <div class="sub-group bg-purple">
@@ -242,35 +264,14 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho22"><span>🚌 バス</span></div><div class="btn-box"><button class="action-button sp-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/19time_baytown.pdf')">SP</button><button class="action-button marine-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/baytown00_3.pdf')">マリン</button></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho23"><span>🚃 電車：海浜幕張駅</span></div><button class="action-button train-button" onclick="openLink('https://transit.yahoo.co.jp/timetable/22226/950')">時刻表</button></div>
         </div>
-    </div>
-
-    <div id="home" class="section">
-        <div class="sub-group bg-blue">
-            <div class="subgroup-title">自分の準備</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_copy1"><span>👕 着替え</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_copy2"><span>⌚️ Watch装着</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_copy3"><span>🔑 鍵をつける</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_copy4"><span>🎒 カバン準備</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_copy5"><span>🔋 バッテリー</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_copy6"><span>🔌 ケーブル</span></div></div>
-        </div>
-        <div class="sub-group bg-blue">
-            <div class="subgroup-title">午前</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h4"><span>👕 洗濯物を干す</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h1"><span>🚽 トイレ掃除</span></div><button class="action-button finish-button" onclick="runShortcut('トイレ掃除済み')">完了</button></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h2"><span>🪟 窓開け</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h3"><span>🤖 ルンバ確認</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h5"><span>🍽️ 食洗機をかける</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h6"><span>🥛 牛乳ヨーグルト確認</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h7"><span>🛒 買い物リスト</span></div><button class="action-button cajico-button" onclick="runShortcut('CAJICO')">CAJICO</button></div>
-        </div>
         <div class="sub-group bg-purple">
-            <div class="subgroup-title">午後</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h8"><span>🧺 洗濯物の取り込み</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h9"><span>👕 洗濯物畳み</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h10"><span>🌙 パジャマ準備</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h11"><span>🩷 オムツ補充</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h12"><span>🔥 追い焚き</span></div></div>
+            <div class="subgroup-title">家事(午後)</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_h8"><span>🧺 洗濯物の取り込み</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_h9"><span>👕 洗濯物畳み</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_h10"><span>🌙 パジャマ準備</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_h11"><span>🩷 オムツ補充</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_window_close"><span>🪟 窓閉め</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_h12"><span>🔥 追い焚き</span></div></div>
         </div>
     </div>
 
@@ -301,21 +302,10 @@
             "人生の最後に残るのは思い出であり、思い出は後からも“配当”を与える",
             "お金は「ライフエネルギー」として捉えると、使い方の精度が上がる",
             "「お金の価値には有効期限がある」健康や感性があるうちに使わないと価値を発揮しにくい",
-            "「今の1000万円」と「60代の1000万円」は意味が違う",
             "最強の投資先は経験であり、経験は“記憶の配当”として人生を豊かにし続ける",
-            "「モチベーションは信頼できない」",
-            "「失敗しようがないほど小さく始める」",
-            "「ばかばかしいほど小さく始める」",
-            "「既にある習慣の後に新しい行動をくっつける」",
             "「モチベーションに頼らず、確実にできる行動を設定する」",
             "怒りは否定でも我慢でもなく、「ある」と理解する",
-            "怒りは“反応”。自分そのものではない",
-            "怒りは「期待」と「コントロール欲望」から生まれる",
-            "怒りの原因を分ける：自分発／相手発",
             "伝えるなら「事実・感情・希望」で整える",
-            "感情的になると、怒りが「結生」して暴走する",
-            "「嫌われたかも」「怒らせたかも」も妄想の一種",
-            "相手の気持ちを、過剰に妄想しない",
             "末尾に「…と思っただけ」を付けてみる（妄想の識別）"
         ];
 
@@ -332,32 +322,7 @@
             const env = document.getElementById('envSelect').value;
             const free = document.getElementById('freeText').value;
 
-            const prompt = `
-[システム命令: Pro Search機能を強制ONにして、ウェブ検索を駆使してください]
-千葉市美浜区打瀬を出発地点として、家族三人(夫婦、2021年生まれ女の子)が楽しめるおでかけ計画を立てて下さい。
-以下の条件を元に、最新情報をリサーチして【${plans}個】のプランを出力してください。
-
-#出力形式:
-・必ずマークダウンの【テーブル形式】（時刻、内容、費用）で出力。
-・プラン毎に必ず【費用合計】を表示。
-・カーシェア費用は「1日5,000円」として計算。
-
-#リサーチ指示:
-・2026年現在の営業時間、利用料金、最新イベントをウェブ検索。
-・打瀬からの正確な移動ルート/時間をリサーチ。
-・ランチは目的地から徒歩5分以内、かつ子連れ歓迎の店を特定。
-
-#制約条件:
-・出発地：千葉市美浜区打瀬
-・ランチ時間：10:30〜11:00
-・めぐる施設数：${facility}
-・移動手段：${transport}
-
-#入力データ:
-出発：${start}、帰宅：${end}、場所：${place}、環境：${env}、備考：${free}
-
-出力：【結論(テーブル)】【費用合計】【リサーチ根拠】【注意点】【出典】
-`;
+            const prompt = `[システム命令: Pro Search機能を強制ONにして、ウェブ検索を駆使してください]千葉市美浜区打瀬を出発地点として、家族三人(夫婦、2021年生まれ女の子)が楽しめるおでかけ計画を立てて下さい。以下の条件を元に、最新情報をリサーチして【${plans}個】のプランを出力してください。#出力形式:・必ずマークダウンの【テーブル形式】（時刻、内容、費用）で出力。・プラン毎に必ず【費用合計】を表示。・カーシェア費用は「1日5,000円」として計算。#リサーチ指示:・2026年現在の営業時間、利用料金、最新イベントをウェブ検索。・打瀬からの正確な移動ルート/時間をリサーチ。・ランチは目的地から徒歩5分以内、かつ子連れ歓迎の店を特定。#制約条件:・出発地：千葉市美浜区打瀬・ランチ時間：10:30〜11:00・めぐる施設数：${facility}・移動手段：${transport}#入力データ:出発：${start}、帰宅：${end}、場所：${place}、環境：${env}、備考：${free}出力：【結論(テーブル)】【費用合計】【リサーチ根拠】【注意点】【出典】`;
             window.open("https://www.perplexity.ai/search?q=" + encodeURIComponent(prompt) + "&copilot=1", '_blank');
             closeModal();
         }
