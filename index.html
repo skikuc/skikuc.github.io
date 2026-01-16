@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ルーチンアプリ【知恵の格言・完全版】</title>
+    <title>ルーチンアプリ【タスク追加・大型ボタン版】</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 80px; }
         h1 { text-align: center; color: #007aff; font-size: 20px; margin: 15px 0; }
         
         /* タブデザイン（大きく押しやすく） */
         .tab-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; background: white; padding: 8px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
-        .tab { padding: 12px 0; background: #f0f0f0; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; color: #666; text-align: center; border: none; }
+        .tab { padding: 14px 0; background: #f0f0f0; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; color: #666; text-align: center; border: none; }
         .tab.active { background: #007aff; color: white; }
 
         /* ランダムメッセージエリア */
@@ -19,7 +19,6 @@
         .section { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: none; }
         .section.active { display: block; }
         
-        /* 背景色調整 */
         .sub-group { margin-bottom: 20px; padding: 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); }
         .bg-blue   { background-color: #e3f2fd; }
         .bg-green  { background-color: #e8f5e9; }
@@ -30,11 +29,11 @@
         
         .checklist-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 6px 0; padding: 10px; background: white; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
         .checklist-main { display: flex; align-items: center; gap: 10px; flex: 1; font-size: 15px; }
-        .checklist-item input[type="checkbox"] { transform: scale(1.4); }
+        .checklist-item input[type="checkbox"] { transform: scale(1.5); }
         
-        /* ボタン大型化 */
+        /* アクションボタン（一回り大きく） */
         .btn-box { display: flex; gap: 6px; }
-        .action-button { padding: 10px 12px; font-size: 12px; border-radius: 8px; border: none; color: white; font-weight: 700; cursor: pointer; text-align: center; min-width: 45px; line-height: 1; text-decoration: none; }
+        .action-button { padding: 12px 14px; font-size: 12px; border-radius: 8px; border: none; color: white; font-weight: 700; cursor: pointer; text-align: center; min-width: 50px; line-height: 1; text-decoration: none; }
         
         .sushi-button { background: #FF6B6B; } .anger-button { background: #607D8B; } .diezero-button { background: #FF9F43; }
         .pdf-button { background: #8E44AD; } .wn-button { background: #4CAF50; } .y-button { background: #FF0033; }
@@ -46,9 +45,8 @@
         .train-button { background: #333; } .finish-button { background: #8b7355; } .mirario-button { background: #9370DB; }
 
         .dynamic-item { border: 2px solid #ffcc00 !important; background: #fffdf0 !important; }
-        .reset-button { width: 100%; padding: 18px; background: #34c759; color: white; border: none; border-radius: 12px; font-size: 20px; margin-top: 20px; font-weight: bold; }
+        .reset-button { width: 100%; padding: 20px; background: #34c759; color: white; border: none; border-radius: 12px; font-size: 20px; margin-top: 20px; font-weight: bold; }
 
-        /* AIモーダル */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
         .modal-content { background: white; width: 92%; max-width: 400px; padding: 20px; border-radius: 24px; max-height: 90vh; overflow-y: auto; }
         .form-group { margin-bottom: 15px; }
@@ -151,6 +149,7 @@
             <div class="subgroup-title">🔄 ルーティン</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d5"><span>🌤️ 天気確認</span></div><div class="btn-box"><button class="action-button wn-button" onclick="runShortcut('WeatherNews')">WN</button><button class="action-button y-button" onclick="runShortcut('Y天気')">Y天</button><button class="action-button wash-button" onclick="openLink('https://weathernews.jp/s/laundry/area/chiba/12101/')">洗濯</button></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d6"><span>🧺 洗濯機を回す</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d6_2"><span>🍽️ 食洗機の食器をしまう</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d7"><span>📺 テレビ体操</span></div><div class="btn-box"><button class="action-button nhk-button" onclick="runShortcut('NHK one')">NHK</button><button class="action-button streaks-button" onclick="runShortcut('Streaks')">Streaks</button></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d8"><span>✓ タスク</span></div><button class="action-button tick-button" onclick="runShortcut('ticktick')">tick</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d9"><span>📅 カレンダー</span></div><div class="btn-box"><button class="action-button g-button" onclick="runShortcut('Googleカレンダー')">Gカレ</button><button class="action-button tt-button" onclick="runShortcut('TimeTree')">TT</button></div></div>
@@ -245,6 +244,15 @@
 
     <div id="home" class="section">
         <div class="sub-group bg-blue">
+            <div class="subgroup-title">自分の準備</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_copy1"><span>👕 着替え</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_copy2"><span>⌚️ Watch装着</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_copy3"><span>🔑 鍵をつける</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_copy4"><span>🎒 カバン準備</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_copy5"><span>🔋 バッテリー</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_copy6"><span>🔌 ケーブル</span></div></div>
+        </div>
+        <div class="sub-group bg-blue">
             <div class="subgroup-title">午前</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h1"><span>🚽 トイレ掃除</span></div><button class="action-button finish-button" onclick="runShortcut('トイレ掃除済み')">完了</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h2"><span>🪟 窓開け</span></div></div>
@@ -284,7 +292,6 @@
     <button class="reset-button" onclick="allReset()">全チェックリセット</button>
 
     <script>
-        // ランダム文章リスト（全22件）
         const messages = [
             "人生で大切なのは、富の最大化ではなく経験の最大化",
             "喜びを先延ばしにしないで、タイミングは「今」",
@@ -366,26 +373,19 @@
 
         window.onload = () => {
             const now = new Date();
-            // 金曜チェック
             if (now.getDay() === 5) {
                 const fri = document.getElementById('fri-dynamic-item');
                 if(fri) fri.style.display = 'flex';
             }
-            // 第1・3火曜チェック
             const weekNum = Math.ceil(now.getDate() / 7);
             if (now.getDay() === 2 && (weekNum === 1 || weekNum === 3)) {
                 const tue = document.getElementById('tue-dynamic-item');
                 if(tue) tue.style.display = 'flex';
             }
-            // ランダムメッセージ表示
             document.getElementById('random-message').innerText = messages[Math.floor(Math.random() * messages.length)];
-            
-            // タブ復元
             const lastTab = localStorage.getItem('lastTab') || 'daily';
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(t => { if(t.getAttribute('onclick').includes("'" + lastTab + "'")) showSection(lastTab, t); });
-            
-            // チェック状態復元
             document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
                 if (localStorage.getItem(cb.id) === 'true') cb.checked = true;
                 cb.addEventListener('change', () => localStorage.setItem(cb.id, cb.checked));
