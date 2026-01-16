@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ルーチンアプリ【配置・項目完全版】</title>
+    <title>ルーチンアプリ【完全版・欠損なし】</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 80px; }
         h1 { text-align: center; color: #007aff; font-size: 20px; margin: 15px 0; }
@@ -67,9 +67,11 @@
     
     <div class="tab-container" id="tabMenu">
         <div class="tab active" onclick="showSection('daily', this)">⏰ 毎日</div>
-        <div class="tab" onclick="showSection('home', this)">🏠 在宅</div> <div class="tab" onclick="showSection('touen', this)">🌅 登園</div>
+        <div class="tab" onclick="showSection('home', this)">🏠 在宅</div>
+        <div class="tab" onclick="showSection('touen', this)">🌅 登園</div>
         <div class="tab" onclick="showSection('holiday', this)">🎒 休日</div>
-        <div class="tab" onclick="showSection('work', this)">👨 出社</div> <div class="tab" onclick="showSection('return', this)">🌆 降園</div>
+        <div class="tab" onclick="showSection('work', this)">👨 出社</div>
+        <div class="tab" onclick="showSection('return', this)">🌆 降園</div>
     </div>
 
     <div id="random-message"></div>
@@ -175,7 +177,7 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h1"><span>🚽 トイレ掃除</span></div><button class="action-button finish-button" onclick="runShortcut('トイレ掃除済み')">完了</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h2"><span>🪟 窓開け</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h3"><span>🤖 ルンバ確認</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h5"><span>🍽️ 食食機をかける</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h5"><span>🍽️ 食洗機をかける</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h6"><span>🥛 牛乳ヨーグルト確認</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h7"><span>🛒 買い物リスト</span></div><button class="action-button cajico-button" onclick="runShortcut('CAJICO')">CAJICO</button></div>
         </div>
@@ -245,7 +247,7 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho9"><span>👶 ジュニアシート</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho10"><span>🤢 酔い止め</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho11"><span>🚗 ETCカード</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho12"><span>👓 メガネ/サングラス</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho12"><span>眼鏡/サングラス</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho13"><span>🛒 ベビーカー</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho14"><span>🍬 ガム</span></div></div>
         </div>
@@ -283,7 +285,7 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r3"><span>🧥 ジャケット</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r4"><span>🛀 お風呂を沸かす</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r5"><span>📲 打刻</span></div></div>
-            <div class="checklist-item dynamic-item" id="fri-dynamic-item" style="display:none;"><div class="checklist-main"><input type="checkbox" id="r_fri"><span>🗓️ 金曜：布団カバー、靴、帽子</span></div></div>
+            <div class="checklist-item dynamic-item" id="fri-dynamic-item" style="display:none;"><div class="checklist-main"><input type="checkbox" id="r_fri"><span>🗓️ 金曜：布団カバー、コットカバー、靴、帽子、ジャケット</span></div></div>
         </div>
         <div class="sub-group bg-purple">
             <div class="subgroup-title">帰り</div>
@@ -301,7 +303,6 @@
             "「ゼロで死ぬ」とは、必要以上にため込まず、今しかできない経験に時間とお金を振り向けるという意思決定",
             "人生の最後に残るのは思い出であり、思い出は後からも“配当”を与える",
             "お金は「ライフエネルギー」として捉えると、使い方の精度が上がる",
-            "「お金の価値には有効期限がある」健康や感性があるうちに使わないと価値を発揮しにくい",
             "最強の投資先は経験であり、経験は“記憶の配当”として人生を豊かにし続ける",
             "「モチベーションに頼らず、確実にできる行動を設定する」",
             "怒りは否定でも我慢でもなく、「ある」と理解する",
@@ -340,6 +341,7 @@
 
         window.onload = () => {
             const now = new Date();
+            // 金曜限定表示ロジック維持
             if (now.getDay() === 5) {
                 const fri = document.getElementById('fri-dynamic-item');
                 if(fri) fri.style.display = 'flex';
