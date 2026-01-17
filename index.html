@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ルーチンアプリ【Gemini旅行計画・完全版】</title>
+    <title>ルーチンアプリ【Gemini連携修正版・欠損なし】</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 80px; }
         h1 { text-align: center; color: #007aff; font-size: 20px; margin: 15px 0; }
@@ -46,7 +46,6 @@
         .train-button { background: #333; } .finish-button { background: #8b7355; } .mirario-button { background: #9370DB; }
         .cajico-button { background: #FF9800; } .journal-button { background: #007aff; }
         .okano-button { background: #6F4E37; } .travel-button { background: #E91E63; }
-        .gemini-button { background: #1a73e8; }
 
         .dynamic-item { border: 2px solid #ffcc00 !important; background: #fffdf0 !important; }
         .reset-button { width: 100%; padding: 20px; background: #34c759; color: white; border: none; border-radius: 12px; font-size: 20px; margin-top: 20px; font-weight: bold; }
@@ -180,7 +179,7 @@
                         <option value="1箇所">1箇所</option><option value="2箇所" selected>2箇所</option><option value="3箇所">3箇所</option>
                     </select>
                 </div>
-                <div class="form-group"><label>プラン数</label>
+                <div class="form-group"><label>プラン提案数</label>
                     <select id="trPlans">
                         <option value="1">1個</option><option value="3" selected>3個</option><option value="5">5個</option>
                     </select>
@@ -414,11 +413,13 @@
             const env = document.getElementById('trEnv').value;
             const free = document.getElementById('trFree').value;
 
+            // Geminiの場合は先頭に拡張機能タグを付与
+            let prefix = aiType === 'gemini' ? "@Google カレンダー " : "";
             let systemMsg = aiType === 'gemini' 
-                ? "[拡張機能のGoogleカレンダーを使用して、私の予定と2026年の祝日情報を確認してください]" 
+                ? "私のGoogleカレンダーの予定と2026年の日本の祝日情報を確認してください。" 
                 : "[Pro Search機能をONにして、2026年の日本の祝日情報をリサーチしてください]";
 
-            return `${systemMsg}千葉市美浜区打瀬を出発地点として、家族三人(夫婦、2021年生まれ女の子)向けの【旅行計画】を立てて下さい。#重要任務:1. 2026年の日本の祝祭日をリサーチし、${month}頃（またはその約3ヶ月先）で「3日以上の連休」となる最適な日程候補を私のGoogleカレンダーの空き状況と照らし合わせて具体的に提案してください。2. その日程での旅行プランを【${plans}個】作成してください。#条件:・宿泊数：${stay}・目的地：${place}・テーマ：${env}・移動手段：${transport}・1日の観光数：${facility}#出力形式:・【日程提案】（3ヶ月先の連休候補）・【旅行スケジュール】（テーブル形式：時刻、場所、内容、費用）・【費用概算合計】・【リサーチ根拠】#備考：${free}`;
+            return `${prefix}${systemMsg}千葉市美浜区打瀬を出発地点として、家族三人(夫婦、2021年生まれ女の子)向けの【旅行計画】を立てて下さい。#重要任務:1. 2026年の祝祭日をリサーチし、${month}頃（またはその約3ヶ月先）で「3日以上の連休」となる最適な日程候補を提案してください。2. その日程での旅行プランを【${plans}個】作成してください。#条件:・宿泊数：${stay}・目的地：${place}・テーマ：${env}・移動手段：${transport}・1日の観光数：${facility}#出力形式:・【日程提案】（3ヶ月先の連休候補）・【旅行スケジュール】（テーブル形式：時刻、場所、内容、費用）・【費用概算合計】#備考：${free}`;
         }
 
         function submitTravelPlan() {
@@ -429,7 +430,9 @@
 
         function submitTravelGemini() {
             const prompt = getTravelPrompt('gemini');
-            window.open("https://gemini.google.com/app?q=" + encodeURIComponent(prompt), '_blank');
+            // Gemini専用のパスワード・クエリ形式
+            const url = "https://gemini.google.com/app?q=" + encodeURIComponent(prompt);
+            window.open(url, '_blank');
             closeModal('travelModal');
         }
 
