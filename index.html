@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ルーチンアプリ【Gemini連携修正版・欠損なし】</title>
+    <title>ルーチンアプリ【旅行計画UI最適化版】</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 80px; }
         h1 { text-align: center; color: #007aff; font-size: 20px; margin: 15px 0; }
@@ -62,8 +62,10 @@
         .btn-row { display: flex; gap: 10px; }
         .btn-cancel { flex: 1; padding: 15px; border-radius: 10px; border: none; background: #eee; font-weight: bold; font-size: 15px; }
         .btn-submit { flex: 1; padding: 15px; border-radius: 10px; border: none; background: #8E44AD; color: white; font-weight: bold; font-size: 15px; }
-        .btn-travel { background: #E91E63 !important; }
-        .btn-gemini { background: #1a73e8 !important; color: white; width: 100%; padding: 15px; border-radius: 10px; border: none; font-weight: bold; font-size: 15px; }
+        
+        /* 旅行計画専用ボタン */
+        .btn-primary-travel { width: 100%; padding: 18px; border-radius: 12px; border: none; background: #E91E63; color: white; font-weight: bold; font-size: 17px; cursor: pointer; }
+        .btn-secondary-gemini { width: 100%; padding: 8px; border-radius: 10px; border: 1px solid #1a73e8; background: white; color: #1a73e8; font-weight: bold; font-size: 12px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -194,11 +196,9 @@
             </div>
             <div class="form-group"><label>こだわり備考</label><textarea id="trFree" rows="2" placeholder="予算や外せない場所など"></textarea></div>
             <div class="modal-buttons">
-                <button class="btn-gemini" onclick="submitTravelGemini()">Geminiで実行 (カレンダー連携)</button>
-                <div class="btn-row">
-                    <button class="btn-cancel" onclick="closeModal('travelModal')">戻る</button>
-                    <button class="btn-submit btn-travel" onclick="submitTravelPlan()">Perplexityで実行</button>
-                </div>
+                <button class="btn-primary-travel" onclick="submitTravelPlan()">Perplexityで計画を作成</button>
+                <button class="btn-secondary-gemini" onclick="submitTravelGemini()">Geminiで1年間の連休候補を洗い出す</button>
+                <button class="btn-cancel" style="width:100%;" onclick="closeModal('travelModal')">戻る</button>
             </div>
         </div>
     </div>
@@ -403,7 +403,7 @@
             closeModal('aiModal');
         }
 
-        function getTravelPrompt(aiType) {
+        function submitTravelPlan() {
             const month = document.getElementById('trMonth').value;
             const stay = document.getElementById('trStay').value;
             const place = document.getElementById('trPlace').value;
@@ -413,26 +413,15 @@
             const env = document.getElementById('trEnv').value;
             const free = document.getElementById('trFree').value;
 
-            // Geminiの場合は先頭に拡張機能タグを付与
-            let prefix = aiType === 'gemini' ? "@Google カレンダー " : "";
-            let systemMsg = aiType === 'gemini' 
-                ? "私のGoogleカレンダーの予定と2026年の日本の祝日情報を確認してください。" 
-                : "[Pro Search機能をONにして、2026年の日本の祝日情報をリサーチしてください]";
-
-            return `${prefix}${systemMsg}千葉市美浜区打瀬を出発地点として、家族三人(夫婦、2021年生まれ女の子)向けの【旅行計画】を立てて下さい。#重要任務:1. 2026年の祝祭日をリサーチし、${month}頃（またはその約3ヶ月先）で「3日以上の連休」となる最適な日程候補を提案してください。2. その日程での旅行プランを【${plans}個】作成してください。#条件:・宿泊数：${stay}・目的地：${place}・テーマ：${env}・移動手段：${transport}・1日の観光数：${facility}#出力形式:・【日程提案】（3ヶ月先の連休候補）・【旅行スケジュール】（テーブル形式：時刻、場所、内容、費用）・【費用概算合計】#備考：${free}`;
-        }
-
-        function submitTravelPlan() {
-            const prompt = getTravelPrompt('perplexity');
+            const prompt = `[Pro Search機能ON]千葉市美浜区打瀬を出発地点として、家族三人向け旅行計画を${plans}個提案して。条件：時期${month}、${stay}、目的地${place}、${env}、移動${transport}、1日${facility}施設。費用概算も含む。備考：${free}`;
             window.open("https://www.perplexity.ai/search?q=" + encodeURIComponent(prompt) + "&copilot=1", '_blank');
             closeModal('travelModal');
         }
 
         function submitTravelGemini() {
-            const prompt = getTravelPrompt('gemini');
-            // Gemini専用のパスワード・クエリ形式
-            const url = "https://gemini.google.com/app?q=" + encodeURIComponent(prompt);
-            window.open(url, '_blank');
+            // Gemini専用：カレンダーと祝日から「今日以降1年間の連休」を探す機能に特化
+            const prompt = "@Google カレンダー 今日の日付（2026年1月18日）から1年間で、日本の祝日と私のGoogleカレンダーの予定を照らし合わせ、家族旅行に行けそうな「3連休以上」の候補をすべてリストアップしてください。";
+            window.open("https://gemini.google.com/app?q=" + encodeURIComponent(prompt), '_blank');
             closeModal('travelModal');
         }
 
