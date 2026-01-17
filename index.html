@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ルーチンアプリ【完全版・欠損なし】</title>
+    <title>ルーチンアプリ【旅行計画・欠損なし完全版】</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 80px; }
         h1 { text-align: center; color: #007aff; font-size: 20px; margin: 15px 0; }
@@ -45,22 +45,23 @@
         .alexa-button { background: #00CAFF; } .sp-button { background: #20B2AA; } .marine-button { background: #8B4513; }
         .train-button { background: #333; } .finish-button { background: #8b7355; } .mirario-button { background: #9370DB; }
         .cajico-button { background: #FF9800; } .journal-button { background: #007aff; }
-        .okano-button { background: #6F4E37; }
+        .okano-button { background: #6F4E37; } .travel-button { background: #E91E63; }
 
         .dynamic-item { border: 2px solid #ffcc00 !important; background: #fffdf0 !important; }
         .reset-button { width: 100%; padding: 20px; background: #34c759; color: white; border: none; border-radius: 12px; font-size: 20px; margin-top: 20px; font-weight: bold; }
 
-        /* モーダル */
+        /* モーダル共通 */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
         .modal-content { background: white; width: 92%; max-width: 400px; padding: 20px; border-radius: 24px; max-height: 90vh; overflow-y: auto; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 6px; color: #555; }
-        .form-group select, .form-group input, .form-group textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; font-size: 16px; box-sizing: border-box; }
-        .time-row { display: flex; gap: 12px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; color: #555; }
+        .form-group select, .form-group input, .form-group textarea { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #ddd; font-size: 15px; box-sizing: border-box; }
+        .time-row { display: flex; gap: 10px; }
         .time-row .form-group { flex: 1; }
-        .modal-buttons { display: flex; gap: 12px; margin-top: 20px; }
+        .modal-buttons { display: flex; gap: 12px; margin-top: 15px; }
         .btn-cancel { flex: 1; padding: 15px; border-radius: 10px; border: none; background: #eee; font-weight: bold; font-size: 15px; }
         .btn-submit { flex: 2; padding: 15px; border-radius: 10px; border: none; background: #8E44AD; color: white; font-weight: bold; font-size: 15px; }
+        .btn-travel { background: #E91E63 !important; }
     </style>
 </head>
 <body>
@@ -80,7 +81,7 @@
 
     <div class="modal-overlay" id="aiModal">
         <div class="modal-content">
-            <h2 style="text-align:center; font-size:18px; color:#8E44AD; margin-top:0;">✨ AIおでかけプラン(Pro検索)</h2>
+            <h2 style="text-align:center; font-size:18px; color:#8E44AD; margin-top:0;">✨ AIおでかけプラン</h2>
             <div class="time-row">
                 <div class="form-group"><label>開始時間</label><input type="time" id="startTime" value="09:00"></div>
                 <div class="form-group"><label>終了時間</label><input type="time" id="endTime" value="17:00"></div>
@@ -114,32 +115,83 @@
                 </div>
                 <div class="form-group"><label>プラン数</label>
                     <select id="planCount">
-                        <option value="1">1個</option>
-                        <option value="3">3個</option>
-                        <option value="5">5個</option>
-                        <option value="8">8個</option>
-                        <option value="10">10個</option>
-                        <option value="15" selected>15個</option>
+                        <option value="1">1個</option><option value="3">3個</option><option value="5">5個</option>
+                        <option value="8">8個</option><option value="10">10個</option><option value="15" selected>15個</option>
                     </select>
                 </div>
             </div>
             <div class="form-group"><label>テーマ</label>
                 <select id="envSelect">
-                    <option value="屋内施設">屋内</option>
-                    <option value="屋外（公園等）">屋外</option>
-                    <option value="美術館">美術館</option>
-                    <option value="博物館">博物館</option>
-                    <option value="動物園">動物園</option>
-                    <option value="水族館">水族館</option>
+                    <option value="屋内施設">屋内</option><option value="屋外（公園等）">屋外</option>
+                    <option value="美術館">美術館</option><option value="博物館">博物館</option>
+                    <option value="動物園">動物園</option><option value="水族館">水族館</option>
                     <option value="プール">プール</option>
                 </select>
             </div>
-            <div class="form-group"><label>備考（自由記入）</label>
-                <textarea id="freeText" rows="2" placeholder="こだわりを入力"></textarea>
-            </div>
+            <div class="form-group"><label>備考</label><textarea id="freeText" rows="2" placeholder="こだわりを入力"></textarea></div>
             <div class="modal-buttons">
-                <button class="btn-cancel" onclick="closeModal()">戻る</button>
+                <button class="btn-cancel" onclick="closeModal('aiModal')">戻る</button>
                 <button class="btn-submit" onclick="submitAIPlan()">プラン提案</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="travelModal">
+        <div class="modal-content">
+            <h2 style="text-align:center; font-size:18px; color:#E91E63; margin-top:0;">✈️ AI旅行計画 (3ヶ月先連休提案)</h2>
+            <div class="time-row">
+                <div class="form-group"><label>時期</label>
+                    <select id="trMonth">
+                        <option value="1月">1月</option><option value="2月">2月</option><option value="3月">3月</option>
+                        <option value="4月">4月</option><option value="5月">5月</option><option value="6月">6月</option>
+                        <option value="7月">7月</option><option value="8月">8月</option><option value="9月">9月</option>
+                        <option value="10月">10月</option><option value="11月">11月</option><option value="12月">12月</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>宿泊数</label>
+                    <select id="trStay">
+                        <option value="一泊二日">一泊</option><option value="二泊三日" selected>二泊</option>
+                        <option value="三泊四日">三泊</option><option value="四泊五日">四泊</option>
+                        <option value="五泊六日">五泊</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group"><label>目的地エリア</label>
+                <select id="trPlace">
+                    <option value="北海道">北海道</option><option value="東北">東北</option><option value="関東甲信越">関東甲信越</option>
+                    <option value="東海・北陸">東海・北陸</option><option value="近畿">近畿</option><option value="中国・四国">中国・四国</option>
+                    <option value="九州・沖縄">九州・沖縄</option>
+                </select>
+            </div>
+            <div class="form-group"><label>主な移動手段</label>
+                <select id="trTransport">
+                    <option value="飛行機">飛行機</option><option value="新幹線/特急">新幹線/特急</option>
+                    <option value="自家用車/レンタカー">自動車</option><option value="フェリー">フェリー</option>
+                </select>
+            </div>
+            <div class="time-row">
+                <div class="form-group"><label>1日の施設数</label>
+                    <select id="trFacility">
+                        <option value="1箇所">1箇所</option><option value="2箇所" selected>2箇所</option><option value="3箇所">3箇所</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>プラン提案数</label>
+                    <select id="trPlans">
+                        <option value="1">1個</option><option value="3" selected>3個</option><option value="5">5個</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group"><label>旅行テーマ</label>
+                <select id="trEnv">
+                    <option value="温泉・リラックス">温泉</option><option value="テーマパーク">テーマパーク</option>
+                    <option value="自然・絶景">自然</option><option value="グルメ・食べ歩き">グルメ</option>
+                    <option value="歴史・文化">歴史</option><option value="体験型アクティビティ">体験</option>
+                </select>
+            </div>
+            <div class="form-group"><label>こだわり備考</label><textarea id="trFree" rows="2" placeholder="予算や外せない場所など"></textarea></div>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeModal('travelModal')">戻る</button>
+                <button class="btn-submit btn-travel" onclick="submitTravelPlan()">旅行プラン提案</button>
             </div>
         </div>
     </div>
@@ -237,7 +289,11 @@
         </div>
         <div class="sub-group bg-purple">
             <div class="subgroup-title">✨ AIおでかけ計画</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho0"><span>✨ AIおでかけプラン提案</span></div><button class="action-button pdf-button" onclick="openModal()">AI実行</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho0"><span>✨ AIおでかけプラン提案</span></div><button class="action-button pdf-button" onclick="openModal('aiModal')">AI実行</button></div>
+        </div>
+        <div class="sub-group bg-orange">
+            <div class="subgroup-title">✈️ AI旅行計画</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_travel"><span>✈️ AI旅行プラン・日程提案</span></div><button class="action-button travel-button" onclick="openModal('travelModal')">旅行計画</button></div>
         </div>
         <div class="sub-group bg-blue">
             <div class="subgroup-title">自分の準備</div>
@@ -322,8 +378,8 @@
             "末尾に「…と思っただけ」を付けてみる（妄想の識別）"
         ];
 
-        function openModal() { document.getElementById('aiModal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('aiModal').style.display = 'none'; }
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
         function submitAIPlan() {
             const start = document.getElementById('startTime').value;
@@ -337,7 +393,22 @@
 
             const prompt = `[システム命令: Pro Search機能を強制ONにして、ウェブ検索を駆使してください]千葉市美浜区打瀬を出発地点として、家族三人(夫婦、2021年生まれ女の子)が楽しめるおでかけ計画を立てて下さい。以下の条件（季節、気温、日本の風習を考慮）を元に、最新情報をリサーチして【${plans}個】のプランを出力してください。#出力形式:・必ずマークダウンの【テーブル形式】（時刻、内容、費用）で出力。・プラン毎に必ず【費用合計】を表示。・カーシェア費用は「1日5,000円」として計算。#リサーチ指示:・2026年現在の営業時間、利用料金、最新イベントをウェブ検索。・季節・気温・日本の風習（祝日や行事）を考慮した内容にする。・打瀬からの正確な移動ルート/時間をリサーチ。・ランチは目的地から徒歩5分以内、かつ子連れ歓迎の店を特定。#制約条件:・出発地：千葉市美浜区打瀬・ランチ時間：10:30〜11:00・めぐる施設数：${facility}・移動手段：${transport}#入力データ:出発：${start}、帰宅：${end}、場所：${place}、環境：${env}、備考：${free}出力：【結論(テーブル)】【費用合計】【リサーチ根拠】【注意点】【出典】`;
             window.open("https://www.perplexity.ai/search?q=" + encodeURIComponent(prompt) + "&copilot=1", '_blank');
-            closeModal();
+            closeModal('aiModal');
+        }
+
+        function submitTravelPlan() {
+            const month = document.getElementById('trMonth').value;
+            const stay = document.getElementById('trStay').value;
+            const place = document.getElementById('trPlace').value;
+            const transport = document.getElementById('trTransport').value;
+            const facility = document.getElementById('trFacility').value;
+            const plans = document.getElementById('trPlans').value;
+            const env = document.getElementById('trEnv').value;
+            const free = document.getElementById('trFree').value;
+
+            const prompt = `[システム命令: Pro Search機能を強制ONにして、Googleカレンダーや祝日情報をリサーチしてください]千葉市美浜区打瀬を出発地点として、家族三人(夫婦、2021年生まれ女の子)向けの【旅行計画】を立てて下さい。#重要任務:1. 2026年の日本の祝祭日をリサーチし、${month}頃（またはその約3ヶ月先）で「3日以上の連休」となる最適な日程候補を具体的に提案してください。2. その日程での旅行プランを【${plans}個】作成してください。#条件:・宿泊数：${stay}・目的地：${place}・テーマ：${env}・移動手段：${transport}・1日の観光数：${facility}#出力形式:・【日程提案】（3ヶ月先の連休候補）・【旅行スケジュール】（マークダウンのテーブル形式：時刻、場所、内容、費用）・【費用概算合計】・【リサーチ根拠・出典】#備考：${free}`;
+            window.open("https://www.perplexity.ai/search?q=" + encodeURIComponent(prompt) + "&copilot=1", '_blank');
+            closeModal('travelModal');
         }
 
         function runShortcut(name) { window.location.href = 'shortcuts://run-shortcut?name=' + encodeURIComponent(name); }
