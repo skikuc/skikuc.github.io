@@ -45,7 +45,7 @@
         .alexa-button { background: #00CAFF; } .sp-button { background: #20B2AA; } .marine-button { background: #8B4513; }
         .train-button { background: #333; } .finish-button { background: #8b7355; } .mirario-button { background: #9370DB; }
         .cajico-button { background: #FF9800; } .journal-button { background: #007aff; }
-        .okano-button { background: #6F4E37; } /* cafe okano 用 */
+        .okano-button { background: #6F4E37; }
 
         .dynamic-item { border: 2px solid #ffcc00 !important; background: #fffdf0 !important; }
         .reset-button { width: 100%; padding: 20px; background: #34c759; color: white; border: none; border-radius: 12px; font-size: 20px; margin-top: 20px; font-weight: bold; }
@@ -232,16 +232,6 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_laundry_top"><span>👕 洗濯物を干す</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho7"><span>📺 祖父母電話</span></div><button class="action-button alexa-button" onclick="runShortcut('Alexa')">Alexa</button></div>
         </div>
-        <div class="sub-group bg-brown">
-            <div class="subgroup-title">🍽️ 食事</div>
-            <div class="checklist-item">
-                <div class="checklist-main">
-                    <input type="checkbox" id="ho_okano">
-                    <span>☕️ cafe okano</span>
-                </div>
-                <button class="action-button okano-button" onclick="openLink('https://x.com/cafeokano?s=21&t=EjJBVaQXUmSoBZe-IjkvnA')">X</button>
-            </div>
-        </div>
         <div class="sub-group bg-purple">
             <div class="subgroup-title">✨ AIおでかけ計画</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho0"><span>✨ AIおでかけプラン提案</span></div><button class="action-button pdf-button" onclick="openModal()">AI実行</button></div>
@@ -271,6 +261,7 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho16"><span>📱 iPad</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho17"><span>🧻 除菌シート</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho18"><span>🎒 リュック/ガラガラ</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_bottle"><span>🍼 ステンレスボトル(飲み物)</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho19"><span>🧻 ティッシュ</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho20"><span>👕 着替え</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho21"><span>🧼 ハンカチ</span></div></div>
@@ -279,6 +270,10 @@
             <div class="subgroup-title">交通機関</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho22"><span>🚌 バス</span></div><div class="btn-box"><button class="action-button sp-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/19time_baytown.pdf')">SP</button><button class="action-button marine-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/baytown00_3.pdf')">マリン</button></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho23"><span>🚃 電車：海浜幕張駅</span></div><button class="action-button train-button" onclick="openLink('https://transit.yahoo.co.jp/timetable/22226/950')">時刻表</button></div>
+        </div>
+        <div class="sub-group bg-brown">
+            <div class="subgroup-title">🍽️ 食事</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_okano"><span>☕️ cafe okano</span></div><button class="action-button okano-button" onclick="openLink('https://x.com/cafeokano?s=21&t=EjJBVaQXUmSoBZe-IjkvnA')">X</button></div>
         </div>
         <div class="sub-group bg-purple">
             <div class="subgroup-title">家事(午後)</div>
