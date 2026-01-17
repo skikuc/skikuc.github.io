@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ルーチンアプリ【旅行計画・欠損なし完全版】</title>
+    <title>ルーチンアプリ【Gemini旅行計画・完全版】</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 80px; }
         h1 { text-align: center; color: #007aff; font-size: 20px; margin: 15px 0; }
@@ -46,6 +46,7 @@
         .train-button { background: #333; } .finish-button { background: #8b7355; } .mirario-button { background: #9370DB; }
         .cajico-button { background: #FF9800; } .journal-button { background: #007aff; }
         .okano-button { background: #6F4E37; } .travel-button { background: #E91E63; }
+        .gemini-button { background: #1a73e8; }
 
         .dynamic-item { border: 2px solid #ffcc00 !important; background: #fffdf0 !important; }
         .reset-button { width: 100%; padding: 20px; background: #34c759; color: white; border: none; border-radius: 12px; font-size: 20px; margin-top: 20px; font-weight: bold; }
@@ -58,10 +59,12 @@
         .form-group select, .form-group input, .form-group textarea { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #ddd; font-size: 15px; box-sizing: border-box; }
         .time-row { display: flex; gap: 10px; }
         .time-row .form-group { flex: 1; }
-        .modal-buttons { display: flex; gap: 12px; margin-top: 15px; }
+        .modal-buttons { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        .btn-row { display: flex; gap: 10px; }
         .btn-cancel { flex: 1; padding: 15px; border-radius: 10px; border: none; background: #eee; font-weight: bold; font-size: 15px; }
-        .btn-submit { flex: 2; padding: 15px; border-radius: 10px; border: none; background: #8E44AD; color: white; font-weight: bold; font-size: 15px; }
+        .btn-submit { flex: 1; padding: 15px; border-radius: 10px; border: none; background: #8E44AD; color: white; font-weight: bold; font-size: 15px; }
         .btn-travel { background: #E91E63 !important; }
+        .btn-gemini { background: #1a73e8 !important; color: white; width: 100%; padding: 15px; border-radius: 10px; border: none; font-weight: bold; font-size: 15px; }
     </style>
 </head>
 <body>
@@ -130,17 +133,19 @@
             </div>
             <div class="form-group"><label>備考</label><textarea id="freeText" rows="2" placeholder="こだわりを入力"></textarea></div>
             <div class="modal-buttons">
-                <button class="btn-cancel" onclick="closeModal('aiModal')">戻る</button>
-                <button class="btn-submit" onclick="submitAIPlan()">プラン提案</button>
+                <div class="btn-row">
+                    <button class="btn-cancel" onclick="closeModal('aiModal')">戻る</button>
+                    <button class="btn-submit" onclick="submitAIPlan()">実行(Perplexity)</button>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="modal-overlay" id="travelModal">
         <div class="modal-content">
-            <h2 style="text-align:center; font-size:18px; color:#E91E63; margin-top:0;">✈️ AI旅行計画 (3ヶ月先連休提案)</h2>
+            <h2 style="text-align:center; font-size:18px; color:#E91E63; margin-top:0;">✈️ AI旅行計画</h2>
             <div class="time-row">
-                <div class="form-group"><label>時期</label>
+                <div class="form-group"><label>希望時期</label>
                     <select id="trMonth">
                         <option value="1月">1月</option><option value="2月">2月</option><option value="3月">3月</option>
                         <option value="4月">4月</option><option value="5月">5月</option><option value="6月">6月</option>
@@ -175,7 +180,7 @@
                         <option value="1箇所">1箇所</option><option value="2箇所" selected>2箇所</option><option value="3箇所">3箇所</option>
                     </select>
                 </div>
-                <div class="form-group"><label>プラン提案数</label>
+                <div class="form-group"><label>プラン数</label>
                     <select id="trPlans">
                         <option value="1">1個</option><option value="3" selected>3個</option><option value="5">5個</option>
                     </select>
@@ -190,8 +195,11 @@
             </div>
             <div class="form-group"><label>こだわり備考</label><textarea id="trFree" rows="2" placeholder="予算や外せない場所など"></textarea></div>
             <div class="modal-buttons">
-                <button class="btn-cancel" onclick="closeModal('travelModal')">戻る</button>
-                <button class="btn-submit btn-travel" onclick="submitTravelPlan()">旅行プラン提案</button>
+                <button class="btn-gemini" onclick="submitTravelGemini()">Geminiで実行 (カレンダー連携)</button>
+                <div class="btn-row">
+                    <button class="btn-cancel" onclick="closeModal('travelModal')">戻る</button>
+                    <button class="btn-submit btn-travel" onclick="submitTravelPlan()">Perplexityで実行</button>
+                </div>
             </div>
         </div>
     </div>
@@ -396,7 +404,7 @@
             closeModal('aiModal');
         }
 
-        function submitTravelPlan() {
+        function getTravelPrompt(aiType) {
             const month = document.getElementById('trMonth').value;
             const stay = document.getElementById('trStay').value;
             const place = document.getElementById('trPlace').value;
@@ -406,8 +414,22 @@
             const env = document.getElementById('trEnv').value;
             const free = document.getElementById('trFree').value;
 
-            const prompt = `[システム命令: Pro Search機能を強制ONにして、Googleカレンダーや祝日情報をリサーチしてください]千葉市美浜区打瀬を出発地点として、家族三人(夫婦、2021年生まれ女の子)向けの【旅行計画】を立てて下さい。#重要任務:1. 2026年の日本の祝祭日をリサーチし、${month}頃（またはその約3ヶ月先）で「3日以上の連休」となる最適な日程候補を具体的に提案してください。2. その日程での旅行プランを【${plans}個】作成してください。#条件:・宿泊数：${stay}・目的地：${place}・テーマ：${env}・移動手段：${transport}・1日の観光数：${facility}#出力形式:・【日程提案】（3ヶ月先の連休候補）・【旅行スケジュール】（マークダウンのテーブル形式：時刻、場所、内容、費用）・【費用概算合計】・【リサーチ根拠・出典】#備考：${free}`;
+            let systemMsg = aiType === 'gemini' 
+                ? "[拡張機能のGoogleカレンダーを使用して、私の予定と2026年の祝日情報を確認してください]" 
+                : "[Pro Search機能をONにして、2026年の日本の祝日情報をリサーチしてください]";
+
+            return `${systemMsg}千葉市美浜区打瀬を出発地点として、家族三人(夫婦、2021年生まれ女の子)向けの【旅行計画】を立てて下さい。#重要任務:1. 2026年の日本の祝祭日をリサーチし、${month}頃（またはその約3ヶ月先）で「3日以上の連休」となる最適な日程候補を私のGoogleカレンダーの空き状況と照らし合わせて具体的に提案してください。2. その日程での旅行プランを【${plans}個】作成してください。#条件:・宿泊数：${stay}・目的地：${place}・テーマ：${env}・移動手段：${transport}・1日の観光数：${facility}#出力形式:・【日程提案】（3ヶ月先の連休候補）・【旅行スケジュール】（テーブル形式：時刻、場所、内容、費用）・【費用概算合計】・【リサーチ根拠】#備考：${free}`;
+        }
+
+        function submitTravelPlan() {
+            const prompt = getTravelPrompt('perplexity');
             window.open("https://www.perplexity.ai/search?q=" + encodeURIComponent(prompt) + "&copilot=1", '_blank');
+            closeModal('travelModal');
+        }
+
+        function submitTravelGemini() {
+            const prompt = getTravelPrompt('gemini');
+            window.open("https://gemini.google.com/app?q=" + encodeURIComponent(prompt), '_blank');
             closeModal('travelModal');
         }
 
