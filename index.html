@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ルーチンアプリ【旅行計画UI最適化版】</title>
+    <title>ルーチンアプリ【連休選択・完全版】</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 80px; }
         h1 { text-align: center; color: #007aff; font-size: 20px; margin: 15px 0; }
@@ -59,13 +59,8 @@
         .time-row { display: flex; gap: 10px; }
         .time-row .form-group { flex: 1; }
         .modal-buttons { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
-        .btn-row { display: flex; gap: 10px; }
-        .btn-cancel { flex: 1; padding: 15px; border-radius: 10px; border: none; background: #eee; font-weight: bold; font-size: 15px; }
-        .btn-submit { flex: 1; padding: 15px; border-radius: 10px; border: none; background: #8E44AD; color: white; font-weight: bold; font-size: 15px; }
-        
-        /* 旅行計画専用ボタン */
-        .btn-primary-travel { width: 100%; padding: 18px; border-radius: 12px; border: none; background: #E91E63; color: white; font-weight: bold; font-size: 17px; cursor: pointer; }
-        .btn-secondary-gemini { width: 100%; padding: 8px; border-radius: 10px; border: 1px solid #1a73e8; background: white; color: #1a73e8; font-weight: bold; font-size: 12px; cursor: pointer; }
+        .btn-cancel { width: 100%; padding: 15px; border-radius: 10px; border: none; background: #eee; font-weight: bold; font-size: 15px; }
+        .btn-submit { width: 100%; padding: 18px; border-radius: 12px; border: none; background: #E91E63; color: white; font-weight: bold; font-size: 17px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -134,10 +129,8 @@
             </div>
             <div class="form-group"><label>備考</label><textarea id="freeText" rows="2" placeholder="こだわりを入力"></textarea></div>
             <div class="modal-buttons">
-                <div class="btn-row">
-                    <button class="btn-cancel" onclick="closeModal('aiModal')">戻る</button>
-                    <button class="btn-submit" onclick="submitAIPlan()">実行(Perplexity)</button>
-                </div>
+                <button class="btn-submit" style="background:#8E44AD;" onclick="submitAIPlan()">実行(Perplexity)</button>
+                <button class="btn-cancel" onclick="closeModal('aiModal')">戻る</button>
             </div>
         </div>
     </div>
@@ -145,29 +138,35 @@
     <div class="modal-overlay" id="travelModal">
         <div class="modal-content">
             <h2 style="text-align:center; font-size:18px; color:#E91E63; margin-top:0;">✈️ AI旅行計画</h2>
+            <div class="form-group"><label>連休候補（2026-2027）</label>
+                <select id="trHoliday">
+                    <option value="2月21日(土)〜2月23日(月・祝)：3連休(天皇誕生日)">2/21-2/23 (3連休)</option>
+                    <option value="3月20日(金・祝)〜3月22日(日)：3連休(春分の日)">3/20-3/22 (3連休)</option>
+                    <option value="4月29日(水・祝)〜5月6日(水・祝)：8連休(GW)">4/29-5/6 (8連休・GW)</option>
+                    <option value="7月18日(土)〜7月20日(月・祝)：3連休(海の日)">7/18-7/20 (3連休)</option>
+                    <option value="8月8日(土)〜8月16日(日)：9連休(お盆休み)">8/8-8/16 (9連休・お盆)</option>
+                    <option value="9月19日(土)〜9月23日(水・祝)：5連休(シルバーウィーク)">9/19-9/23 (5連休・SW)</option>
+                    <option value="10月10日(土)〜10月12日(月・祝)：3連休(スポーツの日)">10/10-10/12 (3連休)</option>
+                    <option value="10月31日(土)〜11月3日(火・祝)：4連休(文化の日)">10/31-11/3 (4連休)</option>
+                    <option value="11月21日(土)〜11月23日(月・祝)：3連休(勤労感謝の日)">11/21-11/23 (3連休)</option>
+                    <option value="12月26日(土)〜2027年1月4日(月)：10連休(年末年始)">12/26-1/4 (10連休)</option>
+                    <option value="2027年1月9日(土)〜1月11日(月・祝)：3連休(成人の日)">2027 1/9-1/11 (3連休)</option>
+                </select>
+            </div>
             <div class="time-row">
-                <div class="form-group"><label>希望時期</label>
-                    <select id="trMonth">
-                        <option value="1月">1月</option><option value="2月">2月</option><option value="3月">3月</option>
-                        <option value="4月">4月</option><option value="5月">5月</option><option value="6月">6月</option>
-                        <option value="7月">7月</option><option value="8月">8月</option><option value="9月">9月</option>
-                        <option value="10月">10月</option><option value="11月">11月</option><option value="12月">12月</option>
+                <div class="form-group"><label>目的地エリア</label>
+                    <select id="trPlace">
+                        <option value="北海道">北海道</option><option value="東北">東北</option><option value="関東甲信越" selected>関東甲信越</option>
+                        <option value="東海・北陸">東海・北陸</option><option value="近畿">近畿</option><option value="中国・四国">中国・四国</option>
+                        <option value="九州・沖縄">九州・沖縄</option>
                     </select>
                 </div>
                 <div class="form-group"><label>宿泊数</label>
                     <select id="trStay">
                         <option value="一泊二日">一泊</option><option value="二泊三日" selected>二泊</option>
                         <option value="三泊四日">三泊</option><option value="四泊五日">四泊</option>
-                        <option value="五泊六日">五泊</option>
                     </select>
                 </div>
-            </div>
-            <div class="form-group"><label>目的地エリア</label>
-                <select id="trPlace">
-                    <option value="北海道">北海道</option><option value="東北">東北</option><option value="関東甲信越">関東甲信越</option>
-                    <option value="東海・北陸">東海・北陸</option><option value="近畿">近畿</option><option value="中国・四国">中国・四国</option>
-                    <option value="九州・沖縄">九州・沖縄</option>
-                </select>
             </div>
             <div class="form-group"><label>主な移動手段</label>
                 <select id="trTransport">
@@ -181,7 +180,7 @@
                         <option value="1箇所">1箇所</option><option value="2箇所" selected>2箇所</option><option value="3箇所">3箇所</option>
                     </select>
                 </div>
-                <div class="form-group"><label>プラン提案数</label>
+                <div class="form-group"><label>プラン数</label>
                     <select id="trPlans">
                         <option value="1">1個</option><option value="3" selected>3個</option><option value="5">5個</option>
                     </select>
@@ -196,9 +195,8 @@
             </div>
             <div class="form-group"><label>こだわり備考</label><textarea id="trFree" rows="2" placeholder="予算や外せない場所など"></textarea></div>
             <div class="modal-buttons">
-                <button class="btn-primary-travel" onclick="submitTravelPlan()">Perplexityで計画を作成</button>
-                <button class="btn-secondary-gemini" onclick="submitTravelGemini()">Geminiで1年間の連休候補を洗い出す</button>
-                <button class="btn-cancel" style="width:100%;" onclick="closeModal('travelModal')">戻る</button>
+                <button class="btn-submit" onclick="submitTravelPlan()">Perplexityで旅行計画を作成</button>
+                <button class="btn-cancel" onclick="closeModal('travelModal')">戻る</button>
             </div>
         </div>
     </div>
@@ -404,7 +402,7 @@
         }
 
         function submitTravelPlan() {
-            const month = document.getElementById('trMonth').value;
+            const holiday = document.getElementById('trHoliday').value;
             const stay = document.getElementById('trStay').value;
             const place = document.getElementById('trPlace').value;
             const transport = document.getElementById('trTransport').value;
@@ -413,15 +411,8 @@
             const env = document.getElementById('trEnv').value;
             const free = document.getElementById('trFree').value;
 
-            const prompt = `[Pro Search機能ON]千葉市美浜区打瀬を出発地点として、家族三人向け旅行計画を${plans}個提案して。条件：時期${month}、${stay}、目的地${place}、${env}、移動${transport}、1日${facility}施設。費用概算も含む。備考：${free}`;
+            const prompt = `[Pro Search機能ON]千葉市美浜区打瀬を出発地点として、家族三人(夫婦、2021年生まれ女の子)向けの旅行計画を${plans}個提案してください。日程は【${holiday}】を前提とし、期間は${stay}とします。目的地は${place}、テーマは${env}、移動手段は${transport}、1日${facility}施設を巡る想定で、費用概算も含めてテーブル形式で出力してください。備考：${free}`;
             window.open("https://www.perplexity.ai/search?q=" + encodeURIComponent(prompt) + "&copilot=1", '_blank');
-            closeModal('travelModal');
-        }
-
-        function submitTravelGemini() {
-            // Gemini専用：カレンダーと祝日から「今日以降1年間の連休」を探す機能に特化
-            const prompt = "@Google カレンダー 今日の日付（2026年1月18日）から1年間で、日本の祝日と私のGoogleカレンダーの予定を照らし合わせ、家族旅行に行けそうな「3連休以上」の候補をすべてリストアップしてください。";
-            window.open("https://gemini.google.com/app?q=" + encodeURIComponent(prompt), '_blank');
             closeModal('travelModal');
         }
 
