@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ルーチンアプリ【連休選択・完全版】</title>
+    <title>ルーチンアプリ【洗濯予約機能追加・完全版】</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 80px; }
         h1 { text-align: center; color: #007aff; font-size: 20px; margin: 15px 0; }
@@ -46,6 +46,7 @@
         .train-button { background: #333; } .finish-button { background: #8b7355; } .mirario-button { background: #9370DB; }
         .cajico-button { background: #FF9800; } .journal-button { background: #007aff; }
         .okano-button { background: #6F4E37; } .travel-button { background: #E91E63; }
+        .calc-button { background: #009688; } /* 洗濯予約計算用 */
 
         .dynamic-item { border: 2px solid #ffcc00 !important; background: #fffdf0 !important; }
         .reset-button { width: 100%; padding: 20px; background: #34c759; color: white; border: none; border-radius: 12px; font-size: 20px; margin-top: 20px; font-weight: bold; }
@@ -347,6 +348,7 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_h11"><span>🩷 オムツ補充</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_window_close"><span>🪟 窓閉め</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_h12"><span>🔥 追い焚き</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_wash_reserve"><span>風呂後に翌日の洗濯機予約</span></div><button class="action-button calc-button" onclick="calcHours(this)">時間</button></div>
         </div>
     </div>
 
@@ -364,6 +366,7 @@
             <div class="subgroup-title">帰り</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r6"><span>👕 服をネットへ</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r7"><span>🧼 オキシ漬け</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r_wash_reserve"><span>風呂後に翌日の洗濯機予約</span></div><button class="action-button calc-button" onclick="calcHours(this)">時間</button></div>
         </div>
     </div>
 
@@ -414,6 +417,18 @@
             const prompt = `[Pro Search機能ON]千葉市美浜区打瀬を出発地点として、家族三人(夫婦、2021年生まれ女の子)向けの旅行計画を${plans}個提案してください。日程は【${holiday}】を前提とし、期間は${stay}とします。目的地は${place}、テーマは${env}、移動手段は${transport}、1日${facility}施設を巡る想定で、費用概算も含めてテーブル形式で出力してください。備考：${free}`;
             window.open("https://www.perplexity.ai/search?q=" + encodeURIComponent(prompt) + "&copilot=1", '_blank');
             closeModal('travelModal');
+        }
+
+        function calcHours(btn) {
+            const now = new Date();
+            let target = new Date();
+            target.setHours(6, 0, 0, 0);
+            if (now.getHours() >= 6) {
+                target.setDate(now.getDate() + 1);
+            }
+            const diffMs = target - now;
+            const diffHrs = (diffMs / (1000 * 60 * 60)).toFixed(1);
+            btn.innerText = `${diffHrs}h後`;
         }
 
         function runShortcut(name) { window.location.href = 'shortcuts://run-shortcut?name=' + encodeURIComponent(name); }
