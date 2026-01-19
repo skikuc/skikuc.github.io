@@ -3,34 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ルーチンアプリ【ボトムタブ版】</title>
+    <title>Routine：CheckList</title>
     <style>
-        /* body下部にタブ分の余白を確保 (80px -> 140px) */
+        /* body下部にタブ分の余白を確保 */
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 140px; }
-        h1 { text-align: center; color: #007aff; font-size: 20px; margin: 15px 0; }
         
-        /* タブデザイン（画面下部固定に変更） */
+        /* ヘッダーエリア（タイトル＋リロードボタン） */
+        .app-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 15px 0; position: relative; }
+        h1 { text-align: center; color: #007aff; font-size: 22px; margin: 0; font-weight: 800; letter-spacing: -0.5px; }
+        .reload-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: #007aff; padding: 5px; border-radius: 50%; transition: background 0.2s; display: flex; align-items: center; justify-content: center; }
+        .reload-btn:active { background: rgba(0,122,255,0.1); transform: rotate(180deg); transition: transform 0.3s; }
+
+        /* タブデザイン（画面下部固定・横並び） */
         .tab-container { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
-            gap: 6px; 
+            gap: 8px; 
             background: rgba(255, 255, 255, 0.96); 
-            padding: 10px; 
+            padding: 12px 10px; /* パディング調整 */
             border-radius: 20px 20px 0 0; 
             box-shadow: 0 -4px 10px rgba(0,0,0,0.08); 
             position: fixed; 
             bottom: 0; 
             left: 0; 
             right: 0;
-            z-index: 900; /* モーダルより低く設定 */
+            z-index: 900; 
             backdrop-filter: blur(10px);
             border-top: 1px solid rgba(0,0,0,0.05);
         }
-        .tab { padding: 12px 0; background: #f0f0f0; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 11px; color: #666; text-align: center; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;}
+        /* 横並び設定: flex-direction: row */
+        .tab { padding: 12px 0; background: #f0f0f0; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 12px; color: #666; text-align: center; border: none; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 6px; }
         .tab.active { background: #007aff; color: white; box-shadow: 0 2px 6px rgba(0,122,255,0.3); }
 
         /* ランダムメッセージ */
-        #random-message { background: #fff; margin: 5px; padding: 14px; border-radius: 10px; font-size: 13px; color: #444; font-weight: 500; text-align: center; border-left: 6px solid #007aff; box-shadow: 0 2px 4px rgba(0,0,0,0.08); margin-bottom: 18px; min-height: 40px; display: flex; align-items: center; justify-content: center; line-height: 1.5; }
+        #random-message { background: #fff; margin: 5px; padding: 14px; border-radius: 10px; font-size: 13px; color: #444; font-weight: 500; text-align: center; border-left: 6px solid #007aff; box-shadow: 0 2px 4px rgba(0,0,0,0.08); margin-bottom: 18px; min-height: 40px; display: flex; align-items: center; justify-content: center; line-height: 1.5; transition: opacity 0.3s; }
 
         .section { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: none; margin-bottom: 20px;}
         .section.active { display: block; }
@@ -82,7 +88,10 @@
 </head>
 <body>
 
-    <h1>🏠 ルーチンアプリ</h1>
+    <div class="app-header">
+        <h1>Routine：CheckList</h1>
+        <button class="reload-btn" onclick="updateMessage()" title="名言を更新">🔄</button>
+    </div>
     
     <div id="random-message"></div>
 
@@ -380,12 +389,12 @@
     <button class="reset-button" onclick="allReset()">全チェックリセット</button>
 
     <div class="tab-container" id="tabMenu">
-        <div class="tab active" onclick="showSection('daily', this)">⏰<br>毎日</div>
-        <div class="tab" onclick="showSection('home', this)">🏠<br>在宅</div>
-        <div class="tab" onclick="showSection('touen', this)">🌅<br>登園</div>
-        <div class="tab" onclick="showSection('holiday', this)">🎒<br>休日</div>
-        <div class="tab" onclick="showSection('work', this)">👨<br>出社</div>
-        <div class="tab" onclick="showSection('return', this)">🌆<br>降園</div>
+        <div class="tab active" onclick="showSection('daily', this)">⏰ 毎日</div>
+        <div class="tab" onclick="showSection('home', this)">🏠 在宅</div>
+        <div class="tab" onclick="showSection('touen', this)">🌅 登園</div>
+        <div class="tab" onclick="showSection('holiday', this)">🎒 休日</div>
+        <div class="tab" onclick="showSection('work', this)">👨 出社</div>
+        <div class="tab" onclick="showSection('return', this)">🌆 降園</div>
     </div>
 
     <script>
@@ -404,6 +413,15 @@
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        function updateMessage() {
+            const msgEl = document.getElementById('random-message');
+            msgEl.style.opacity = 0;
+            setTimeout(() => {
+                msgEl.innerText = messages[Math.floor(Math.random() * messages.length)];
+                msgEl.style.opacity = 1;
+            }, 200);
+        }
 
         function submitAIPlan() {
             const start = document.getElementById('startTime').value;
@@ -469,7 +487,9 @@
                 const tue = document.getElementById('tue-dynamic-item');
                 if(tue) tue.style.display = 'flex';
             }
-            document.getElementById('random-message').innerText = messages[Math.floor(Math.random() * messages.length)];
+            
+            updateMessage(); // 初期表示
+
             const lastTab = localStorage.getItem('lastTab') || 'daily';
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(t => { if(t.getAttribute('onclick').includes("'" + lastTab + "'")) showSection(lastTab, t); });
