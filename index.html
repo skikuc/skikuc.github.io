@@ -15,9 +15,10 @@
         .reload-btn:active { background: rgba(0,122,255,0.1); transform: rotate(180deg); transition: transform 0.3s; }
 
         /* タブデザイン（画面下部固定・横並び） */
+        /* タブ数を6→5に変更 */
         .tab-container { 
             display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
+            grid-template-columns: repeat(5, 1fr); 
             gap: 8px; 
             background: rgba(255, 255, 255, 0.96); 
             padding: 12px 10px; 
@@ -31,7 +32,9 @@
             backdrop-filter: blur(10px);
             border-top: 1px solid rgba(0,0,0,0.05);
         }
-        .tab { padding: 12px 0; background: #f0f0f0; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 12px; color: #666; text-align: center; border: none; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 6px; }
+        .tab { padding: 12px 0; background: #f0f0f0; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 11px; color: #666; text-align: center; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+        /* アイコンと文字の間隔調整 */
+        .tab span { font-size: 18px; line-height: 1; }
         .tab.active { background: #007aff; color: white; box-shadow: 0 2px 6px rgba(0,122,255,0.3); }
 
         /* ランダムメッセージ */
@@ -49,12 +52,12 @@
         .bg-brown  { background-color: #efebe9; }
         .subgroup-title { font-size: 15px; font-weight: 700; color: #007aff; margin: 0 0 12px 0; padding-left: 10px; border-left: 5px solid #007aff; }
         
-        /* チェックリストアイテム（グレーアウト対応） */
+        /* チェックリストアイテム */
         .checklist-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 6px 0; padding: 10px; background: white; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: all 0.2s ease; }
         .checklist-main { display: flex; align-items: center; gap: 10px; flex: 1; font-size: 15px; }
         .checklist-item input[type="checkbox"] { transform: scale(1.5); cursor: pointer; }
         
-        /* 完了済み（チェック済み）のスタイル */
+        /* 完了済みスタイル */
         .checklist-item.done { background-color: #eaeaea; opacity: 0.7; box-shadow: none; }
         .checklist-item.done span { text-decoration: line-through; color: #888; }
         
@@ -277,25 +280,9 @@
         </div>
     </div>
 
-    <div id="work" class="section">
-        <div class="sub-group bg-blue">
-            <div class="subgroup-title">出社準備</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w1"><span>🪒 髭剃り</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w2"><span>👕 着替え</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w3"><span>🚽 トイレ</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w4"><span>⌚️ Watch装着</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w5"><span>🔑 鍵をつける</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w6"><span>👱 髪の毛セット</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w7"><span>🧦 靴下確認</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w8"><span>🎒 カバン準備</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w9"><span>🚰 空の水筒を入れる</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w10"><span>😷 マスク</span></div></div>
-        </div>
-    </div>
-
-    <div id="touen" class="section">
+    <div id="nursery" class="section">
         <div class="sub-group bg-green">
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to1"><span>🚌 バス時刻表</span></div><button class="action-button marine-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/19time_baytown.pdf')">PDF</button></div>
+            <div class="subgroup-title">🌅 登園：準備・対応</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to2"><span>🧴 保育園の水筒</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to3"><span>🥤 うがいコップ</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to4"><span>👕 着替え準備</span></div></div>
@@ -304,6 +291,28 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to7"><span>🧦 靴下チェック</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to8"><span>🍪 たまごボーロ</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to9"><span>📲 打刻</span></div></div>
+        </div>
+
+        <div class="sub-group bg-purple">
+            <div class="subgroup-title">🌆 降園：お迎え・行き</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r3"><span>🧥 ジャケット</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r4"><span>🛀 お風呂を沸かす</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r5"><span>📲 打刻</span></div></div>
+            <div class="checklist-item dynamic-item" id="fri-dynamic-item" style="display:none;"><div class="checklist-main"><input type="checkbox" id="r_fri"><span>🗓️ 金曜：布団カバー、コットカバー、靴、帽子、ジャケット</span></div></div>
+        </div>
+
+        <div class="sub-group bg-blue">
+            <div class="subgroup-title">🏠 降園：帰宅後</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r6"><span>👕 服をネットへ</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r7"><span>🧼 オキシ漬け</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r_wash_reserve"><span>風呂後に翌日の洗濯機予約</span></div><button class="action-button calc-button" onclick="calcHours(this)">時間</button></div>
+        </div>
+
+        <div class="sub-group bg-orange">
+            <div class="subgroup-title">🚌 バス運行</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to1"><span>🚌 バス時刻表</span></div><button class="action-button marine-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/19time_baytown.pdf')">PDF</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r1"><span>🚌 ミラリオへ</span></div><button class="action-button mirario-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/19time_baytown.pdf')">PDF</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r2"><span>🚌 Sパークへ</span></div><button class="action-button sp-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/17time_baytown.pdf')">PDF</button></div>
         </div>
     </div>
 
@@ -372,33 +381,30 @@
         </div>
     </div>
 
-    <div id="return" class="section">
+    <div id="work" class="section">
         <div class="sub-group bg-blue">
-            <div class="subgroup-title">行き</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r1"><span>🚌 ミラリオへ</span></div><button class="action-button mirario-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/19time_baytown.pdf')">PDF</button></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r2"><span>🚌 Sパークへ</span></div><button class="action-button sp-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/17time_baytown.pdf')">PDF</button></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r3"><span>🧥 ジャケット</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r4"><span>🛀 お風呂を沸かす</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r5"><span>📲 打刻</span></div></div>
-            <div class="checklist-item dynamic-item" id="fri-dynamic-item" style="display:none;"><div class="checklist-main"><input type="checkbox" id="r_fri"><span>🗓️ 金曜：布団カバー、コットカバー、靴、帽子、ジャケット</span></div></div>
-        </div>
-        <div class="sub-group bg-purple">
-            <div class="subgroup-title">帰り</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r6"><span>👕 服をネットへ</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r7"><span>🧼 オキシ漬け</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r_wash_reserve"><span>風呂後に翌日の洗濯機予約</span></div><button class="action-button calc-button" onclick="calcHours(this)">時間</button></div>
+            <div class="subgroup-title">出社準備</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w1"><span>🪒 髭剃り</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w2"><span>👕 着替え</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w3"><span>🚽 トイレ</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w4"><span>⌚️ Watch装着</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w5"><span>🔑 鍵をつける</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w6"><span>👱 髪の毛セット</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w7"><span>🧦 靴下確認</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w8"><span>🎒 カバン準備</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w9"><span>🚰 空の水筒を入れる</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w10"><span>😷 マスク</span></div></div>
         </div>
     </div>
 
     <button class="reset-button" onclick="allReset()">全チェックリセット</button>
 
     <div class="tab-container" id="tabMenu">
-        <div class="tab active" onclick="showSection('daily', this)">⏰ 毎日</div>
-        <div class="tab" onclick="showSection('home', this)">🏠 在宅</div>
-        <div class="tab" onclick="showSection('touen', this)">🌅 登園</div>
-        <div class="tab" onclick="showSection('holiday', this)">🎒 休日</div>
-        <div class="tab" onclick="showSection('work', this)">👨 出社</div>
-        <div class="tab" onclick="showSection('return', this)">🌆 降園</div>
+        <div class="tab active" onclick="showSection('daily', this)"><span>⏰</span>毎日</div>
+        <div class="tab" onclick="showSection('home', this)"><span>🏠</span>在宅</div>
+        <div class="tab" onclick="showSection('nursery', this)"><span>📛</span>保育園</div>
+        <div class="tab" onclick="showSection('holiday', this)"><span>🎒</span>休日</div>
+        <div class="tab" onclick="showSection('work', this)"><span>👨</span>出社</div>
     </div>
 
     <script>
@@ -420,7 +426,6 @@
 
         function updateMessage() {
             const msgEl = document.getElementById('random-message');
-            // ページリロードせず、テキストのみスムーズに書き換え
             msgEl.style.opacity = 0;
             setTimeout(() => {
                 msgEl.innerText = messages[Math.floor(Math.random() * messages.length)];
@@ -481,7 +486,6 @@
             localStorage.setItem('lastTab', id);
         }
 
-        // チェック状態に基づいてグレーアウト用のクラスをトグル
         function toggleDoneStyle(cb) {
             const item = cb.closest('.checklist-item');
             if(item) {
@@ -505,22 +509,17 @@
                 if(tue) tue.style.display = 'flex';
             }
             
-            updateMessage(); // 初期表示
+            updateMessage();
 
             const lastTab = localStorage.getItem('lastTab') || 'daily';
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(t => { if(t.getAttribute('onclick').includes("'" + lastTab + "'")) showSection(lastTab, t); });
             
-            // チェックボックスの初期化とイベント設定
             document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                // 保存状態の復元
                 if (localStorage.getItem(cb.id) === 'true') {
                     cb.checked = true;
                 }
-                // 初期状態のスタイル適用
                 toggleDoneStyle(cb);
-                
-                // 変更時のリスナー
                 cb.addEventListener('change', function() {
                     localStorage.setItem(this.id, this.checked);
                     toggleDoneStyle(this);
