@@ -14,13 +14,13 @@
         .reload-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: #007aff; padding: 5px; border-radius: 50%; transition: background 0.2s; display: flex; align-items: center; justify-content: center; }
         .reload-btn:active { background: rgba(0,122,255,0.1); transform: rotate(180deg); transition: transform 0.3s; }
 
-        /* タブデザイン（画面下部固定・横並び） */
+        /* タブデザイン（6つ並びに変更） */
         .tab-container { 
             display: grid; 
-            grid-template-columns: repeat(5, 1fr); 
-            gap: 8px; 
+            grid-template-columns: repeat(6, 1fr); /* 5→6に変更 */
+            gap: 4px; 
             background: rgba(255, 255, 255, 0.96); 
-            padding: 12px 10px; 
+            padding: 12px 5px; 
             border-radius: 20px 20px 0 0; 
             box-shadow: 0 -4px 10px rgba(0,0,0,0.08); 
             position: fixed; 
@@ -31,7 +31,7 @@
             backdrop-filter: blur(10px);
             border-top: 1px solid rgba(0,0,0,0.05);
         }
-        .tab { padding: 12px 0; background: #f0f0f0; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 11px; color: #666; text-align: center; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+        .tab { padding: 10px 0; background: #f0f0f0; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 10px; color: #666; text-align: center; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
         .tab span { font-size: 18px; line-height: 1; }
         .tab.active { background: #007aff; color: white; box-shadow: 0 2px 6px rgba(0,122,255,0.3); }
 
@@ -50,7 +50,7 @@
         .bg-brown  { background-color: #efebe9; }
         .subgroup-title { font-size: 15px; font-weight: 700; color: #007aff; margin: 0 0 12px 0; padding-left: 10px; border-left: 5px solid #007aff; }
         
-        /* カテゴリ区切り（登園：保育園内） */
+        /* カテゴリ区切り */
         .category-header { font-size: 13px; font-weight: bold; color: #555; margin: 15px 0 8px 5px; border-bottom: 2px solid #a5d6a7; display: inline-block; padding-bottom: 2px; }
 
         /* チェックリストアイテム */
@@ -298,23 +298,23 @@
             <div class="subgroup-title">📛 登園：保育園</div>
             
             <div class="category-header">毎回</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_shoes"><span>靴を靴箱（くつした）</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_clockin"><span>打刻</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_meet"><span>集合場所確認（外、中）</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_refill"><span>着替え補充</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_temp"><span>検温</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_cup"><span>コップ</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_doll"><span>マイドール</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_shoes"><span>👟 靴を靴箱（くつした）</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_clockin"><span>📲 打刻</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_meet"><span>📍 集合場所確認（外、中）</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_refill"><span>👕 着替え補充</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_temp"><span>🌡️ 検温</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_cup"><span>🥤 コップ</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_doll"><span>🧸 マイドール</span></div></div>
 
             <div class="category-header">中（室内）</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_in_bottle"><span>水筒</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_in_bottle"><span>🍼 水筒</span></div></div>
 
             <div class="category-header">外（園庭）</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_out_jacket"><span>ジャケット</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_out_hat"><span>帽子</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_out_socks"><span>くつした</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_out_shoes"><span>クツ</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_out_bottle"><span>水筒</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_out_jacket"><span>🧥 ジャケット</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_out_hat"><span>🧢 帽子</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_out_socks"><span>🧦 くつした</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_out_shoes"><span>👟 クツ</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_out_bottle"><span>🍼 水筒</span></div></div>
         </div>
 
         <div class="sub-group bg-purple">
@@ -420,6 +420,13 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w10"><span>😷 マスク</span></div></div>
         </div>
     </div>
+    
+    <div id="child" class="section">
+        <div class="sub-group bg-green">
+            <div class="subgroup-title">🏥 健康</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="c_chew"><span>🦷 噛む力を鍛える</span></div></div>
+        </div>
+    </div>
 
     <button class="reset-button" onclick="allReset()">全チェックリセット</button>
 
@@ -429,6 +436,7 @@
         <div class="tab" onclick="showSection('nursery', this)"><span>📛</span>保育園</div>
         <div class="tab" onclick="showSection('holiday', this)"><span>🎒</span>休日</div>
         <div class="tab" onclick="showSection('work', this)"><span>👨</span>出社</div>
+        <div class="tab" onclick="showSection('child', this)"><span>👧</span>子</div>
     </div>
 
     <script>
