@@ -14,10 +14,10 @@
         .reload-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: #007aff; padding: 5px; border-radius: 50%; transition: background 0.2s; display: flex; align-items: center; justify-content: center; }
         .reload-btn:active { background: rgba(0,122,255,0.1); transform: rotate(180deg); transition: transform 0.3s; }
 
-        /* タブデザイン（6つ並びに変更） */
+        /* タブデザイン（6つ並び） */
         .tab-container { 
             display: grid; 
-            grid-template-columns: repeat(6, 1fr); /* 5→6に変更 */
+            grid-template-columns: repeat(6, 1fr); 
             gap: 4px; 
             background: rgba(255, 255, 255, 0.96); 
             padding: 12px 5px; 
@@ -31,9 +31,14 @@
             backdrop-filter: blur(10px);
             border-top: 1px solid rgba(0,0,0,0.05);
         }
-        .tab { padding: 10px 0; background: #f0f0f0; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 10px; color: #666; text-align: center; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+        .tab { padding: 10px 0; background: #f0f0f0; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 10px; color: #666; text-align: center; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; transition: background 0.3s; }
         .tab span { font-size: 18px; line-height: 1; }
-        .tab.active { background: #007aff; color: white; box-shadow: 0 2px 6px rgba(0,122,255,0.3); }
+        
+        /* アクティブ状態（最強） */
+        .tab.active { background: #007aff !important; color: white !important; box-shadow: 0 2px 6px rgba(0,122,255,0.3); }
+
+        /* 曜日別ハイライト（モーブ色：淡い紫） */
+        .tab.highlight { background: #D8BFD8; color: #4a2c4a; }
 
         /* ランダムメッセージ */
         #random-message { background: #fff; margin: 5px; padding: 14px; border-radius: 10px; font-size: 13px; color: #444; font-weight: 500; text-align: center; border-left: 6px solid #007aff; box-shadow: 0 2px 4px rgba(0,0,0,0.08); margin-bottom: 18px; min-height: 40px; display: flex; align-items: center; justify-content: center; line-height: 1.5; transition: opacity 0.2s; }
@@ -259,6 +264,87 @@
         </div>
     </div>
 
+    <div id="holiday" class="section">
+        <div class="sub-group bg-gray">
+            <div class="subgroup-title">やる事</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_laundry_top"><span>👕 洗濯物を干す</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho7"><span>📺 祖父母電話</span></div><button class="action-button alexa-button" onclick="runShortcut('Alexa')">Alexa</button></div>
+        </div>
+        <div class="sub-group bg-purple">
+            <div class="subgroup-title">✨ AIおでかけ計画</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho0"><span>✨ AIおでかけプラン提案</span></div><button class="action-button pdf-button" onclick="openModal('aiModal')">AI実行</button></div>
+        </div>
+        <div class="sub-group bg-orange">
+            <div class="subgroup-title">✈️ AI旅行計画</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_travel"><span>✈️ AI旅行プラン・日程提案</span></div><button class="action-button travel-button" onclick="openModal('travelModal')">旅行計画</button></div>
+        </div>
+        <div class="sub-group bg-blue">
+            <div class="subgroup-title">自分の準備</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho1"><span>👕 着替え</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho2"><span>⌚️ Watch装着</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho3"><span>🔑 鍵をつける</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho4"><span>🎒 カバン準備</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho5"><span>🔋 バッテリー</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho6"><span>🔌 ケーブル</span></div></div>
+        </div>
+        <div class="sub-group bg-orange">
+            <div class="subgroup-title">カーシェア</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho8"><span>🚗 カーシェア</span></div><button class="action-button cs-button" onclick="runShortcut('三井のカーシェアーズ')">CS</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho9"><span>👶 ジュニアシート</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho10"><span>🤢 酔い止め</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho11"><span>🚗 ETCカード</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho12"><span>眼鏡/サングラス</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho13"><span>🛒 ベビーカー</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho14"><span>🍬 ガム</span></div></div>
+        </div>
+        <div class="sub-group bg-purple">
+            <div class="subgroup-title">おでかけ荷物</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho15"><span>🩷 オムツ</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho16"><span>📱 iPad</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho17"><span>🧻 除菌シート</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho18"><span>🎒 リュック/ガラガラ</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_bottle"><span>🍼 ステンレスボトル(飲み物)</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho19"><span>🧻 ティッシュ</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho20"><span>👕 着替え</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho21"><span>🧼 ハンカチ</span></div></div>
+        </div>
+        <div class="sub-group bg-green">
+            <div class="subgroup-title">交通機関</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho22"><span>🚌 バス</span></div><div class="btn-box"><button class="action-button sp-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/19time_baytown.pdf')">SP</button><button class="action-button marine-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/baytown00_3.pdf')">マリン</button></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho23"><span>🚃 電車：海浜幕張駅</span></div><button class="action-button train-button" onclick="openLink('https://transit.yahoo.co.jp/timetable/22226/950')">時刻表</button></div>
+        </div>
+        <div class="sub-group bg-brown">
+            <div class="subgroup-title">🍽️ 食事</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_okano"><span>☕️ cafe okano</span></div><button class="action-button okano-button" onclick="openLink('https://x.com/cafeokano?s=21&t=EjJBVaQXUmSoBZe-IjkvnA')">X</button></div>
+        </div>
+        <div class="sub-group bg-purple">
+            <div class="subgroup-title">家事(午後)</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_h8"><span>🧺 洗濯物の取り込み</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_h9"><span>👕 洗濯物畳み</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_h10"><span>🌙 パジャマ準備</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_h11"><span>🩷 オムツ補充</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_window_close"><span>🪟 窓閉め</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_h12"><span>🔥 追い焚き</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_wash_reserve"><span>風呂後に翌日の洗濯機予約</span></div><button class="action-button calc-button" onclick="calcHours(this)">時間</button></div>
+        </div>
+    </div>
+
+    <div id="work" class="section">
+        <div class="sub-group bg-blue">
+            <div class="subgroup-title">出社準備</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w1"><span>🪒 髭剃り</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w2"><span>👕 着替え</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w3"><span>🚽 トイレ</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w4"><span>⌚️ Watch装着</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w5"><span>🔑 鍵をつける</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w6"><span>👱 髪の毛セット</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w7"><span>🧦 靴下確認</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w8"><span>🎒 カバン準備</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w9"><span>🚰 空の水筒を入れる</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w10"><span>😷 マスク</span></div></div>
+        </div>
+    </div>
+
     <div id="home" class="section">
         <div class="sub-group bg-blue">
             <div class="subgroup-title">午前</div>
@@ -340,103 +426,38 @@
         </div>
     </div>
 
-    <div id="holiday" class="section">
+    <div id="family" class="section">
+        <div class="sub-group bg-green">
+            <div class="subgroup-title">👧 子</div>
+            <div class="category-header">🏥 健康</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_c_chew"><span>🦷 噛む力を鍛える</span></div></div>
+        </div>
+        <div class="sub-group bg-blue">
+            <div class="subgroup-title">👨 自分</div>
+            <div class="category-header">🏥 健康</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_me_health"><span>💪 健康維持</span></div></div>
+        </div>
+        <div class="sub-group bg-purple">
+            <div class="subgroup-title">👩 妻</div>
+            <div class="category-header">🏥 健康</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_wi_health"><span>🛀 リラックス</span></div></div>
+        </div>
         <div class="sub-group bg-gray">
-            <div class="subgroup-title">やる事</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_laundry_top"><span>👕 洗濯物を干す</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho7"><span>📺 祖父母電話</span></div><button class="action-button alexa-button" onclick="runShortcut('Alexa')">Alexa</button></div>
-        </div>
-        <div class="sub-group bg-purple">
-            <div class="subgroup-title">✨ AIおでかけ計画</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho0"><span>✨ AIおでかけプラン提案</span></div><button class="action-button pdf-button" onclick="openModal('aiModal')">AI実行</button></div>
-        </div>
-        <div class="sub-group bg-orange">
-            <div class="subgroup-title">✈️ AI旅行計画</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_travel"><span>✈️ AI旅行プラン・日程提案</span></div><button class="action-button travel-button" onclick="openModal('travelModal')">旅行計画</button></div>
-        </div>
-        <div class="sub-group bg-blue">
-            <div class="subgroup-title">自分の準備</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho1"><span>👕 着替え</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho2"><span>⌚️ Watch装着</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho3"><span>🔑 鍵をつける</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho4"><span>🎒 カバン準備</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho5"><span>🔋 バッテリー</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho6"><span>🔌 ケーブル</span></div></div>
-        </div>
-        <div class="sub-group bg-orange">
-            <div class="subgroup-title">カーシェア</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho8"><span>🚗 カーシェア</span></div><button class="action-button cs-button" onclick="runShortcut('三井のカーシェアーズ')">CS</button></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho9"><span>👶 ジュニアシート</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho10"><span>🤢 酔い止め</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho11"><span>🚗 ETCカード</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho12"><span>眼鏡/サングラス</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho13"><span>🛒 ベビーカー</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho14"><span>🍬 ガム</span></div></div>
-        </div>
-        <div class="sub-group bg-purple">
-            <div class="subgroup-title">おでかけ荷物</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho15"><span>🩷 オムツ</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho16"><span>📱 iPad</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho17"><span>🧻 除菌シート</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho18"><span>🎒 リュック/ガラガラ</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_bottle"><span>🍼 ステンレスボトル(飲み物)</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho19"><span>🧻 ティッシュ</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho20"><span>👕 着替え</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho21"><span>🧼 ハンカチ</span></div></div>
-        </div>
-        <div class="sub-group bg-green">
-            <div class="subgroup-title">交通機関</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho22"><span>🚌 バス</span></div><div class="btn-box"><button class="action-button sp-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/19time_baytown.pdf')">SP</button><button class="action-button marine-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/baytown00_3.pdf')">マリン</button></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho23"><span>🚃 電車：海浜幕張駅</span></div><button class="action-button train-button" onclick="openLink('https://transit.yahoo.co.jp/timetable/22226/950')">時刻表</button></div>
-        </div>
-        <div class="sub-group bg-brown">
-            <div class="subgroup-title">🍽️ 食事</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_okano"><span>☕️ cafe okano</span></div><button class="action-button okano-button" onclick="openLink('https://x.com/cafeokano?s=21&t=EjJBVaQXUmSoBZe-IjkvnA')">X</button></div>
-        </div>
-        <div class="sub-group bg-purple">
-            <div class="subgroup-title">家事(午後)</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_h8"><span>🧺 洗濯物の取り込み</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_h9"><span>👕 洗濯物畳み</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_h10"><span>🌙 パジャマ準備</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_h11"><span>🩷 オムツ補充</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_window_close"><span>🪟 窓閉め</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_h12"><span>🔥 追い焚き</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_wash_reserve"><span>風呂後に翌日の洗濯機予約</span></div><button class="action-button calc-button" onclick="calcHours(this)">時間</button></div>
-        </div>
-    </div>
-
-    <div id="work" class="section">
-        <div class="sub-group bg-blue">
-            <div class="subgroup-title">出社準備</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w1"><span>🪒 髭剃り</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w2"><span>👕 着替え</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w3"><span>🚽 トイレ</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w4"><span>⌚️ Watch装着</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w5"><span>🔑 鍵をつける</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w6"><span>👱 髪の毛セット</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w7"><span>🧦 靴下確認</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w8"><span>🎒 カバン準備</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w9"><span>🚰 空の水筒を入れる</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w10"><span>😷 マスク</span></div></div>
-        </div>
-    </div>
-    
-    <div id="child" class="section">
-        <div class="sub-group bg-green">
-            <div class="subgroup-title">🏥 健康</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="c_chew"><span>🦷 噛む力を鍛える</span></div></div>
+            <div class="subgroup-title">👴👵 父母</div>
+            <div class="category-header">🏥 健康</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_pa_health"><span>📞 体調確認</span></div></div>
         </div>
     </div>
 
     <button class="reset-button" onclick="allReset()">全チェックリセット</button>
 
     <div class="tab-container" id="tabMenu">
-        <div class="tab active" onclick="showSection('daily', this)"><span>⏰</span>毎日</div>
-        <div class="tab" onclick="showSection('home', this)"><span>🏠</span>在宅</div>
-        <div class="tab" onclick="showSection('nursery', this)"><span>📛</span>保育園</div>
-        <div class="tab" onclick="showSection('holiday', this)"><span>🎒</span>休日</div>
-        <div class="tab" onclick="showSection('work', this)"><span>👨</span>出社</div>
-        <div class="tab" onclick="showSection('child', this)"><span>👧</span>子</div>
+        <div class="tab active" id="tab-daily" onclick="showSection('daily', this)"><span>⏰</span>毎日</div>
+        <div class="tab" id="tab-holiday" onclick="showSection('holiday', this)"><span>🎒</span>休日</div>
+        <div class="tab" id="tab-work" onclick="showSection('work', this)"><span>👨</span>出社</div>
+        <div class="tab" id="tab-home" onclick="showSection('home', this)"><span>🏠</span>在宅</div>
+        <div class="tab" id="tab-nursery" onclick="showSection('nursery', this)"><span>📛</span>保育園</div>
+        <div class="tab" id="tab-family" onclick="showSection('family', this)"><span>👨‍👩‍👧</span>家族</div>
     </div>
 
     <script>
@@ -531,12 +552,44 @@
 
         window.onload = () => {
             const now = new Date();
-            if (now.getDay() === 5) {
+            const day = now.getDay(); // 0:Sun, 1:Mon, ... 6:Sat
+
+            // 曜日別タブハイライト処理
+            const tabIds = {
+                daily: 'tab-daily',
+                holiday: 'tab-holiday',
+                work: 'tab-work',
+                home: 'tab-home',
+                nursery: 'tab-nursery',
+                family: 'tab-family'
+            };
+            
+            let targets = [];
+            // 月(1) 火(2) 木(4) -> 毎日、出社
+            if (day === 1 || day === 2 || day === 4) {
+                targets = ['daily', 'work'];
+            }
+            // 水(3) 金(5) -> 毎日、在宅、保育園、家族
+            else if (day === 3 || day === 5) {
+                targets = ['daily', 'home', 'nursery', 'family'];
+            }
+            // 土(6) 日(0) -> 毎日、休日、家族
+            else {
+                targets = ['daily', 'holiday', 'family'];
+            }
+
+            targets.forEach(t => {
+                const el = document.getElementById(tabIds[t]);
+                if(el) el.classList.add('highlight');
+            });
+
+            // 既存の曜日別アイテム表示処理
+            if (day === 5) {
                 const fri = document.getElementById('fri-dynamic-item');
                 if(fri) fri.style.display = 'flex';
             }
             const weekNum = Math.ceil(now.getDate() / 7);
-            if (now.getDay() === 2 && (weekNum === 1 || weekNum === 3)) {
+            if (day === 2 && (weekNum === 1 || weekNum === 3)) {
                 const tue = document.getElementById('tue-dynamic-item');
                 if(tue) tue.style.display = 'flex';
             }
