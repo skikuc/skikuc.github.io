@@ -15,7 +15,6 @@
         .reload-btn:active { background: rgba(0,122,255,0.1); transform: rotate(180deg); transition: transform 0.3s; }
 
         /* タブデザイン（画面下部固定・横並び） */
-        /* タブ数を6→5に変更 */
         .tab-container { 
             display: grid; 
             grid-template-columns: repeat(5, 1fr); 
@@ -33,7 +32,6 @@
             border-top: 1px solid rgba(0,0,0,0.05);
         }
         .tab { padding: 12px 0; background: #f0f0f0; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 11px; color: #666; text-align: center; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
-        /* アイコンと文字の間隔調整 */
         .tab span { font-size: 18px; line-height: 1; }
         .tab.active { background: #007aff; color: white; box-shadow: 0 2px 6px rgba(0,122,255,0.3); }
 
@@ -52,6 +50,9 @@
         .bg-brown  { background-color: #efebe9; }
         .subgroup-title { font-size: 15px; font-weight: 700; color: #007aff; margin: 0 0 12px 0; padding-left: 10px; border-left: 5px solid #007aff; }
         
+        /* カテゴリ区切り（登園：保育園内） */
+        .category-header { font-size: 13px; font-weight: bold; color: #555; margin: 15px 0 8px 5px; border-bottom: 2px solid #a5d6a7; display: inline-block; padding-bottom: 2px; }
+
         /* チェックリストアイテム */
         .checklist-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 6px 0; padding: 10px; background: white; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: all 0.2s ease; }
         .checklist-main { display: flex; align-items: center; gap: 10px; flex: 1; font-size: 15px; }
@@ -291,6 +292,29 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to7"><span>🧦 靴下チェック</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to8"><span>🍪 たまごボーロ</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to9"><span>📲 打刻</span></div></div>
+        </div>
+
+        <div class="sub-group bg-green">
+            <div class="subgroup-title">📛 登園：保育園</div>
+            
+            <div class="category-header">毎回</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_shoes"><span>靴を靴箱（くつした）</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_clockin"><span>打刻</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_meet"><span>集合場所確認（外、中）</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_refill"><span>着替え補充</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_temp"><span>検温</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_cup"><span>コップ</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_doll"><span>マイドール</span></div></div>
+
+            <div class="category-header">中（室内）</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_in_bottle"><span>水筒</span></div></div>
+
+            <div class="category-header">外（園庭）</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_out_jacket"><span>ジャケット</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_out_hat"><span>帽子</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_out_socks"><span>くつした</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_out_shoes"><span>クツ</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_out_bottle"><span>水筒</span></div></div>
         </div>
 
         <div class="sub-group bg-purple">
