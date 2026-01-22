@@ -14,12 +14,12 @@
         .reload-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: #007aff; padding: 5px; border-radius: 50%; transition: background 0.2s; display: flex; align-items: center; justify-content: center; }
         .reload-btn:active { background: rgba(0,122,255,0.1); transform: rotate(180deg); transition: transform 0.3s; }
 
-        /* タブデザイン（淡いグレーに変更） */
+        /* タブデザイン */
         .tab-container { 
             display: grid; 
             grid-template-columns: repeat(6, 1fr); 
             gap: 4px; 
-            background: rgba(242, 242, 247, 0.96); /* 背景を淡いグレーに変更 */
+            background: rgba(242, 242, 247, 0.96); 
             padding: 12px 5px; 
             border-radius: 20px 20px 0 0; 
             box-shadow: 0 -4px 10px rgba(0,0,0,0.08); 
@@ -31,13 +31,10 @@
             backdrop-filter: blur(10px);
             border-top: 1px solid rgba(0,0,0,0.05);
         }
-        .tab { padding: 10px 0; background: #e5e5ea; /* ボタンも少し濃いグレーに */ border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 10px; color: #666; text-align: center; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; transition: background 0.3s; }
+        .tab { padding: 10px 0; background: #e5e5ea; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 10px; color: #666; text-align: center; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; transition: background 0.3s; }
         .tab span { font-size: 18px; line-height: 1; }
         
-        /* アクティブ状態 */
         .tab.active { background: #007aff !important; color: white !important; box-shadow: 0 2px 6px rgba(0,122,255,0.3); }
-
-        /* 曜日別ハイライト（モーブ色） */
         .tab.highlight { background: #D8BFD8; color: #4a2c4a; }
 
         /* ランダムメッセージ */
@@ -55,19 +52,15 @@
         .bg-brown  { background-color: #efebe9; }
         .subgroup-title { font-size: 15px; font-weight: 700; color: #007aff; margin: 0 0 12px 0; padding-left: 10px; border-left: 5px solid #007aff; }
         
-        /* カテゴリ区切り */
         .category-header { font-size: 13px; font-weight: bold; color: #555; margin: 15px 0 8px 5px; border-bottom: 2px solid #a5d6a7; display: inline-block; padding-bottom: 2px; }
 
-        /* チェックリストアイテム */
         .checklist-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 6px 0; padding: 10px; background: white; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: all 0.2s ease; }
         .checklist-main { display: flex; align-items: center; gap: 10px; flex: 1; font-size: 15px; }
         .checklist-item input[type="checkbox"] { transform: scale(1.5); cursor: pointer; }
         
-        /* 完了済みスタイル */
         .checklist-item.done { background-color: #eaeaea; opacity: 0.7; box-shadow: none; }
         .checklist-item.done span { text-decoration: line-through; color: #888; }
         
-        /* ボタン設定 */
         .btn-box { display: flex; gap: 6px; }
         .action-button { padding: 12px 14px; font-size: 12px; border-radius: 8px; border: none; color: white; font-weight: 700; cursor: pointer; text-align: center; min-width: 50px; line-height: 1; text-decoration: none; }
         
@@ -81,10 +74,13 @@
         .train-button { background: #333; } .finish-button { background: #8b7355; } .mirario-button { background: #9370DB; }
         .cajico-button { background: #FF9800; } .journal-button { background: #007aff; }
         .okano-button { background: #6F4E37; } .travel-button { background: #E91E63; }
-        .calc-button { background: #009688; }
+        .calc-button { background: #009688; } .codmon-button { background: #ff6b81; }
 
         .dynamic-item { border: 2px solid #ffcc00 !important; background: #fffdf0 !important; }
-        .reset-button { width: 100%; padding: 20px; background: #34c759; color: white; border: none; border-radius: 12px; font-size: 20px; margin-top: 10px; font-weight: bold; }
+        
+        /* リセットボタン等の大型ボタン */
+        .reset-button { width: 100%; padding: 20px; background: #34c759; color: white; border: none; border-radius: 12px; font-size: 20px; margin-top: 10px; font-weight: bold; cursor: pointer; }
+        .qr-button { background: #5856D6; /* 紫系で目立たせる */ margin-bottom: 20px; margin-top: 0; }
 
         /* モーダル共通 */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
@@ -245,15 +241,21 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d7"><span>📺 テレビ体操</span></div><div class="btn-box"><button class="action-button nhk-button" onclick="runShortcut('NHK one')">NHK</button><button class="action-button streaks-button" onclick="runShortcut('Streaks')">Streaks</button></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d8"><span>✓ タスク</span></div><button class="action-button tick-button" onclick="runShortcut('ticktick')">tick</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d9"><span>📅 カレンダー</span></div><div class="btn-box"><button class="action-button g-button" onclick="runShortcut('Googleカレンダー')">Gカレ</button><button class="action-button tt-button" onclick="runShortcut('TimeTree')">TT</button></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_codmon"><span>📱 コドモン</span></div><button class="action-button codmon-button" onclick="runShortcut('コドモン')">起動</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_eos"><span>📷 EOS R8</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_diary"><span>📔 日記</span></div><button class="action-button journal-button" onclick="runShortcut('ジャーナル')">起動</button></div>
+        </div>
+        
+        <div class="sub-group bg-brown">
+            <div class="subgroup-title">🧹 家事</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_towel"><span>🧴 洗面所のタオル交換</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d10"><span>🪟 窓の結露拭き</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d12"><span>🛁 お風呂洗い確認</span></div><button class="action-button bath-button" onclick="runShortcut('お風呂掃除済み')">風呂</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d13"><span>💧 加湿器の水</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_eos"><span>📷 EOS R8</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_diary"><span>📔 日記</span></div><button class="action-button journal-button" onclick="runShortcut('ジャーナル')">起動</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d14"><span>🗑️ ゴミ捨て</span></div></div>
             <div class="checklist-item dynamic-item" id="tue-dynamic-item" style="display:none;"><div class="checklist-main"><input type="checkbox" id="d_tue"><span>📦 ダンボール出し (第1・3火曜)</span></div></div>
         </div>
+
         <div class="sub-group bg-orange">
             <div class="subgroup-title">🚗 お出かけ</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d15"><span>🚗 カーシェア確認</span></div><button class="action-button cs-button" onclick="runShortcut('三井のカーシェアーズ')">CS</button></div>
@@ -274,7 +276,6 @@
             <div class="subgroup-title">午前</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_wash"><span>🧺 洗濯機を回す</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_dish"><span>🍽️ 食洗機の食器をしまう</span></div></div>
-            
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h4"><span>👕 洗濯物を干す</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h1"><span>🚽 トイレ掃除</span></div><button class="action-button finish-button" onclick="runShortcut('トイレ掃除済み')">完了</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h2"><span>🪟 窓開け</span></div></div>
@@ -295,6 +296,8 @@
     </div>
 
     <div id="nursery" class="section">
+        <button class="reset-button qr-button" onclick="runShortcut('登降園QR')">📱 登降園QRを表示</button>
+
         <div class="sub-group bg-green">
             <div class="subgroup-title">🌅 登園：準備・対応</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to2"><span>🧴 保育園の水筒</span></div></div>
@@ -358,7 +361,6 @@
             <div class="subgroup-title">やる事</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_wash"><span>🧺 洗濯機を回す</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_dish"><span>🍽️ 食洗機の食器をしまう</span></div></div>
-            
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_laundry_top"><span>👕 洗濯物を干す</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho7"><span>📺 祖父母電話</span></div><button class="action-button alexa-button" onclick="runShortcut('Alexa')">Alexa</button></div>
         </div>
@@ -563,9 +565,8 @@
 
         window.onload = () => {
             const now = new Date();
-            const day = now.getDay(); // 0:Sun, 1:Mon ...
+            const day = now.getDay();
 
-            // 曜日別ハイライト処理
             const tabIds = {
                 daily: 'tab-daily',
                 holiday: 'tab-holiday',
@@ -576,15 +577,12 @@
             };
             
             let targets = [];
-            // 月(1) 火(2) 木(4) -> 毎日, 出社
             if (day === 1 || day === 2 || day === 4) {
                 targets = ['daily', 'work'];
             }
-            // 水(3) 金(5) -> 毎日, 在宅, 保育園, 家族
             else if (day === 3 || day === 5) {
                 targets = ['daily', 'home', 'nursery', 'family'];
             }
-            // 土(6) 日(0) -> 毎日, 休日, 家族
             else {
                 targets = ['daily', 'holiday', 'family'];
             }
@@ -594,7 +592,6 @@
                 if(el) el.classList.add('highlight');
             });
 
-            // 金曜・火曜限定項目の表示
             if (day === 5) {
                 const fri = document.getElementById('fri-dynamic-item');
                 if(fri) fri.style.display = 'flex';
