@@ -75,6 +75,8 @@
         .cajico-button { background: #FF9800; } .journal-button { background: #007aff; }
         .okano-button { background: #6F4E37; } .travel-button { background: #E91E63; }
         .calc-button { background: #009688; } .codmon-button { background: #ff6b81; }
+        .canon-button { background: #CC0000; } /* Canon Red */
+        .photos-button { background: linear-gradient(135deg, #FFCC00, #FF6B6B, #9370DB, #4285F4); box-shadow: 0 2px 4px rgba(0,0,0,0.2); } /* Photos Colorful */
 
         .dynamic-item { border: 2px solid #ffcc00 !important; background: #fffdf0 !important; }
         
@@ -237,15 +239,16 @@
         </div>
         <div class="sub-group bg-green">
             <div class="subgroup-title">🔄 ルーティン</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d5"><span>🌤️ 天気確認</span></div><div class="btn-box"><button class="action-button wn-button" onclick="runShortcut('WeatherNews')">WN</button><button class="action-button y-button" onclick="runShortcut('Y天気')">Y天</button><button class="action-button wash-button" onclick="openLink('https://weathernews.jp/s/laundry/area/chiba/12101/')">洗濯</button></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d6"><span>🧺 洗濯機を回す</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d5"><span>🌤️ 天気確認</span></div><div class="btn-box"><button class="action-button wn-button" onclick="runShortcut('WeatherNews')">WN</button><button class="action-button y-button" onclick="runShortcut('Y天気')">Y天</button></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d6"><span>🧺 洗濯機を回す</span></div><button class="action-button wash-button" onclick="openLink('https://weathernews.jp/s/laundry/area/chiba/12101/')">洗濯</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d6_2"><span>🍽️ 食洗機の食器をしまう</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d7"><span>📺 テレビ体操</span></div><div class="btn-box"><button class="action-button nhk-button" onclick="runShortcut('NHK one')">NHK</button><button class="action-button streaks-button" onclick="runShortcut('Streaks')">Streaks</button></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d8"><span>✓ タスク</span></div><button class="action-button tick-button" onclick="runShortcut('ticktick')">tick</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d9"><span>📅 カレンダー</span></div><div class="btn-box"><button class="action-button g-button" onclick="runShortcut('Googleカレンダー')">Gカレ</button><button class="action-button tt-button" onclick="runShortcut('TimeTree')">TT</button></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_codmon"><span>📱 コドモン</span></div><button class="action-button codmon-button" onclick="runShortcut('コドモン')">起動</button></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_eos"><span>📷 EOS R8</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_eos"><span>📷 EOS R8</span></div><button class="action-button canon-button" onclick="runShortcut('Camera Connect')">CC</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_diary"><span>📔 日記</span></div><button class="action-button journal-button" onclick="runShortcut('ジャーナル')">起動</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_photos"><span>📱 iPhone写真/ビデオ</span></div><button class="action-button photos-button" onclick="runShortcut('photos mobile')">Photos</button></div>
         </div>
         
         <div class="sub-group bg-brown">
