@@ -5,80 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Routine：CheckList</title>
     <style>
-        /* --- 基本設定 --- */
+        /* body下部にタブ分の余白を確保 */
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 140px; }
         
-        /* --- ヘッダー --- */
+        /* ヘッダーエリア */
         .app-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 15px 0; position: relative; }
         h1 { text-align: center; color: #007aff; font-size: 22px; margin: 0; font-weight: 800; letter-spacing: -0.5px; }
-        .reload-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: #007aff; padding: 5px; border-radius: 50%; }
+        .reload-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: #007aff; padding: 5px; border-radius: 50%; transition: background 0.2s; display: flex; align-items: center; justify-content: center; }
+        .reload-btn:active { background: rgba(0,122,255,0.1); transform: rotate(180deg); transition: transform 0.3s; }
 
-        /* --- タブバー --- */
+        /* タブデザイン */
         .tab-container { 
-            display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; 
-            background: rgba(242, 242, 247, 0.96); padding: 12px 5px; 
-            border-radius: 20px 20px 0 0; box-shadow: 0 -4px 10px rgba(0,0,0,0.08); 
-            position: fixed; bottom: 0; left: 0; right: 0; z-index: 900; 
-            backdrop-filter: blur(10px); border-top: 1px solid rgba(0,0,0,0.05);
+            display: grid; 
+            grid-template-columns: repeat(6, 1fr); 
+            gap: 4px; 
+            background: rgba(242, 242, 247, 0.96); 
+            padding: 12px 5px; 
+            border-radius: 20px 20px 0 0; 
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.08); 
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            right: 0;
+            z-index: 900; 
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0,0,0,0.05);
         }
-        .tab { padding: 10px 0; background: #e5e5ea; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 10px; color: #666; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+        .tab { padding: 10px 0; background: #e5e5ea; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 10px; color: #666; text-align: center; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; transition: background 0.3s; }
         .tab span { font-size: 18px; line-height: 1; }
-        .tab.active { background: #007aff !important; color: white !important; }
+        
+        .tab.active { background: #007aff !important; color: white !important; box-shadow: 0 2px 6px rgba(0,122,255,0.3); }
         .tab.highlight { background: #D8BFD8; color: #4a2c4a; }
 
-        /* --- セクション・グループ --- */
+        /* ランダムメッセージ */
+        #random-message { background: #fff; margin: 5px; padding: 14px; border-radius: 10px; font-size: 13px; color: #444; font-weight: 500; text-align: center; border-left: 6px solid #007aff; box-shadow: 0 2px 4px rgba(0,0,0,0.08); margin-bottom: 18px; min-height: 40px; display: flex; align-items: center; justify-content: center; line-height: 1.5; transition: opacity 0.2s; }
+
         .section { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: none; margin-bottom: 20px;}
         .section.active { display: block; }
+        
         .sub-group { margin-bottom: 20px; padding: 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); }
-        
-        /* 背景色 */
-        .bg-blue   { background-color: #e3f2fd; } .bg-green  { background-color: #e8f5e9; }
-        .bg-orange { background-color: #fff3e0; } .bg-purple { background-color: #f3e5f5; }
-        .bg-gray   { background-color: #eeeeee; } .bg-brown  { background-color: #efebe9; }
-        
+        .bg-blue   { background-color: #e3f2fd; }
+        .bg-green  { background-color: #e8f5e9; }
+        .bg-orange { background-color: #fff3e0; }
+        .bg-purple { background-color: #f3e5f5; }
+        .bg-gray   { background-color: #eeeeee; }
+        .bg-brown  { background-color: #efebe9; }
         .subgroup-title { font-size: 15px; font-weight: 700; color: #007aff; margin: 0 0 12px 0; padding-left: 10px; border-left: 5px solid #007aff; }
+        
         .category-header { font-size: 13px; font-weight: bold; color: #555; margin: 15px 0 8px 5px; border-bottom: 2px solid #a5d6a7; display: inline-block; padding-bottom: 2px; }
 
-        /* --- リストアイテム --- */
-        .checklist-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 6px 0; padding: 10px; background: white; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .checklist-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 6px 0; padding: 10px; background: white; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: all 0.2s ease; }
         .checklist-main { display: flex; align-items: center; gap: 10px; flex: 1; font-size: 15px; }
-        .checklist-item input[type="checkbox"] { transform: scale(1.5); cursor: pointer; flex-shrink: 0; }
-        .checklist-item.done { background-color: #eaeaea; opacity: 0.7; }
+        .checklist-item input[type="checkbox"] { transform: scale(1.5); cursor: pointer; }
+        
+        .checklist-item.done { background-color: #eaeaea; opacity: 0.7; box-shadow: none; }
         .checklist-item.done span { text-decoration: line-through; color: #888; }
-
-        /* --- ツールチップ（説明文） --- */
-        .tooltip-container { position: relative; border-bottom: 1px dotted #007aff; cursor: help; display: inline-block; padding-bottom: 2px; }
-        .tooltip-text { 
-            visibility: hidden; width: 260px; background-color: #333; color: #fff; text-align: left; 
-            border-radius: 8px; padding: 12px; position: absolute; z-index: 100; 
-            bottom: 140%; left: 50%; transform: translateX(-50%); 
-            opacity: 0; transition: opacity 0.2s; font-size: 13px; line-height: 1.5; pointer-events: none;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
-        .tooltip-text strong { color: #ffcc00; display: block; margin-bottom: 2px; margin-top: 6px; }
-        .tooltip-text strong:first-child { margin-top: 0; }
-        .tooltip-text::after {
-            content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px;
-            border-width: 5px; border-style: solid; border-color: #333 transparent transparent transparent;
-        }
-        /* Safari対応: active, focusを追加 */
-        .tooltip-container:hover .tooltip-text, 
-        .tooltip-container:active .tooltip-text,
-        .tooltip-container:focus .tooltip-text { visibility: visible; opacity: 1; }
-
-        /* --- ボタン類 --- */
+        
         .btn-box { display: flex; gap: 6px; }
-        .action-button { padding: 12px 14px; font-size: 12px; border-radius: 8px; border: none; color: white; font-weight: 700; cursor: pointer; min-width: 50px; line-height: 1; text-decoration: none; }
+        .action-button { padding: 12px 14px; font-size: 12px; border-radius: 8px; border: none; color: white; font-weight: 700; cursor: pointer; text-align: center; min-width: 50px; line-height: 1; text-decoration: none; }
         
         .sushi-button { background: #FF6B6B; } .anger-button { background: #607D8B; } .diezero-button { background: #FF9F43; }
         .pdf-button { background: #8E44AD; } .wn-button { background: #4CAF50; } .y-button { background: #FF0033; }
         .wash-button { background: #2196F3; } .nhk-button { background: #e50012; } .streaks-button { background: #ff9500; }
-        .finish-button { background: #8b7355; } .cajico-button { background: #FF9800; } 
-        .canon-button { background: #CC0000; } .photos-button { background: linear-gradient(135deg, #FFCC00, #FF6B6B, #9370DB, #4285F4); }
+        .tick-button { background: #EF6A6A; } .g-button { background: #4285F4; } .tt-button { background: #FF6B9D; }
+        .bath-button { background: #5AC8FA; } .cs-button { background: #FF6B35; } .asv-button { background: #FF4500; }
+        .ikoyo-button { background: #FFD700; color: #333; } .rank-button { background: #FF9500; } .rakuten-button { background: #FF8C00; }
+        .alexa-button { background: #00CAFF; } .sp-button { background: #20B2AA; } .marine-button { background: #8B4513; }
+        .train-button { background: #333; } .finish-button { background: #8b7355; } .mirario-button { background: #9370DB; }
+        .cajico-button { background: #FF9800; } .journal-button { background: #007aff; }
+        .okano-button { background: #6F4E37; } .travel-button { background: #E91E63; }
+        .calc-button { background: #009688; } .codmon-button { background: #ff6b81; }
+        .canon-button { background: #CC0000; } /* Canon Red */
+        .photos-button { background: linear-gradient(135deg, #FFCC00, #FF6B6B, #9370DB, #4285F4); box-shadow: 0 2px 4px rgba(0,0,0,0.2); } /* Photos Colorful */
+
+        .dynamic-item { border: 2px solid #ffcc00 !important; background: #fffdf0 !important; }
+        
+        /* リセットボタン等の大型ボタン */
         .reset-button { width: 100%; padding: 20px; background: #34c759; color: white; border: none; border-radius: 12px; font-size: 20px; margin-top: 10px; font-weight: bold; cursor: pointer; }
         .qr-button { background: #5856D6; margin-bottom: 20px; margin-top: 0; }
 
-        /* モーダル */
+        /* モーダル共通 */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
         .modal-content { background: white; width: 92%; max-width: 400px; padding: 20px; border-radius: 24px; max-height: 90vh; overflow-y: auto; }
         .form-group { margin-bottom: 12px; }
@@ -86,11 +92,9 @@
         .form-group select, .form-group input, .form-group textarea { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #ddd; font-size: 15px; box-sizing: border-box; }
         .time-row { display: flex; gap: 10px; }
         .time-row .form-group { flex: 1; }
-        .btn-submit { width: 100%; padding: 18px; border-radius: 12px; border: none; background: #E91E63; color: white; font-weight: bold; font-size: 17px; cursor: pointer; margin-top: 10px;}
-        .btn-cancel { width: 100%; padding: 15px; border-radius: 10px; border: none; background: #eee; font-weight: bold; font-size: 15px; margin-top: 10px;}
-        
-        /* 特殊要素 */
-        #random-message { background: #fff; margin: 5px; padding: 14px; border-radius: 10px; font-size: 13px; color: #444; font-weight: 500; text-align: center; border-left: 6px solid #007aff; margin-bottom: 18px; }
+        .modal-buttons { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        .btn-cancel { width: 100%; padding: 15px; border-radius: 10px; border: none; background: #eee; font-weight: bold; font-size: 15px; }
+        .btn-submit { width: 100%; padding: 18px; border-radius: 12px; border: none; background: #E91E63; color: white; font-weight: bold; font-size: 17px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -424,6 +428,12 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_h12"><span>🔥 追い焚き</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_wash_reserve"><span>風呂後に翌日の洗濯機予約</span></div><button class="action-button calc-button" onclick="calcHours(this)">時間</button></div>
         </div>
+        <div class="sub-group bg-blue">
+            <div class="subgroup-title">身だしなみ</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_groom_nails"><span>💅 爪切り</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_groom_ears"><span>👂 耳掃除</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_groom_sideburns"><span>✂️ もみあげ</span></div></div>
+        </div>
     </div>
 
     <div id="work" class="section">
@@ -448,79 +458,12 @@
             <div class="category-header">🏥 健康</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_c_chew"><span>🦷 噛む力を鍛える</span></div></div>
         </div>
-        
         <div class="sub-group bg-blue">
-            <div class="subgroup-title">👨 自分：50代の健康戦略</div>
-            <div class="category-header">⚠️ 優先順位 (タップで理由)</div>
-            
-            <div class="checklist-item">
-                <div class="checklist-main">
-                    <input type="checkbox" id="fam_h_glucose">
-                    <span class="tooltip-container" tabindex="0" ontouchstart="">
-                        🩸 1. 血糖値コントロール
-                        <span class="tooltip-text">
-                            <strong>【理由】</strong>糖尿病・認知症・癌リスクに直結。血管老化を防ぐ最優先事項。<br>
-                            <strong>【意識】</strong>ベジファースト(野菜から)、糖質の過剰摂取防止。
-                        </span>
-                    </span>
-                </div>
-            </div>
-            
-            <div class="checklist-item">
-                <div class="checklist-main">
-                    <input type="checkbox" id="fam_h_bp">
-                    <span class="tooltip-container" tabindex="0" ontouchstart="">
-                        💓 2. 血圧と血管
-                        <span class="tooltip-text">
-                            <strong>【理由】</strong>サイレントキラー。50代で急上昇する脳梗塞・心筋梗塞のリスク管理。<br>
-                            <strong>【意識】</strong>減塩、良質な油(オメガ3)で血管をしなやかに。
-                        </span>
-                    </span>
-                </div>
-            </div>
-
-            <div class="checklist-item">
-                <div class="checklist-main">
-                    <input type="checkbox" id="fam_h_muscle">
-                    <span class="tooltip-container" tabindex="0" ontouchstart="">
-                        💪 3. 筋肉量(抗サルコペニア)
-                        <span class="tooltip-text">
-                            <strong>【理由】</strong>年1%減る筋肉を維持し、将来の寝たきりと代謝低下を防ぐ。<br>
-                            <strong>【意識】</strong>毎食タンパク質、週2〜3回の自重トレ。
-                        </span>
-                    </span>
-                </div>
-            </div>
-
-            <div class="checklist-item">
-                <div class="checklist-main">
-                    <input type="checkbox" id="fam_h_sleep">
-                    <span class="tooltip-container" tabindex="0" ontouchstart="">
-                        💤 4. 睡眠の質・脳回復
-                        <span class="tooltip-text">
-                            <strong>【理由】</strong>脳の老廃物掃除＆自律神経調整の唯一の時間。内臓脂肪も防ぐ。<br>
-                            <strong>【意識】</strong>寝る前スマホ断ち、決まった時間の起床。
-                        </span>
-                    </span>
-                </div>
-            </div>
-
-            <div class="checklist-item">
-                <div class="checklist-main">
-                    <input type="checkbox" id="fam_h_mental">
-                    <span class="tooltip-container" tabindex="0" ontouchstart="">
-                        🧘 5. メンタル・孤独回避
-                        <span class="tooltip-text">
-                            <strong>【理由】</strong>責任世代の慢性ストレスは免疫力を下げる万病の元。<br>
-                            <strong>【意識】</strong>「何もしない時間」を作る、趣味のコミュニティ。
-                        </span>
-                    </span>
-                </div>
-            </div>
-
-            <div class="checklist-item" style="margin-top:10px;"><div class="checklist-main"><input type="checkbox" id="fam_me_gym"><span>📺 テレビ体操</span></div><div class="btn-box"><button class="action-button nhk-button" onclick="runShortcut('NHK one')">NHK</button><button class="action-button streaks-button" onclick="runShortcut('Streaks')">Streaks</button></div></div>
+            <div class="subgroup-title">👨 自分</div>
+            <div class="category-header">🏥 健康</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_me_health"><span>💪 健康維持</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_me_gym"><span>📺 テレビ体操</span></div><div class="btn-box"><button class="action-button nhk-button" onclick="runShortcut('NHK one')">NHK</button><button class="action-button streaks-button" onclick="runShortcut('Streaks')">Streaks</button></div></div>
         </div>
-
         <div class="sub-group bg-purple">
             <div class="subgroup-title">👩 妻</div>
             <div class="category-header">🏥 健康</div>
