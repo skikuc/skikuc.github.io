@@ -5,86 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Routine：CheckList</title>
     <style>
-        /* body下部にタブ分の余白を確保 */
+        /* --- 基本設定 --- */
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 140px; }
         
-        /* ヘッダーエリア */
+        /* --- ヘッダー --- */
         .app-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 15px 0; position: relative; }
         h1 { text-align: center; color: #007aff; font-size: 22px; margin: 0; font-weight: 800; letter-spacing: -0.5px; }
-        .reload-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: #007aff; padding: 5px; border-radius: 50%; transition: background 0.2s; display: flex; align-items: center; justify-content: center; }
-        .reload-btn:active { background: rgba(0,122,255,0.1); transform: rotate(180deg); transition: transform 0.3s; }
+        .reload-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: #007aff; padding: 5px; border-radius: 50%; }
 
-        /* タブデザイン */
+        /* --- タブバー --- */
         .tab-container { 
-            display: grid; 
-            grid-template-columns: repeat(6, 1fr); 
-            gap: 4px; 
-            background: rgba(242, 242, 247, 0.96); 
-            padding: 12px 5px; 
-            border-radius: 20px 20px 0 0; 
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.08); 
-            position: fixed; 
-            bottom: 0; 
-            left: 0; 
-            right: 0;
-            z-index: 900; 
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(0,0,0,0.05);
+            display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; 
+            background: rgba(242, 242, 247, 0.96); padding: 12px 5px; 
+            border-radius: 20px 20px 0 0; box-shadow: 0 -4px 10px rgba(0,0,0,0.08); 
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 900; 
+            backdrop-filter: blur(10px); border-top: 1px solid rgba(0,0,0,0.05);
         }
-        .tab { padding: 10px 0; background: #e5e5ea; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 10px; color: #666; text-align: center; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; transition: background 0.3s; }
+        .tab { padding: 10px 0; background: #e5e5ea; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 10px; color: #666; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
         .tab span { font-size: 18px; line-height: 1; }
-        
-        .tab.active { background: #007aff !important; color: white !important; box-shadow: 0 2px 6px rgba(0,122,255,0.3); }
+        .tab.active { background: #007aff !important; color: white !important; }
         .tab.highlight { background: #D8BFD8; color: #4a2c4a; }
 
-        /* ランダムメッセージ */
-        #random-message { background: #fff; margin: 5px; padding: 14px; border-radius: 10px; font-size: 13px; color: #444; font-weight: 500; text-align: center; border-left: 6px solid #007aff; box-shadow: 0 2px 4px rgba(0,0,0,0.08); margin-bottom: 18px; min-height: 40px; display: flex; align-items: center; justify-content: center; line-height: 1.5; transition: opacity 0.2s; }
-
+        /* --- セクション・グループ --- */
         .section { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: none; margin-bottom: 20px;}
         .section.active { display: block; }
-        
         .sub-group { margin-bottom: 20px; padding: 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); }
-        .bg-blue   { background-color: #e3f2fd; }
-        .bg-green  { background-color: #e8f5e9; }
-        .bg-orange { background-color: #fff3e0; }
-        .bg-purple { background-color: #f3e5f5; }
-        .bg-gray   { background-color: #eeeeee; }
-        .bg-brown  { background-color: #efebe9; }
-        .subgroup-title { font-size: 15px; font-weight: 700; color: #007aff; margin: 0 0 12px 0; padding-left: 10px; border-left: 5px solid #007aff; }
         
+        /* 背景色 */
+        .bg-blue   { background-color: #e3f2fd; } .bg-green  { background-color: #e8f5e9; }
+        .bg-orange { background-color: #fff3e0; } .bg-purple { background-color: #f3e5f5; }
+        .bg-gray   { background-color: #eeeeee; } .bg-brown  { background-color: #efebe9; }
+        
+        .subgroup-title { font-size: 15px; font-weight: 700; color: #007aff; margin: 0 0 12px 0; padding-left: 10px; border-left: 5px solid #007aff; }
         .category-header { font-size: 13px; font-weight: bold; color: #555; margin: 15px 0 8px 5px; border-bottom: 2px solid #a5d6a7; display: inline-block; padding-bottom: 2px; }
 
-        .checklist-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 6px 0; padding: 10px; background: white; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: all 0.2s ease; }
+        /* --- リストアイテム --- */
+        .checklist-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 6px 0; padding: 10px; background: white; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
         .checklist-main { display: flex; align-items: center; gap: 10px; flex: 1; font-size: 15px; }
-        .checklist-item input[type="checkbox"] { transform: scale(1.5); cursor: pointer; }
-        
-        .checklist-item.done { background-color: #eaeaea; opacity: 0.7; box-shadow: none; }
+        .checklist-item input[type="checkbox"] { transform: scale(1.5); cursor: pointer; flex-shrink: 0; }
+        .checklist-item.done { background-color: #eaeaea; opacity: 0.7; }
         .checklist-item.done span { text-decoration: line-through; color: #888; }
-        
-        .btn-box { display: flex; gap: 6px; }
-        .action-button { padding: 12px 14px; font-size: 12px; border-radius: 8px; border: none; color: white; font-weight: 700; cursor: pointer; text-align: center; min-width: 50px; line-height: 1; text-decoration: none; }
-        
-        .sushi-button { background: #FF6B6B; } .anger-button { background: #607D8B; } .diezero-button { background: #FF9F43; }
-        .pdf-button { background: #8E44AD; } .wn-button { background: #4CAF50; } .y-button { background: #FF0033; }
-        .wash-button { background: #2196F3; } .nhk-button { background: #e50012; } .streaks-button { background: #ff9500; }
-        .tick-button { background: #EF6A6A; } .g-button { background: #4285F4; } .tt-button { background: #FF6B9D; }
-        .bath-button { background: #5AC8FA; } .cs-button { background: #FF6B35; } .asv-button { background: #FF4500; }
-        .ikoyo-button { background: #FFD700; color: #333; } .rank-button { background: #FF9500; } .rakuten-button { background: #FF8C00; }
-        .alexa-button { background: #00CAFF; } .sp-button { background: #20B2AA; } .marine-button { background: #8B4513; }
-        .train-button { background: #333; } .finish-button { background: #8b7355; } .mirario-button { background: #9370DB; }
-        .cajico-button { background: #FF9800; } .journal-button { background: #007aff; }
-        .okano-button { background: #6F4E37; } .travel-button { background: #E91E63; }
-        .calc-button { background: #009688; } .codmon-button { background: #ff6b81; }
-        .canon-button { background: #CC0000; } /* Canon Red */
-        .photos-button { background: linear-gradient(135deg, #FFCC00, #FF6B6B, #9370DB, #4285F4); box-shadow: 0 2px 4px rgba(0,0,0,0.2); } /* Photos Colorful */
 
-        .dynamic-item { border: 2px solid #ffcc00 !important; background: #fffdf0 !important; }
-        
-        /* リセットボタン等の大型ボタン */
-        .reset-button { width: 100%; padding: 20px; background: #34c759; color: white; border: none; border-radius: 12px; font-size: 20px; margin-top: 10px; font-weight: bold; cursor: pointer; }
-        .qr-button { background: #5856D6; margin-bottom: 20px; margin-top: 0; }
-
-        /* --- ツールチップ（追加分） --- */
+        /* --- ツールチップ（説明文） --- */
         .tooltip-container { position: relative; border-bottom: 1px dotted #007aff; cursor: help; display: inline-block; padding-bottom: 2px; }
         .tooltip-text { 
             visibility: hidden; width: 260px; background-color: #333; color: #fff; text-align: left; 
@@ -99,11 +61,24 @@
             content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px;
             border-width: 5px; border-style: solid; border-color: #333 transparent transparent transparent;
         }
-        /* タップ(active)またはホバーで表示 */
+        /* Safari対応: active, focusを追加 */
         .tooltip-container:hover .tooltip-text, 
-        .tooltip-container:active .tooltip-text { visibility: visible; opacity: 1; }
+        .tooltip-container:active .tooltip-text,
+        .tooltip-container:focus .tooltip-text { visibility: visible; opacity: 1; }
 
-        /* モーダル共通 */
+        /* --- ボタン類 --- */
+        .btn-box { display: flex; gap: 6px; }
+        .action-button { padding: 12px 14px; font-size: 12px; border-radius: 8px; border: none; color: white; font-weight: 700; cursor: pointer; min-width: 50px; line-height: 1; text-decoration: none; }
+        
+        .sushi-button { background: #FF6B6B; } .anger-button { background: #607D8B; } .diezero-button { background: #FF9F43; }
+        .pdf-button { background: #8E44AD; } .wn-button { background: #4CAF50; } .y-button { background: #FF0033; }
+        .wash-button { background: #2196F3; } .nhk-button { background: #e50012; } .streaks-button { background: #ff9500; }
+        .finish-button { background: #8b7355; } .cajico-button { background: #FF9800; } 
+        .canon-button { background: #CC0000; } .photos-button { background: linear-gradient(135deg, #FFCC00, #FF6B6B, #9370DB, #4285F4); }
+        .reset-button { width: 100%; padding: 20px; background: #34c759; color: white; border: none; border-radius: 12px; font-size: 20px; margin-top: 10px; font-weight: bold; cursor: pointer; }
+        .qr-button { background: #5856D6; margin-bottom: 20px; margin-top: 0; }
+
+        /* モーダル */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
         .modal-content { background: white; width: 92%; max-width: 400px; padding: 20px; border-radius: 24px; max-height: 90vh; overflow-y: auto; }
         .form-group { margin-bottom: 12px; }
@@ -111,9 +86,11 @@
         .form-group select, .form-group input, .form-group textarea { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #ddd; font-size: 15px; box-sizing: border-box; }
         .time-row { display: flex; gap: 10px; }
         .time-row .form-group { flex: 1; }
-        .modal-buttons { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
-        .btn-cancel { width: 100%; padding: 15px; border-radius: 10px; border: none; background: #eee; font-weight: bold; font-size: 15px; }
-        .btn-submit { width: 100%; padding: 18px; border-radius: 12px; border: none; background: #E91E63; color: white; font-weight: bold; font-size: 17px; cursor: pointer; }
+        .btn-submit { width: 100%; padding: 18px; border-radius: 12px; border: none; background: #E91E63; color: white; font-weight: bold; font-size: 17px; cursor: pointer; margin-top: 10px;}
+        .btn-cancel { width: 100%; padding: 15px; border-radius: 10px; border: none; background: #eee; font-weight: bold; font-size: 15px; margin-top: 10px;}
+        
+        /* 特殊要素 */
+        #random-message { background: #fff; margin: 5px; padding: 14px; border-radius: 10px; font-size: 13px; color: #444; font-weight: 500; text-align: center; border-left: 6px solid #007aff; margin-bottom: 18px; }
     </style>
 </head>
 <body>
@@ -479,7 +456,7 @@
             <div class="checklist-item">
                 <div class="checklist-main">
                     <input type="checkbox" id="fam_h_glucose">
-                    <span class="tooltip-container">
+                    <span class="tooltip-container" tabindex="0" ontouchstart="">
                         🩸 1. 血糖値コントロール
                         <span class="tooltip-text">
                             <strong>【理由】</strong>糖尿病・認知症・癌リスクに直結。血管老化を防ぐ最優先事項。<br>
@@ -492,7 +469,7 @@
             <div class="checklist-item">
                 <div class="checklist-main">
                     <input type="checkbox" id="fam_h_bp">
-                    <span class="tooltip-container">
+                    <span class="tooltip-container" tabindex="0" ontouchstart="">
                         💓 2. 血圧と血管
                         <span class="tooltip-text">
                             <strong>【理由】</strong>サイレントキラー。50代で急上昇する脳梗塞・心筋梗塞のリスク管理。<br>
@@ -505,7 +482,7 @@
             <div class="checklist-item">
                 <div class="checklist-main">
                     <input type="checkbox" id="fam_h_muscle">
-                    <span class="tooltip-container">
+                    <span class="tooltip-container" tabindex="0" ontouchstart="">
                         💪 3. 筋肉量(抗サルコペニア)
                         <span class="tooltip-text">
                             <strong>【理由】</strong>年1%減る筋肉を維持し、将来の寝たきりと代謝低下を防ぐ。<br>
@@ -518,7 +495,7 @@
             <div class="checklist-item">
                 <div class="checklist-main">
                     <input type="checkbox" id="fam_h_sleep">
-                    <span class="tooltip-container">
+                    <span class="tooltip-container" tabindex="0" ontouchstart="">
                         💤 4. 睡眠の質・脳回復
                         <span class="tooltip-text">
                             <strong>【理由】</strong>脳の老廃物掃除＆自律神経調整の唯一の時間。内臓脂肪も防ぐ。<br>
@@ -531,7 +508,7 @@
             <div class="checklist-item">
                 <div class="checklist-main">
                     <input type="checkbox" id="fam_h_mental">
-                    <span class="tooltip-container">
+                    <span class="tooltip-container" tabindex="0" ontouchstart="">
                         🧘 5. メンタル・孤独回避
                         <span class="tooltip-text">
                             <strong>【理由】</strong>責任世代の慢性ストレスは免疫力を下げる万病の元。<br>
@@ -568,13 +545,76 @@
     </div>
 
     <script>
-        const messages = ["人生で大切なのは経験の最大化", "喜びを先延ばしにしない", "ゼロで死ぬ", "思い出は配当を与える"];
-        function updateMessage() { document.getElementById('random-message').innerText = messages[Math.floor(Math.random() * messages.length)]; }
+        const messages = [
+            "人生で大切なのは、富の最大化ではなく経験の最大化",
+            "喜びを先延ばしにしないで、タイミングは「今」",
+            "「ゼロで死ぬ」とは、必要以上にため込まず、今しかできない経験に時間とお金を振り向けるという意思決定",
+            "人生の最後に残るのは思い出であり、思い出は後からも“配当”を与える",
+            "お金は「ライフエネルギー」として捉えると、使い方の精度が上がる",
+            "最強の投資先は経験であり、経験は“記憶の配当”として人生を豊かにし続ける",
+            "「モチベーションに頼らず、確実にできる行動を設定する」",
+            "怒りは否定でも我慢でもなく、「ある」と理解する",
+            "伝えるなら「事実・感情・希望」で整える",
+            "末尾に「…と思っただけ」を付けてみる（妄想の識別）"
+        ];
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        function updateMessage() {
+            const msgEl = document.getElementById('random-message');
+            msgEl.style.opacity = 0;
+            setTimeout(() => {
+                msgEl.innerText = messages[Math.floor(Math.random() * messages.length)];
+                msgEl.style.opacity = 1;
+            }, 200);
+        }
+
+        function submitAIPlan() {
+            const start = document.getElementById('startTime').value;
+            const end = document.getElementById('endTime').value;
+            const place = document.getElementById('placeSelect').value;
+            const transport = document.getElementById('transportSelect').value;
+            const facility = document.getElementById('facilityCount').value;
+            const plans = document.getElementById('planCount').value;
+            const env = document.getElementById('envSelect').value;
+            const free = document.getElementById('freeText').value;
+
+            const prompt = `[システム命令: Pro Search機能を強制ONにして、ウェブ検索を駆使してください]千葉市美浜区打瀬を出発地点として、家族三人(夫婦、2021年生まれ女の子)が楽しめるおでかけ計画を立てて下さい。以下の条件（季節、気温、日本の風習を考慮）を元に、最新情報をリサーチして【${plans}個】のプランを出力してください。#出力形式:・必ずマークダウンの【テーブル形式】（時刻、内容、費用）で出力。・プラン毎に必ず【費用合計】を表示。・カーシェア費用は「1日5,000円」として計算。#リサーチ指示:・2026年現在の営業時間、利用料金、最新イベントをウェブ検索。・季節・気温・日本の風習（祝日や行事）を考慮した内容にする。・打瀬からの正確な移動ルート/時間をリサーチ。・ランチは目的地から徒歩5分以内、かつ子連れ歓迎の店を特定。#制約条件:・出発地：千葉市美浜区打瀬・ランチ時間：10:30〜11:00・めぐる施設数：${facility}・移動手段：${transport}#入力データ:出発：${start}、帰宅：${end}、場所：${place}、環境：${env}、備考：${free}出力：【結論(テーブル)】【費用合計】【リサーチ根拠】【注意点】【出典】`;
+            window.open("https://www.perplexity.ai/search?q=" + encodeURIComponent(prompt) + "&copilot=1", '_blank');
+            closeModal('aiModal');
+        }
+
+        function submitTravelPlan() {
+            const holiday = document.getElementById('trHoliday').value;
+            const stay = document.getElementById('trStay').value;
+            const place = document.getElementById('trPlace').value;
+            const transport = document.getElementById('trTransport').value;
+            const facility = document.getElementById('trFacility').value;
+            const plans = document.getElementById('trPlans').value;
+            const env = document.getElementById('trEnv').value;
+            const free = document.getElementById('trFree').value;
+
+            const prompt = `[Pro Search機能ON]千葉市美浜区打瀬を出発地点として、家族三人(夫婦、2021年生まれ女の子)向けの旅行計画を${plans}個提案してください。日程は【${holiday}】を前提とし、期間は${stay}とします。目的地は${place}、テーマは${env}、移動手段は${transport}、1日${facility}施設を巡る想定で、費用概算も含めてテーブル形式で出力してください。備考：${free}`;
+            window.open("https://www.perplexity.ai/search?q=" + encodeURIComponent(prompt) + "&copilot=1", '_blank');
+            closeModal('travelModal');
+        }
+
+        function calcHours(btn) {
+            const now = new Date();
+            let target = new Date();
+            target.setHours(6, 0, 0, 0);
+            if (now.getHours() >= 6) {
+                target.setDate(now.getDate() + 1);
+            }
+            const diffMs = target - now;
+            const diffHrs = (diffMs / (1000 * 60 * 60)).toFixed(1);
+            btn.innerText = `${diffHrs}h後`;
+        }
+
         function runShortcut(name) { window.location.href = 'shortcuts://run-shortcut?name=' + encodeURIComponent(name); }
         function openLink(url) { window.open(url, '_blank'); }
+
         function showSection(id, tabEl) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -582,6 +622,7 @@
             tabEl.classList.add('active');
             localStorage.setItem('lastTab', id);
         }
+
         function toggleDoneStyle(cb) {
             const item = cb.closest('.checklist-item');
             if(item) {
@@ -592,13 +633,7 @@
                 }
             }
         }
-        function allReset() {
-            if(confirm('リセットしますか？')) {
-                const t = localStorage.getItem('lastTab'); localStorage.clear();
-                localStorage.setItem('lastTab', t); location.reload();
-            }
-        }
-        
+
         window.onload = () => {
             const now = new Date();
             const day = now.getDay();
@@ -655,19 +690,14 @@
                 });
             });
         };
-        // AI機能（簡略化）
-        function submitAIPlan() { window.open("https://www.perplexity.ai/search?q=" + encodeURIComponent("プラン作成") + "&copilot=1", '_blank'); closeModal('aiModal'); }
-        function submitTravelPlan() { window.open("https://www.perplexity.ai/search?q=" + encodeURIComponent("旅行計画") + "&copilot=1", '_blank'); closeModal('travelModal'); }
-        function calcHours(btn) {
-            const now = new Date();
-            let target = new Date();
-            target.setHours(6, 0, 0, 0);
-            if (now.getHours() >= 6) {
-                target.setDate(now.getDate() + 1);
+
+        function allReset() {
+            if(confirm('チェックをすべてリセットしますか？')) {
+                const lastTab = localStorage.getItem('lastTab');
+                localStorage.clear();
+                localStorage.setItem('lastTab', lastTab);
+                location.reload();
             }
-            const diffMs = target - now;
-            const diffHrs = (diffMs / (1000 * 60 * 60)).toFixed(1);
-            btn.innerText = `${diffHrs}h後`;
         }
     </script>
 </body>
