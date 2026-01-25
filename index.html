@@ -270,6 +270,26 @@
 
     <div id="daily" class="section active">
         <div class="sub-group bg-blue">
+            <div class="subgroup-title">👨 自分：50代の健康戦略</div>
+            <div class="health-priority-header">⚠️ 優先順位 (タップで理由)</div>
+            
+            <div class="checklist-item health-item" data-reason="糖尿病・認知症・癌リスクに直結。血管老化を防ぐ最優先事項。" data-awareness="ベジファースト（野菜から）、糖質の過剰摂取防止。">
+                <div class="checklist-main"><input type="checkbox" id="fam_health_1"><span>🩸 1. 血糖値コントロール</span></div>
+            </div>
+            <div class="checklist-item health-item" data-reason="脳梗塞や心筋梗塞の引き金。50代はこのリスクが急上昇します。" data-awareness="減塩と、血管を柔らかく保つ良質な油（オメガ3など）の摂取。">
+                <div class="checklist-main"><input type="checkbox" id="fam_health_2"><span>💓 2. 血圧と血管</span></div>
+            </div>
+            <div class="checklist-item health-item" data-reason="代謝を維持し、将来の寝たきりを防ぐため。" data-awareness="タンパク質の摂取（毎食）と、週2〜3回の自重トレーニング。">
+                <div class="checklist-main"><input type="checkbox" id="fam_health_3"><span>💪 3. 筋肉量(抗サルコペニア)</span></div>
+            </div>
+            <div class="checklist-item health-item" data-reason="脳の老廃物を掃除し、自律神経を整える唯一の時間だから。" data-awareness="寝る前のスマホ断ち、決まった時間の起床。">
+                <div class="checklist-main"><input type="checkbox" id="fam_health_4"><span>💤 4. 睡眠の質・脳回復</span></div>
+            </div>
+            <div class="checklist-item health-item" data-reason="慢性的なストレスは免疫力を下げ、万病の元になるため。" data-awareness="「何もしない時間」を意図的に作る、趣味のコミュニティを持つ。">
+                <div class="checklist-main"><input type="checkbox" id="fam_health_5"><span>🧘 5. メンタル・孤独回避</span></div>
+            </div>
+        </div>
+        <div class="sub-group bg-blue">
             <div class="subgroup-title">💡 心がけ</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d1"><span>🍣 おすしさいこうかよ</span></div><button class="action-button sushi-button" onclick="runShortcut('おすしさいこうかよ')">おすし</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d2"><span>📖 怒る技法</span></div><button class="action-button anger-button" onclick="runShortcut('怒る技法')">再生</button></div>
@@ -286,8 +306,8 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d9"><span>📅 カレンダー</span></div><div class="btn-box"><button class="action-button g-button" onclick="runShortcut('Googleカレンダー')">Gカレ</button><button class="action-button tt-button" onclick="runShortcut('TimeTree')">TT</button></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_codmon"><span>📱 コドモン</span></div><button class="action-button codmon-button" onclick="runShortcut('コドモン')">起動</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_eos"><span>📷 EOS R8</span></div><button class="action-button canon-button" onclick="runShortcut('Camera Connect')">CC</button></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_diary"><span>📔 日記</span></div><button class="action-button journal-button" onclick="runShortcut('ジャーナル')">起動</button></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_photos"><span>📱 iPhone写真/ビデオ</span></div><button class="action-button photos-button" onclick="runShortcut('photos mobile')">Photos</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_diary"><span>📔 日記</span></div><button class="action-button journal-button" onclick="runShortcut('ジャーナル')">Journey</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_photos"><span>📱 iPhone写真/動画バックアップ</span></div><button class="action-button photos-button" onclick="runShortcut('photos mobile')">Photos</button></div>
         </div>
         
         <div class="sub-group bg-brown">
@@ -472,6 +492,7 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_groom_nails"><span>💅 爪切り</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_groom_ears"><span>👂 耳掃除</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_groom_sideburns"><span>✂️ もみあげ</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_groom_nose"><span>👃 鼻の手入れ</span></div></div>
         </div>
     </div>
 
@@ -496,28 +517,6 @@
             <div class="subgroup-title">👧 子</div>
             <div class="category-header">🏥 健康</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_c_chew"><span>🦷 噛む力を鍛える</span></div></div>
-        </div>
-        <div class="sub-group bg-blue">
-            <div class="subgroup-title">👨 自分：50代の健康戦略</div>
-            <div class="health-priority-header">⚠️ 優先順位 (タップで理由)</div>
-            
-            <div class="checklist-item health-item" data-reason="糖尿病・認知症・癌リスクに直結。血管老化を防ぐ最優先事項。" data-awareness="ベジファースト（野菜から）、糖質の過剰摂取防止。">
-                <div class="checklist-main"><input type="checkbox" id="fam_health_1"><span>🩸 1. 血糖値コントロール</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="脳梗塞や心筋梗塞の引き金。50代はこのリスクが急上昇します。" data-awareness="減塩と、血管を柔らかく保つ良質な油（オメガ3など）の摂取。">
-                <div class="checklist-main"><input type="checkbox" id="fam_health_2"><span>💓 2. 血圧と血管</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="代謝を維持し、将来の寝たきりを防ぐため。" data-awareness="タンパク質の摂取（毎食）と、週2〜3回の自重トレーニング。">
-                <div class="checklist-main"><input type="checkbox" id="fam_health_3"><span>💪 3. 筋肉量(抗サルコペニア)</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="脳の老廃物を掃除し、自律神経を整える唯一の時間だから。" data-awareness="寝る前のスマホ断ち、決まった時間の起床。">
-                <div class="checklist-main"><input type="checkbox" id="fam_health_4"><span>💤 4. 睡眠の質・脳回復</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="慢性的なストレスは免疫力を下げ、万病の元になるため。" data-awareness="「何もしない時間」を意図的に作る、趣味のコミュニティを持つ。">
-                <div class="checklist-main"><input type="checkbox" id="fam_health_5"><span>🧘 5. メンタル・孤独回避</span></div>
-            </div>
-    
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_me_gym"><span>📺 テレビ体操</span></div><div class="btn-box"><button class="action-button nhk-button" onclick="runShortcut('NHK one')">NHK</button><button class="action-button streaks-button" onclick="runShortcut('Streaks')">Streaks</button></div></div>
         </div>
         <div class="sub-group bg-purple">
             <div class="subgroup-title">👩 妻</div>
