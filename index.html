@@ -78,6 +78,45 @@
         .canon-button { background: #CC0000; } /* Canon Red */
         .photos-button { background: linear-gradient(135deg, #FFCC00, #FF6B6B, #9370DB, #4285F4); box-shadow: 0 2px 4px rgba(0,0,0,0.2); } /* Photos Colorful */
 
+        /* Health Tooltip Styles */
+        .health-tooltip {
+            position: absolute;
+            background-color: rgba(40, 40, 40, 0.9);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            z-index: 1001;
+            width: 80%;
+            max-width: 300px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+            display: none; /* Initially hidden */
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .health-tooltip-reason, .health-tooltip-awareness {
+            margin-bottom: 10px;
+        }
+        .health-tooltip-reason:last-child, .health-tooltip-awareness:last-child {
+            margin-bottom: 0;
+        }
+        .health-tooltip strong {
+            color: #FFD700; /* Gold color for headers */
+            display: block;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+        .health-priority-header {
+            font-size: 14px;
+            font-weight: bold;
+            color: #f39c12; /* Orange color */
+            margin: 15px 0 5px 5px;
+        }
+        .health-item {
+            cursor: pointer;
+        }
+
         .dynamic-item { border: 2px solid #ffcc00 !important; background: #fffdf0 !important; }
         
         /* リセットボタン等の大型ボタン */
@@ -459,9 +498,25 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_c_chew"><span>🦷 噛む力を鍛える</span></div></div>
         </div>
         <div class="sub-group bg-blue">
-            <div class="subgroup-title">👨 自分</div>
-            <div class="category-header">🏥 健康</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_me_health"><span>💪 健康維持</span></div></div>
+            <div class="subgroup-title">👨 自分：50代の健康戦略</div>
+            <div class="health-priority-header">⚠️ 優先順位 (タップで理由)</div>
+            
+            <div class="checklist-item health-item" data-reason="糖尿病・認知症・癌リスクに直結。血管老化を防ぐ最優先事項。" data-awareness="ベジファースト（野菜から）、糖質の過剰摂取防止。">
+                <div class="checklist-main"><input type="checkbox" id="fam_health_1"><span>🩸 1. 血糖値コントロール</span></div>
+            </div>
+            <div class="checklist-item health-item" data-reason="脳梗塞や心筋梗塞の引き金。50代はこのリスクが急上昇します。" data-awareness="減塩と、血管を柔らかく保つ良質な油（オメガ3など）の摂取。">
+                <div class="checklist-main"><input type="checkbox" id="fam_health_2"><span>💓 2. 血圧と血管</span></div>
+            </div>
+            <div class="checklist-item health-item" data-reason="代謝を維持し、将来の寝たきりを防ぐため。" data-awareness="タンパク質の摂取（毎食）と、週2〜3回の自重トレーニング。">
+                <div class="checklist-main"><input type="checkbox" id="fam_health_3"><span>💪 3. 筋肉量(抗サルコペニア)</span></div>
+            </div>
+            <div class="checklist-item health-item" data-reason="脳の老廃物を掃除し、自律神経を整える唯一の時間だから。" data-awareness="寝る前のスマホ断ち、決まった時間の起床。">
+                <div class="checklist-main"><input type="checkbox" id="fam_health_4"><span>💤 4. 睡眠の質・脳回復</span></div>
+            </div>
+            <div class="checklist-item health-item" data-reason="慢性的なストレスは免疫力を下げ、万病の元になるため。" data-awareness="「何もしない時間」を意図的に作る、趣味のコミュニティを持つ。">
+                <div class="checklist-main"><input type="checkbox" id="fam_health_5"><span>🧘 5. メンタル・孤独回避</span></div>
+            </div>
+    
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_me_gym"><span>📺 テレビ体操</span></div><div class="btn-box"><button class="action-button nhk-button" onclick="runShortcut('NHK one')">NHK</button><button class="action-button streaks-button" onclick="runShortcut('Streaks')">Streaks</button></div></div>
         </div>
         <div class="sub-group bg-purple">
@@ -578,6 +633,7 @@
         }
 
         window.onload = () => {
+            setupHealthTooltips();
             const now = new Date();
             const day = now.getDay();
 
@@ -633,6 +689,69 @@
                 });
             });
         };
+
+        function setupHealthTooltips() {
+            // Create tooltip element if it doesn't exist
+            let tooltip = document.getElementById('health-tooltip');
+            if (!tooltip) {
+                tooltip = document.createElement('div');
+                tooltip.id = 'health-tooltip';
+                tooltip.className = 'health-tooltip';
+                document.body.appendChild(tooltip);
+            }
+
+            document.querySelectorAll('.health-item').forEach(item => {
+                item.addEventListener('click', function(event) {
+                    // Don't trigger if clicking the checkbox itself
+                    if (event.target.type === 'checkbox') {
+                        return;
+                    }
+                    event.stopPropagation(); // Prevent closing immediately
+
+                    const reason = this.dataset.reason;
+                    const awareness = this.dataset.awareness;
+
+                    // If the same item is clicked while the tooltip is visible, hide it.
+                    if (tooltip.style.display === 'block' && tooltip.dataset.currentItemId === this.querySelector('input').id) {
+                        tooltip.style.display = 'none';
+                        return;
+                    }
+
+                    tooltip.innerHTML = `
+                        <div class="health-tooltip-reason"><strong>【理由】</strong>${reason}</div>
+                        <div class="health-tooltip-awareness"><strong>【意識】</strong>${awareness}</div>
+                    `;
+
+                    const rect = this.getBoundingClientRect();
+                    tooltip.style.display = 'block';
+                    
+                    // Position tooltip below the item
+                    tooltip.style.left = `${rect.left}px`;
+                    tooltip.style.top = `${rect.bottom + 5}px`;
+                    
+                    // Adjust if it goes off-screen horizontally
+                    const tooltipRect = tooltip.getBoundingClientRect();
+                    if (tooltipRect.right > window.innerWidth - 10) {
+                        tooltip.style.left = `${window.innerWidth - tooltipRect.width - 10}px`;
+                    }
+                    // Adjust if it goes off-screen vertically (flip to top)
+                    if (tooltipRect.bottom > window.innerHeight - 10) {
+                        tooltip.style.top = `${rect.top - tooltipRect.height - 5}px`;
+                    }
+                    
+                    tooltip.dataset.currentItemId = this.querySelector('input').id;
+                });
+            });
+
+            // Hide tooltip on outside click
+            document.addEventListener('click', function(event) {
+                if (tooltip && tooltip.style.display === 'block') {
+                    if (!tooltip.contains(event.target) && !event.target.closest('.health-item')) {
+                        tooltip.style.display = 'none';
+                    }
+                }
+            });
+        }
 
         function allReset() {
             if(confirm('チェックをすべてリセットしますか？')) {
