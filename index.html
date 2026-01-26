@@ -68,10 +68,10 @@
         .pdf-button { background: #8E44AD; } .wn-button { background: #4CAF50; } .y-button { background: #FF0033; }
         .wash-button { background: #2196F3; } .nhk-button { background: #e50012; } .streaks-button { background: #ff9500; }
         .tick-button { background: #EF6A6A; } .g-button { background: #4285F4; } .tt-button { background: #FF6B9D; }
-        .bath-button { background: #5AC8FA; } .cs-button { background: #FF6B35; } .asv-button { background: #FF4500; }
+        .bath-button { background: #00C300; } .cs-button { background: #FF6B35; } .asv-button { background: #FF4500; }
         .ikoyo-button { background: #FFD700; color: #333; } .rank-button { background: #FF9500; } .rakuten-button { background: #FF8C00; }
         .alexa-button { background: #00CAFF; } .sp-button { background: #20B2AA; } .marine-button { background: #8B4513; }
-        .train-button { background: #333; } .finish-button { background: #8b7355; } .mirario-button { background: #9370DB; }
+        .train-button { background: #333; } .finish-button { background: #00C300; } .mirario-button { background: #9370DB; }
         .cajico-button { background: #FF9800; } .journal-button { background: #007aff; }
         .okano-button { background: #6F4E37; } .travel-button { background: #E91E63; }
         .calc-button { background: #009688; } .codmon-button { background: #ff6b81; }
@@ -300,14 +300,14 @@
         <div class="sub-group bg-green">
             <div class="subgroup-title">🔄 ルーティン</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d5"><span>🌤️ 天気確認</span></div><div class="btn-box"><button class="action-button wn-button" onclick="runShortcut('WeatherNews')">WeatherNews</button><button class="action-button y-button" onclick="runShortcut('Y天気')">Y天気</button></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d6"><span>🧺 洗濯機を回す</span></div><button class="action-button wash-button" onclick="openLink('https://weathernews.jp/s/laundry/area/chiba/12101/')">洗濯</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d6"><span>🧺 洗濯機を回す</span></div><button class="action-button wash-button" onclick="openLink('https://weathernews.jp/s/laundry/area/chiba/12101/')">お洗濯情報</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d6_2"><span>🍽️ 食洗機の食器をしまう</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d7"><span>📺 テレビ体操</span></div><div class="btn-box"><button class="action-button nhk-button" onclick="runShortcut('NHK one')">NHK</button><button class="action-button streaks-button" onclick="runShortcut('Streaks')">Streaks</button></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d8"><span>✓ タスク</span></div><button class="action-button tick-button" onclick="runShortcut('ticktick')">TickTick</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d9"><span>📅 カレンダー</span></div><div class="btn-box"><button class="action-button g-button" onclick="runShortcut('Googleカレンダー')">Gカレンダー</button><button class="action-button tt-button" onclick="runShortcut('TimeTree')">TimeTree</button></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_codmon"><span>📱 コドモン</span></div><button class="action-button codmon-button" onclick="runShortcut('コドモン')">起動</button></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_eos"><span>📷 EOS R8</span></div><button class="action-button canon-button" onclick="runShortcut('Camera Connect')">CC</button></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_diary"><span>📔 日記</span></div><button class="action-button journal-button" onclick="runShortcut('ジャーナル')">Journey</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_eos"><span>📷 EOS R8</span></div><button class="action-button canon-button" onclick="runShortcut('Camera Connect')">CameraConnect</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_diary"><span>📔 日記</span></div><button class="action-button journal-button" onclick="runShortcut('ジャーナル')">Journal</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_obsidian"><span>✍️ Obsidian</span></div><button class="action-button obsidian-button" onclick="runShortcut('Capture to Daily Note')">Daily Note</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_photos"><span>📱 iPhone写真/動画バックアップ</span></div><button class="action-button photos-button" onclick="runShortcut('photos mobile')">Photos</button></div>
         </div>
@@ -316,7 +316,7 @@
             <div class="subgroup-title">🧹 家事</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_towel"><span>🧴 洗面所のタオル交換</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d10"><span>🪟 窓の結露拭き</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d12"><span>🛁 お風呂洗い確認</span></div><button class="action-button bath-button" onclick="runShortcut('お風呂掃除済み')">風呂</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d12"><span>🛁 お風呂洗い確認</span></div><button class="action-button bath-button" onclick="runShortcut('お風呂掃除済み')">LINE連絡</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d13"><span>💧 加湿器の水</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d14"><span>🗑️ ゴミ捨て</span></div></div>
             <div class="checklist-item dynamic-item" id="tue-dynamic-item" style="display:none;"><div class="checklist-main"><input type="checkbox" id="d_tue"><span>📦 ダンボール出し (第1・3火曜)</span></div></div>
@@ -328,7 +328,7 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d16"><span>🎡 お出かけ情報</span></div><div class="btn-box"><button class="action-button asv-button" onclick="runShortcut('アソビュー')">ASV</button><button class="action-button ikoyo-button" onclick="openLink('https://iko-yo.net/')">いこーよ</button><button class="action-button rank-button" onclick="openLink('https://www.jalan.net/ranking/')">Rank</button></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_ai_outing"><span>✨ AIおでかけプラン提案</span></div><button class="action-button pdf-button" onclick="openModal('aiModal')">AI実行</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_ai_travel"><span>✈️ AI旅行プラン・日程提案</span></div><button class="action-button travel-button" onclick="openModal('travelModal')">旅行計画</button></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d17"><span>🏨 楽天トラベル</span></div><button class="action-button rakuten-button" onclick="runShortcut('楽天トラベル')">楽天</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d17"><span>🏨 トラベル</span></div><button class="action-button rakuten-button" onclick="runShortcut('楽天トラベル')">楽天トラベル</button></div>
         </div>
     </div>
 
@@ -345,7 +345,7 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_wash"><span>🧺 洗濯機を回す</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_dish"><span>🍽️ 食洗機の食器をしまう</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h4"><span>👕 洗濯物を干す</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h1"><span>🚽 トイレ掃除</span></div><button class="action-button finish-button" onclick="runShortcut('トイレ掃除済み')">完了</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h1"><span>🚽 トイレ掃除</span></div><button class="action-button finish-button" onclick="runShortcut('トイレ掃除済み')">LINE連絡</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h2"><span>🪟 窓開け</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h3"><span>🤖 ルンバ確認</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h5"><span>🍽️ 食洗機をかける</span></div></div>
@@ -507,7 +507,6 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w4"><span>⌚️ Watch装着</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w5"><span>🔑 鍵をつける</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w6"><span>👱 髪の毛セット</span></div></div>
-            
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w8"><span>🎒 カバン準備</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w9"><span>🚰 空の水筒を入れる</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w10"><span>😷 マスク</span></div></div>
@@ -681,7 +680,7 @@
             
             let targets = [];
             if (day === 1 || day === 2 || day === 4) {
-                targets = ['daily', 'work'];
+                targets = ['daily', 'work', 'family'];
             }
             else if (day === 3 || day === 5) {
                 targets = ['daily', 'home', 'nursery', 'family'];
@@ -803,5 +802,12 @@
         }
     </script>
 </body>
+</html>
+l>
+        }
+    </script>
+</body>
+</html>
+l>
 </html>
 l>
