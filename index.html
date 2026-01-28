@@ -389,6 +389,13 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_temp"><span>🌡️ 検温</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_cup"><span>🥤 コップ</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_doll"><span>🧸 マイドール</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_hat_set"><span>🧢 帽子セット</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_bag_set"><span>🛍️ 汚れ物袋セット</span></div></div>
+
+            <div class="category-header mon-dynamic-header" style="display:none;">月曜</div>
+            <div class="checklist-item dynamic-item" id="mon-dynamic-item-1" style="display:none;"><div class="checklist-main"><input type="checkbox" id="to_mon_1"><span>🧥 ジャケットをハンガーにかける</span></div></div>
+            <div class="checklist-item dynamic-item" id="mon-dynamic-item-2" style="display:none;"><div class="checklist-main"><input type="checkbox" id="to_mon_2"><span>🛌 コットカバーをセット</span></div></div>
+            <div class="checklist-item dynamic-item" id="mon-dynamic-item-3" style="display:none;"><div class="checklist-main"><input type="checkbox" id="to_mon_3"><span>👟 靴を下駄箱へ</span></div></div>
 
             <div class="category-header">中（室内）</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_in_bottle"><span>🍼 水筒</span></div></div>
@@ -694,7 +701,18 @@
                 if(el) el.classList.add('highlight');
             });
 
-            if (day === 5) {
+            if (day === 1) { // Monday
+                const header = document.querySelector('.mon-dynamic-header');
+                const item1 = document.getElementById('mon-dynamic-item-1');
+                const item2 = document.getElementById('mon-dynamic-item-2');
+                const item3 = document.getElementById('mon-dynamic-item-3');
+                if(header) header.style.display = 'inline-block';
+                if(item1) item1.style.display = 'flex';
+                if(item2) item2.style.display = 'flex';
+                if(item3) item3.style.display = 'flex';
+            }
+
+            if (day === 5) { // Friday
                 const fri = document.getElementById('fri-dynamic-item');
                 if(fri) fri.style.display = 'flex';
             }
