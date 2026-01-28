@@ -308,7 +308,7 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_codmon"><span>📱 コドモン</span></div><button class="action-button codmon-button" onclick="runShortcut('コドモン')">CODMON</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_eos"><span>📷 EOS R8</span></div><button class="action-button canon-button" onclick="runShortcut('Camera Connect')">CameraConnect</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_diary"><span>📔 日記</span></div><button class="action-button journal-button" onclick="runShortcut('ジャーナル')">Journal</button></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_obsidian"><span>✍️ Obsidian</span></div><button class="action-button obsidian-button" onclick="runShortcut('Capture to Daily Note')">Daily Note</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_obsidian"><span>✍️ Obsidian</span></div><div class="btn-box"><button class="action-button obsidian-button" onclick="runShortcut('Capture to Daily Note')">Daily Note</button><button class="action-button obsidian-button" onclick="runShortcut('Obsidian')"><img src="https://play-lh.googleusercontent.com/0WzNnQJyEuOyvkZvYVpGkQJEvOfEF9kBnbLnLQioqUAX_DlV6wP8hyH8BgVBHQa1V9A=w240-h480-rw" alt="Obsidian" style="width: 30px; height: 30px; vertical-align: middle;"></button></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_photos"><span>📱 iPhone写真/動画バックアップ</span></div><button class="action-button photos-button" onclick="runShortcut('photos mobile')">Photos</button></div>
         </div>
         
@@ -389,13 +389,6 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_temp"><span>🌡️ 検温</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_cup"><span>🥤 コップ</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_doll"><span>🧸 マイドール</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_hat_set"><span>🧢 帽子セット</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_bag_set"><span>🛍️ 汚れ物袋セット</span></div></div>
-
-            <div class="category-header mon-dynamic-header" style="display:none;">月曜</div>
-            <div class="checklist-item dynamic-item" id="mon-dynamic-item-1" style="display:none;"><div class="checklist-main"><input type="checkbox" id="to_mon_1"><span>🧥 ジャケットをハンガーにかける</span></div></div>
-            <div class="checklist-item dynamic-item" id="mon-dynamic-item-2" style="display:none;"><div class="checklist-main"><input type="checkbox" id="to_mon_2"><span>🛌 コットカバーをセット</span></div></div>
-            <div class="checklist-item dynamic-item" id="mon-dynamic-item-3" style="display:none;"><div class="checklist-main"><input type="checkbox" id="to_mon_3"><span>👟 靴を下駄箱へ</span></div></div>
 
             <div class="category-header">中（室内）</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="to_n_in_bottle"><span>🍼 水筒</span></div></div>
@@ -521,52 +514,62 @@
     </div>
     
     <div id="family" class="section">
-        <div class="sub-group bg-green">
-            <div class="subgroup-title">👧 子</div>
-            
-            <div class="checklist-item health-item" data-reason="安全基地としての親の存在確認" data-awareness="スキンシップを意識的に増やす。子どもの感情を受け入れ、その背景を理解する。">
-                <div class="checklist-main"><input type="checkbox" id="child_health_1"><span>🤗 心理的安定性</span></div>
+        <div class="sub-group bg-blue">
+            <div class="subgroup-title">👨‍👩‍👧 家族</div>
+
+            <div class="sub-group bg-green" style="margin-top: 15px;">
+                <div class="subgroup-title">👧 子</div>
+                <div class="checklist-item health-item" data-reason="安全基地としての親の存在確認" data-awareness="スキンシップを意識的に増やす。子どもの感情を受け入れ、その背景を理解する。">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_1"><span>🤗 心理的安定性</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="夜の就寝時刻の固定" data-awareness="就寝ルーティン（入浴→絵本→消灯）を固定し、休日も大きく崩さない。">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_2"><span>😴 睡眠リズム</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="主食・主菜・副菜の型を作る" data-awareness="まずは「朝：タンパク質」「夜：野菜＋汁物」を固定して迷いを減らす。">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_3"><span>🥗 栄養管理</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="“量”より”頻度”を減らす" data-awareness="おやつの時間を固定（ダラダラ食べを避ける）。甘い飲み物は日常化させず基本は水・お茶に寄せる。糖が口内に残る時間を短くする考え方 solasto-career">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_5"><span>🍬 甘いもの管理</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="よく噛む習慣で顎・歯列の土台を作る" data-awareness="「流し込み食べ」を減らす（ひと口ごとに飲み物を挟まない）。噛みごたえのある食材（根菜、きのこ、厚め肉、海藻など）を”無理なく”増やす。口腔機能の観点（咀嚼の獲得）">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_6"><span>🦷 噛む力（咀嚼）</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="唇を閉じて噛む/口呼吸のサインを拾う" data-awareness="食事中に口が開きがちなら「お口チャックでモグモグ」と短く促す。口腔周囲筋や口唇閉鎖の課題がある場合は支援対象になり得る">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_7"><span>👄 口の使い方</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="片側噛み（偏咀嚼）を減らす" data-awareness="左右どちらで噛んでいるか観察し、気づいたら声かけで反対側も使う練習。偏咀嚼の確認は評価項目として挙げられている">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_8"><span>↔️ 噛み方の偏り</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="口腔機能の遅れを早めに見極める" data-awareness="「噛めない」「丸呑み」「むせやすい」「発音が気になる」「口がいつも開いている」などが続く場合、歯科（小児歯科）で相談。口腔機能発達不全症は早期の評価・介入が重要という考え方">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_9"><span>🩺 受診・相談の目安</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="全身を使う遊びの“毎週の型”" data-awareness="公園遊び・散歩・鬼ごっこ・ボールなど、週の中で固定枠を作る（平日短め＋休日長め）。">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_10"><span>🏃‍♀️ 運動習慣</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="友達トラブルを”学び”に変える" data-awareness="まず気持ちを受け止めてから「次どうする？」と一緒に考える（裁くより再発防止の作戦会議）。">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_11"><span>🤝 社会性</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="ワークより言語・好奇心" data-awareness="絵本の読み聞かせ＋「どう思う？」の会話を増やす。数・文字は生活の中（買い物、時計、カレンダー）で触れる。">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_12"><span>📚 学習（就学前の土台）</span></div>
+                </div>
             </div>
-            <div class="checklist-item health-item" data-reason="夜の就寝時刻の固定" data-awareness="就寝ルーティン（入浴→絵本→消灯）を固定し、休日も大きく崩さない。">
-                <div class="checklist-main"><input type="checkbox" id="child_health_2"><span>😴 睡眠リズム</span></div>
+
+            <div class="sub-group bg-orange">
+                <div class="category-header">👶 育児情報</div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_info_sukusuku"><span>すくすく子育て</span></div><button class="action-button ikoyo-button" onclick="openLink('https://www.sukusuku.com/contents/theme/sukusuku')">Link</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_info_hello"><span>ハローちびっこモンスター</span></div><button class="action-button nhk-button" onclick="openLink('https://www.web.nhk/tv/pl/series-tep-QJG2G3956Y')">NHK</button></div>
             </div>
-            <div class="checklist-item health-item" data-reason="主食・主菜・副菜の型を作る" data-awareness="まずは「朝：タンパク質」「夜：野菜＋汁物」を固定して迷いを減らす。">
-                <div class="checklist-main"><input type="checkbox" id="child_health_3"><span>🥗 栄養管理</span></div>
+
+            <div class="sub-group bg-purple">
+                <div class="subgroup-title">👩 妻</div>
+                <div class="category-header">🏥 健康</div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_wi_health"><span>🛀 リラックス</span></div></div>
             </div>
-            <div class="checklist-item health-item" data-reason="“量”より”頻度”を減らす" data-awareness="おやつの時間を固定（ダラダラ食べを避ける）。甘い飲み物は日常化させず基本は水・お茶に寄せる。糖が口内に残る時間を短くする考え方 solasto-career">
-                <div class="checklist-main"><input type="checkbox" id="child_health_5"><span>🍬 甘いもの管理</span></div>
+            <div class="sub-group bg-gray">
+                <div class="subgroup-title">👴👵 父母</div>
+                <div class="category-header">🏥 健康</div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_pa_health"><span>📞 体調確認</span></div></div>
             </div>
-            <div class="checklist-item health-item" data-reason="よく噛む習慣で顎・歯列の土台を作る" data-awareness="「流し込み食べ」を減らす（ひと口ごとに飲み物を挟まない）。噛みごたえのある食材（根菜、きのこ、厚め肉、海藻など）を”無理なく”増やす。口腔機能の観点（咀嚼の獲得）">
-                <div class="checklist-main"><input type="checkbox" id="child_health_6"><span>🦷 噛む力（咀嚼）</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="唇を閉じて噛む/口呼吸のサインを拾う" data-awareness="食事中に口が開きがちなら「お口チャックでモグモグ」と短く促す。口腔周囲筋や口唇閉鎖の課題がある場合は支援対象になり得る">
-                <div class="checklist-main"><input type="checkbox" id="child_health_7"><span>👄 口の使い方</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="片側噛み（偏咀嚼）を減らす" data-awareness="左右どちらで噛んでいるか観察し、気づいたら声かけで反対側も使う練習。偏咀嚼の確認は評価項目として挙げられている">
-                <div class="checklist-main"><input type="checkbox" id="child_health_8"><span>↔️ 噛み方の偏り</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="口腔機能の遅れを早めに見極める" data-awareness="「噛めない」「丸呑み」「むせやすい」「発音が気になる」「口がいつも開いている」などが続く場合、歯科（小児歯科）で相談。口腔機能発達不全症は早期の評価・介入が重要という考え方">
-                <div class="checklist-main"><input type="checkbox" id="child_health_9"><span>🩺 受診・相談の目安</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="全身を使う遊びの“毎週の型”" data-awareness="公園遊び・散歩・鬼ごっこ・ボールなど、週の中で固定枠を作る（平日短め＋休日長め）。">
-                <div class="checklist-main"><input type="checkbox" id="child_health_10"><span>🏃‍♀️ 運動習慣</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="友達トラブルを”学び”に変える" data-awareness="まず気持ちを受け止めてから「次どうする？」と一緒に考える（裁くより再発防止の作戦会議）。">
-                <div class="checklist-main"><input type="checkbox" id="child_health_11"><span>🤝 社会性</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="ワークより言語・好奇心" data-awareness="絵本の読み聞かせ＋「どう思う？」の会話を増やす。数・文字は生活の中（買い物、時計、カレンダー）で触れる。">
-                <div class="checklist-main"><input type="checkbox" id="child_health_12"><span>📚 学習（就学前の土台）</span></div>
-            </div>
-        </div>
-        <div class="sub-group bg-purple">
-            <div class="subgroup-title">👩 妻</div>
-            <div class="category-header">🏥 健康</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_wi_health"><span>🛀 リラックス</span></div></div>
-        </div>
-        <div class="sub-group bg-gray">
-            <div class="subgroup-title">👴👵 父母</div>
-            <div class="category-header">🏥 健康</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_pa_health"><span>📞 体調確認</span></div></div>
         </div>
     </div>
 
@@ -701,18 +704,7 @@
                 if(el) el.classList.add('highlight');
             });
 
-            if (day === 1) { // Monday
-                const header = document.querySelector('.mon-dynamic-header');
-                const item1 = document.getElementById('mon-dynamic-item-1');
-                const item2 = document.getElementById('mon-dynamic-item-2');
-                const item3 = document.getElementById('mon-dynamic-item-3');
-                if(header) header.style.display = 'inline-block';
-                if(item1) item1.style.display = 'flex';
-                if(item2) item2.style.display = 'flex';
-                if(item3) item3.style.display = 'flex';
-            }
-
-            if (day === 5) { // Friday
+            if (day === 5) {
                 const fri = document.getElementById('fri-dynamic-item');
                 if(fri) fri.style.display = 'flex';
             }
