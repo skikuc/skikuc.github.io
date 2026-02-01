@@ -6,7 +6,7 @@
     <title>Routine：CheckList</title>
     <style>
         /* body下部にタブ分の余白を確保 */
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 140px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 220px; }
         
         /* ヘッダーエリア */
         .app-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 15px 0; position: relative; }
@@ -162,8 +162,32 @@
         .weather-details .wind { font-size: 12px; color: #555; }
         .temp-max { color: #ff3b30; }
         .temp-min { color: #007aff; }
-        .filter-bar-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
-        .filter-btn { padding: 6px 12px; border: 1px solid #007aff; background: #fff; color: #007aff; border-radius: 16px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        /* Global filter bar styles */
+        #global-filter-bar {
+            display: flex; flex-wrap: wrap; gap: 8px;
+            position: fixed;
+            bottom: 80px; /* Adjust based on tab-container height */
+            left: 0; right: 0;
+            background: rgba(242, 242, 247, 0.96); /* Match tab-container background */
+            padding: 12px 5px; /* Match tab-container padding */
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.08); /* Match tab-container shadow */
+            z-index: 899; /* Below tab-container */
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0,0,0,0.05);
+            justify-content: center; /* Center the buttons */
+            overflow-x: auto; /* Allow scrolling if many buttons */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out; /* Smooth transitions */
+            transform: translateY(100%); /* Start off-screen */
+            opacity: 0;
+            pointer-events: none; /* Disable interaction when hidden */
+        }
+        #global-filter-bar.active {
+            transform: translateY(0); /* Slide in */
+            opacity: 1;
+            pointer-events: auto; /* Enable interaction when active */
+        }
+        .filter-btn { padding: 6px 12px; border: 1px solid #007aff; background: #fff; color: #007aff; border-radius: 16px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
         .filter-btn.active { background: #007aff; color: #fff; }
     </style>
 </head>
@@ -305,7 +329,6 @@
     </div>
 
     <div id="daily" class="section active">
-        <div class="filter-bar-container"></div>
         <div class="sub-group bg-blue">
             <div class="subgroup-title">👨 自分：50代の健康戦略</div>
             <div class="health-priority-header">⚠️ 優先順位 (タップで理由)</div>
@@ -372,7 +395,6 @@
     </div>
 
     <div id="home" class="section">
-        <div class="filter-bar-container"></div>
         <div class="sub-group bg-blue">
             <div class="subgroup-title">自分の準備</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_prep_change"><span>👕 着替え</span></div></div>
@@ -404,7 +426,6 @@
     </div>
 
     <div id="nursery" class="section">
-        <div class="filter-bar-container"></div>
         <button class="reset-button qr-button" onclick="runShortcut('登降園QR')">📱 登降園QRを表示</button>
 
         <div class="sub-group bg-green">
@@ -470,7 +491,6 @@
     </div>
 
     <div id="holiday" class="section">
-        <div class="filter-bar-container"></div>
         <div class="sub-group bg-gray">
             <div class="subgroup-title">やる事</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_wash"><span>🧺 洗濯機を回す</span></div></div>
@@ -569,7 +589,6 @@
     </div>
 
     <div id="work" class="section">
-        <div class="filter-bar-container"></div>
         <div class="sub-group bg-blue">
             <div class="subgroup-title">出社準備</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w1"><span>🪒 髭剃り</span></div></div>
@@ -585,81 +604,75 @@
     </div>
     
     <div id="family" class="section">
-        <div class="filter-bar-container"></div>
-        <div class="sub-group bg-blue">
-            <div class="subgroup-title">👨‍👩‍👧 家族</div>
-
-            <div class="sub-group bg-green" style="margin-top: 15px;">
-                <div class="subgroup-title">👧 子</div>
-                <div class="checklist-item health-item" data-reason="安全基地としての親の存在確認" data-awareness="スキンシップを意識的に増やす。子どもの感情を受け入れ、その背景を理解する。">
-                    <div class="checklist-main"><input type="checkbox" id="child_health_1"><span>🤗 心理的安定性</span></div>
-                </div>
-                <div class="checklist-item health-item" data-reason="夜の就寝時刻の固定" data-awareness="就寝ルーティン（入浴→絵本→消灯）を固定し、休日も大きく崩さない。">
-                    <div class="checklist-main"><input type="checkbox" id="child_health_2"><span>😴 睡眠リズム</span></div>
-                </div>
-                <div class="checklist-item health-item" data-reason="主食・主菜・副菜の型を作る" data-awareness="まずは「朝：タンパク質」「夜：野菜＋汁物」を固定して迷いを減らす。">
-                    <div class="checklist-main"><input type="checkbox" id="child_health_3"><span>🥗 栄養管理</span></div>
-                </div>
-                <div class="checklist-item health-item" data-reason="“量”より”頻度”を減らす" data-awareness="おやつの時間を固定（ダラダラ食べを避ける）。甘い飲み物は日常化させず基本は水・お茶に寄せる。糖が口内に残る時間を短くする考え方 solasto-career">
-                    <div class="checklist-main"><input type="checkbox" id="child_health_5"><span>🍬 甘いもの管理</span></div>
-                </div>
-                <div class="checklist-item health-item" data-reason="よく噛む習慣で顎・歯列の土台を作る" data-awareness="「流し込み食べ」を減らす（ひと口ごとに飲み物を挟まない）。噛みごたえのある食材（根菜、きのこ、厚め肉、海藻など）を”無理なく”増やす。口腔機能の観点（咀嚼の獲得）">
-                    <div class="checklist-main"><input type="checkbox" id="child_health_6"><span>🦷 噛む力（咀嚼）</span></div>
-                </div>
-                <div class="checklist-item health-item" data-reason="唇を閉じて噛む/口呼吸のサインを拾う" data-awareness="食事中に口が開きがちなら「お口チャックでモグモグ」と短く促す。口腔周囲筋や口唇閉鎖の課題がある場合は支援対象になり得る">
-                    <div class="checklist-main"><input type="checkbox" id="child_health_7"><span>👄 口の使い方</span></div>
-                </div>
-                <div class="checklist-item health-item" data-reason="片側噛み（偏咀嚼）を減らす" data-awareness="左右どちらで噛んでいるか観察し、気づいたら声かけで反対側も使う練習。偏咀嚼の確認は評価項目として挙げられている">
-                    <div class="checklist-main"><input type="checkbox" id="child_health_8"><span>↔️ 噛み方の偏り</span></div>
-                </div>
-                <div class="checklist-item health-item" data-reason="口腔機能の遅れを早めに見極める" data-awareness="「噛めない」「丸呑み」「むせやすい」「発音が気になる」「口がいつも開いている」などが続く場合、歯科（小児歯科）で相談。口腔機能発達不全症は早期の評価・介入が重要という考え方">
-                    <div class="checklist-main"><input type="checkbox" id="child_health_9"><span>🩺 受診・相談の目安</span></div>
-                </div>
-                <div class="checklist-item health-item" data-reason="全身を使う遊びの“毎週の型”" data-awareness="公園遊び・散歩・鬼ごっこ・ボールなど、週の中で固定枠を作る（平日短め＋休日長め）。">
-                    <div class="checklist-main"><input type="checkbox" id="child_health_10"><span>🏃‍♀️ 運動習慣</span></div>
-                </div>
-                <div class="checklist-item health-item" data-reason="友達トラブルを”学び”に変える" data-awareness="まず気持ちを受け止めてから「次どうする？」と一緒に考える（裁くより再発防止の作戦会議）。">
-                    <div class="checklist-main"><input type="checkbox" id="child_health_11"><span>🤝 社会性</span></div>
-                </div>
-                <div class="checklist-item health-item" data-reason="ワークより言語・好奇心" data-awareness="絵本の読み聞かせ＋「どう思う？」の会話を増やす。数・文字は生活の中（買い物、時計、カレンダー）で触れる。">
-                    <div class="checklist-main"><input type="checkbox" id="child_health_12"><span>📚 学習（就学前の土台）</span></div>
-                </div>
+        <div class="sub-group bg-green">
+            <div class="subgroup-title">👧 子</div>
+            <div class="checklist-item health-item" data-reason="安全基地としての親の存在確認" data-awareness="スキンシップを意識的に増やす。子どもの感情を受け入れ、その背景を理解する。">
+                <div class="checklist-main"><input type="checkbox" id="child_health_1"><span>🤗 心理的安定性</span></div>
             </div>
-
-            <div class="sub-group bg-orange">
-                <div class="category-header">👶 育児情報</div>
-                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_info_sukusuku"><span>すくすく子育て</span></div><button class="action-button ikoyo-button" onclick="openLink('https://www.sukusuku.com/contents/theme/sukusuku')">Link</button></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_info_hello"><span>ハローちびっこモンスター</span></div><button class="action-button nhk-button" onclick="openLink('https://www.web.nhk/tv/pl/series-tep-QJG2G3956Y')">NHK</button></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_info_nhk_learning"><span>NHKラーニング</span></div><button class="action-button nhk-button" onclick="openLink('https://www.web.nhk/tv/an/nlearning/pl/series-tep-61485925G6/list?tep=WX7WG5X11V')">NHK</button></div>
+            <div class="checklist-item health-item" data-reason="夜の就寝時刻の固定" data-awareness="就寝ルーティン（入浴→絵本→消灯）を固定し、休日も大きく崩さない。">
+                <div class="checklist-main"><input type="checkbox" id="child_health_2"><span>😴 睡眠リズム</span></div>
             </div>
-
-            <div class="sub-group bg-blue">
-                <div class="subgroup-title">🏥 通院時チェックリスト</div>
-                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_mynumber_child"><span>子マイナンバー</span></div></div>
-                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_mynumber_pin"><span>マイナンバー暗証番号</span></div></div>
-                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_benefit_ticket"><span>受給券</span></div></div>
-                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_temperature"><span>検温</span></div></div>
-                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_diaper_set"><span>おむつセット</span></div></div>
-                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_mask"><span>マスク</span></div></div>
-                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_tissues"><span>ティッシュ</span></div></div>
-                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_disinfecting_wipes"><span>除菌シート</span></div></div>
-                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_water_bottle"><span>水筒</span></div></div>
-                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_toys_tablet"><span>おもちゃ・タブレット</span></div></div>
-                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_change_clothes"><span>着替え</span></div></div>
+            <div class="checklist-item health-item" data-reason="主食・主菜・副菜の型を作る" data-awareness="まずは「朝：タンパク質」「夜：野菜＋汁物」を固定して迷いを減らす。">
+                <div class="checklist-main"><input type="checkbox" id="child_health_3"><span>🥗 栄養管理</span></div>
             </div>
-
-            <div class="sub-group bg-purple">
-                <div class="subgroup-title">👩 妻</div>
-                <div class="category-header">🏥 健康</div>
-                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_wi_health"><span>🛀 リラックス</span></div></div>
+            <div class="checklist-item health-item" data-reason="“量”より”頻度”を減らす" data-awareness="おやつの時間を固定（ダラダラ食べを避ける）。甘い飲み物は日常化させず基本は水・お茶に寄せる。糖が口内に残る時間を短くする考え方 solasto-career">
+                <div class="checklist-main"><input type="checkbox" id="child_health_5"><span>🍬 甘いもの管理</span></div>
             </div>
-            <div class="sub-group bg-gray">
-                <div class="subgroup-title">👴👵 父母</div>
-                <div class="category-header">🏥 健康</div>
-                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_pa_health"><span>📞 体調確認</span></div></div>
+            <div class="checklist-item health-item" data-reason="よく噛む習慣で顎・歯列の土台を作る" data-awareness="「流し込み食べ」を減らす（ひと口ごとに飲み物を挟まない）。噛みごたえのある食材（根菜、きのこ、厚め肉、海藻など）を”無理なく”増やす。口腔機能の観点（咀嚼の獲得）">
+                <div class="checklist-main"><input type="checkbox" id="child_health_6"><span>🦷 噛む力（咀嚼）</span></div>
+            </div>
+            <div class="checklist-item health-item" data-reason="唇を閉じて噛む/口呼吸のサインを拾う" data-awareness="食事中に口が開きがちなら「お口チャックでモグモグ」と短く促す。口腔周囲筋や口唇閉鎖の課題がある場合は支援対象になり得る">
+                <div class="checklist-main"><input type="checkbox" id="child_health_7"><span>👄 口の使い方</span></div>
+            </div>
+            <div class="checklist-item health-item" data-reason="片側噛み（偏咀嚼）を減らす" data-awareness="左右どちらで噛んでいるか観察し、気づいたら声かけで反対側も使う練習。偏咀嚼の確認は評価項目として挙げられている">
+                <div class="checklist-main"><input type="checkbox" id="child_health_8"><span>↔️ 噛み方の偏り</span></div>
+            </div>
+            <div class="checklist-item health-item" data-reason="口腔機能の遅れを早めに見極める" data-awareness="「噛めない」「丸呑み」「むせやすい」「発音が気になる」「口がいつも開いている」などが続く場合、歯科（小児歯科）で相談。口腔機能発達不全症は早期の評価・介入が重要という考え方">
+                <div class="checklist-main"><input type="checkbox" id="child_health_9"><span>🩺 受診・相談の目安</span></div>
+            </div>
+            <div class="checklist-item health-item" data-reason="全身を使う遊びの“毎週の型”" data-awareness="公園遊び・散歩・鬼ごっこ・ボールなど、週の中で固定枠を作る（平日短め＋休日長め）。">
+                <div class="checklist-main"><input type="checkbox" id="child_health_10"><span>🏃‍♀️ 運動習慣</span></div>
+            </div>
+            <div class="checklist-item health-item" data-reason="友達トラブルを”学び”に変える" data-awareness="まず気持ちを受け止めてから「次どうする？」と一緒に考える（裁くより再発防止の作戦会議）。">
+                <div class="checklist-main"><input type="checkbox" id="child_health_11"><span>🤝 社会性</span></div>
+            </div>
+            <div class="checklist-item health-item" data-reason="ワークより言語・好奇心" data-awareness="絵本の読み聞かせ＋「どう思う？」の会話を増やす。数・文字は生活の中（買い物、時計、カレンダー）で触れる。">
+                <div class="checklist-main"><input type="checkbox" id="child_health_12"><span>📚 学習（就学前の土台）</span></div>
             </div>
         </div>
+        <div class="sub-group bg-orange">
+            <div class="subgroup-title">👶 育児情報</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_info_sukusuku"><span>すくすく子育て</span></div><button class="action-button ikoyo-button" onclick="openLink('https://www.sukusuku.com/contents/theme/sukusuku')">Link</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_info_hello"><span>ハローちびっこモンスター</span></div><button class="action-button nhk-button" onclick="openLink('https://www.web.nhk/tv/pl/series-tep-QJG2G3956Y')">NHK</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_info_nhk_learning"><span>NHKラーニング</span></div><button class="action-button nhk-button" onclick="openLink('https://www.web.nhk/tv/an/nlearning/pl/series-tep-61485925G6/list?tep=WX7WG5X11V')">NHK</button></div>
+        </div>
+        <div class="sub-group bg-blue">
+            <div class="subgroup-title">🏥 通院時チェックリスト</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_mynumber_child"><span>子マイナンバー</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_mynumber_pin"><span>マイナンバー暗証番号</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_benefit_ticket"><span>受給券</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_temperature"><span>検温</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_diaper_set"><span>おむつセット</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_mask"><span>マスク</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_tissues"><span>ティッシュ</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_disinfecting_wipes"><span>除菌シート</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_water_bottle"><span>水筒</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_toys_tablet"><span>おもちゃ・タブレット</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_change_clothes"><span>着替え</span></div></div>
+        </div>
+        <div class="sub-group bg-purple">
+            <div class="subgroup-title">👩 妻</div>
+            <div class="category-header">🏥 健康</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_wi_health"><span>🛀 リラックス</span></div></div>
+        </div>
+        <div class="sub-group bg-gray">
+            <div class="subgroup-title">👴👵 父母</div>
+            <div class="category-header">🏥 健康</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_pa_health"><span>📞 体調確認</span></div></div>
+        </div>
     </div>
+
+    <div id="global-filter-bar" class="filter-bar-container"></div>
 
     <button class="reset-button" onclick="allReset()">全チェックリセット</button>
 
@@ -749,27 +762,32 @@
             const section = document.getElementById(sectionId);
             if (!section) return;
 
-            const filterContainer = section.querySelector('.filter-bar-container');
+            const globalFilterContainer = document.getElementById('global-filter-bar');
+            if (!globalFilterContainer) return;
+            globalFilterContainer.innerHTML = ''; // Clear previous buttons
+
             const subGroups = Array.from(section.querySelectorAll('.sub-group'));
             
-            if (filterContainer) {
-                filterContainer.innerHTML = '';
-            } else {
+            // Only show filter bar if there are multiple subgroups
+            if (subGroups.length <= 1) {
+                globalFilterContainer.classList.remove('active'); // Hide the bar
                 return;
+            } else {
+                globalFilterContainer.classList.add('active'); // Show the bar
             }
-
-            if (subGroups.length <= 1) return;
-
+            
+            // --- Create and add "All" button ---
             const allBtn = document.createElement('button');
             allBtn.className = 'filter-btn'; // Not active by default
             allBtn.innerText = 'すべて';
             allBtn.onclick = () => {
                 subGroups.forEach(sg => sg.style.display = 'block');
-                filterContainer.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                globalFilterContainer.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
                 allBtn.classList.add('active');
             };
-            filterContainer.appendChild(allBtn);
+            globalFilterContainer.appendChild(allBtn);
 
+            // --- Create buttons for each subgroup ---
             subGroups.forEach((group) => {
                 const titleEl = group.querySelector('.subgroup-title');
                 if (titleEl) {
@@ -780,34 +798,56 @@
                         e.stopPropagation();
                         subGroups.forEach(sg => sg.style.display = 'none');
                         group.style.display = 'block';
-                        filterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        globalFilterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                         btn.classList.add('active');
                     };
-                    filterContainer.appendChild(btn);
+                    globalFilterContainer.appendChild(btn);
                 }
             });
         }
 
         function showSection(id, tabEl) {
+            // Hide all sections first
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            // Remove active from all tabs
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             
             const section = document.getElementById(id);
-            section.classList.add('active');
+            section.classList.add('active'); // Show active section
             tabEl.classList.add('active');
             localStorage.setItem('lastTab', id);
 
-            generateFilterBar(id);
+            generateFilterBar(id); // Populate filter bar for this section
             
+            // Ensure initial visibility of sub-groups based on default filter
             const subGroups = section.querySelectorAll('.sub-group');
             if (subGroups.length > 0) {
+                // Hide all sub-groups in this section first
                 subGroups.forEach(sg => sg.style.display = 'none');
+                
+                // Then show the first one (as per "一番上を表示")
                 subGroups[0].style.display = 'block';
 
-                const filterBtns = section.querySelectorAll('.filter-bar-container .filter-btn');
-                if (filterBtns.length > 1) {
-                     filterBtns.forEach(btn => btn.classList.remove('active'));
-                     filterBtns[1].classList.add('active');
+                // Activate the corresponding filter button
+                const globalFilterContainer = document.getElementById('global-filter-bar');
+                if (globalFilterContainer) {
+                    globalFilterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    // Activate the filter button corresponding to the first sub-group
+                    // The first actual sub-group button is at index 1 (after "すべて")
+                    const firstSubGroupBtn = globalFilterContainer.querySelector('.filter-btn:nth-child(2)');
+                    if (firstSubGroupBtn) {
+                        firstSubGroupBtn.classList.add('active');
+                    } else {
+                        // Fallback to "すべて" if no specific subgroup button, and there are subgroups
+                        const allBtn = globalFilterContainer.querySelector('.filter-btn:first-child');
+                        if (allBtn) allBtn.classList.add('active');
+                    }
+                }
+            } else {
+                // If no subgroups in the section, hide the filter bar
+                const globalFilterContainer = document.getElementById('global-filter-bar');
+                if (globalFilterContainer) {
+                    globalFilterContainer.classList.remove('active');
                 }
             }
         }
