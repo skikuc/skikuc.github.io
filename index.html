@@ -137,6 +137,7 @@
         /* リセットボタン等の大型ボタン */
         .reset-button { width: 100%; padding: 20px; background: #34c759; color: white; border: none; border-radius: 12px; font-size: 20px; margin-top: 10px; font-weight: bold; cursor: pointer; }
         .qr-button { background: #5856D6; margin-bottom: 20px; margin-top: 0; }
+        .reset-button { display: none; }
 
         /* モーダル共通 */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
@@ -778,7 +779,7 @@
             
             // --- Create and add "All" button ---
             const allBtn = document.createElement('button');
-            allBtn.className = 'filter-btn'; // Not active by default
+            allBtn.className = 'filter-btn'; 
             allBtn.innerText = 'すべて';
             allBtn.onclick = () => {
                 subGroups.forEach(sg => sg.style.display = 'block');
@@ -787,9 +788,57 @@
             };
             globalFilterContainer.appendChild(allBtn);
 
-            // --- Create buttons for each subgroup ---
+            // Special handling for "daily" section for combined "お出かけ・旅行計画" button
+            if (sectionId === 'daily') {
+                const outingGroup = Array.from(subGroups).find(group => group.querySelector('.subgroup-title')?.innerText.includes('お出かけ'));
+                const travelGroup = Array.from(subGroups).find(group => group.querySelector('.subgroup-title')?.innerText.includes('旅行計画'));
+
+                if (outingGroup && travelGroup) {
+                    const combinedBtn = document.createElement('button');
+                    combinedBtn.className = 'filter-btn';
+                    combinedBtn.innerText = '🚗✈️ お出かけ・旅行計画'; // Combined title
+                    combinedBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        subGroups.forEach(sg => sg.style.display = 'none'); // Hide all
+                        outingGroup.style.display = 'block'; // Show outing
+                        travelGroup.style.display = 'block'; // Show travel
+                        globalFilterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        combinedBtn.classList.add('active');
+                    };
+                    globalFilterContainer.appendChild(combinedBtn);
+                }
+            } else if (sectionId === 'holiday') { // New logic for holiday section
+                const seiriGroup = Array.from(subGroups).find(group => group.querySelector('.subgroup-title')?.innerText.includes('整理') && !group.querySelector('.subgroup-title')?.innerText.includes('整理方法')); // Target "整理" specifically
+                const seiriMethodGroup = Array.from(subGroups).find(group => group.querySelector('.subgroup-title')?.innerText.includes('整理方法'));
+
+                if (seiriGroup && seiriMethodGroup) {
+                    const combinedBtn = document.createElement('button');
+                    combinedBtn.className = 'filter-btn';
+                    combinedBtn.innerText = '🧹💡 整理・整理方法'; // Combined title
+                    combinedBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        subGroups.forEach(sg => sg.style.display = 'none'); // Hide all
+                        seiriGroup.style.display = 'block'; // Show seiri
+                        seiriMethodGroup.style.display = 'block'; // Show seiri method
+                        globalFilterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        combinedBtn.classList.add('active');
+                    };
+                    globalFilterContainer.appendChild(combinedBtn);
+                }
+            }
+
+            // --- Create individual buttons for each subgroup (excluding combined ones if applicable) ---
             subGroups.forEach((group) => {
                 const titleEl = group.querySelector('.subgroup-title');
+                // Skip if this group is part of the combined button in 'daily' section
+                if (sectionId === 'daily' && titleEl && (titleEl.innerText.includes('お出かけ') || titleEl.innerText.includes('旅行計画'))) {
+                    return; // Skip creating individual buttons for these
+                }
+                // Skip if this group is part of the combined button in 'holiday' section
+                if (sectionId === 'holiday' && titleEl && (titleEl.innerText.includes('整理') || titleEl.innerText.includes('整理方法'))) {
+                    return; // Skip creating individual buttons for these
+                }
+
                 if (titleEl) {
                     const btn = document.createElement('button');
                     btn.className = 'filter-btn';
@@ -817,34 +866,40 @@
             tabEl.classList.add('active');
             localStorage.setItem('lastTab', id);
 
-            generateFilterBar(id); // Populate filter bar for this section
+            // Generate and populate the filter bar for the active section
+            generateFilterBar(id);
             
             // Ensure initial visibility of sub-groups based on default filter
             const subGroups = section.querySelectorAll('.sub-group');
             if (subGroups.length > 0) {
-                // Hide all sub-groups in this section first
-                subGroups.forEach(sg => sg.style.display = 'none');
-                
-                // Then show the first one (as per "一番上を表示")
-                subGroups[0].style.display = 'block';
+                subGroups.forEach(sg => sg.style.display = 'none'); // Hide all initially
 
-                // Activate the corresponding filter button
                 const globalFilterContainer = document.getElementById('global-filter-bar');
                 if (globalFilterContainer) {
                     globalFilterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    // Activate the filter button corresponding to the first sub-group
-                    // The first actual sub-group button is at index 1 (after "すべて")
-                    const firstSubGroupBtn = globalFilterContainer.querySelector('.filter-btn:nth-child(2)');
-                    if (firstSubGroupBtn) {
-                        firstSubGroupBtn.classList.add('active');
+
+                    if (id === 'daily') {
+                        // For 'daily' section, activate the combined button if it exists
+                        const combinedBtn = Array.from(globalFilterContainer.querySelectorAll('.filter-btn')).find(btn => btn.innerText === '🚗✈️ お出かけ・旅行計画'); // Corrected selector
+                        if (combinedBtn) {
+                            combinedBtn.click(); // Simulate click to show both and activate button
+                        } else {
+                            // Fallback if combined button not found, default to first sub-group
+                            subGroups[0].style.display = 'block';
+                            const firstSubGroupBtn = globalFilterContainer.querySelector('.filter-btn:nth-child(2)'); // After "すべて"
+                            if (firstSubGroupBtn) firstSubGroupBtn.classList.add('active');
+                            else { const allBtn = globalFilterContainer.querySelector('.filter-btn:first-child'); if (allBtn) allBtn.classList.add('active'); }
+                        }
                     } else {
-                        // Fallback to "すべて" if no specific subgroup button, and there are subgroups
-                        const allBtn = globalFilterContainer.querySelector('.filter-btn:first-child');
-                        if (allBtn) allBtn.classList.add('active');
+                        // For other sections, show the first sub-group and activate its button
+                        subGroups[0].style.display = 'block';
+                        const firstSubGroupBtn = globalFilterContainer.querySelector('.filter-btn:nth-child(2)'); // After "すべて"
+                        if (firstSubGroupBtn) firstSubGroupBtn.classList.add('active');
+                        else { const allBtn = globalFilterContainer.querySelector('.filter-btn:first-child'); if (allBtn) allBtn.classList.add('active'); }
                     }
                 }
             } else {
-                // If no subgroups in the section, hide the filter bar
+                // If no subgroups in the section, hide the filter bar completely
                 const globalFilterContainer = document.getElementById('global-filter-bar');
                 if (globalFilterContainer) {
                     globalFilterContainer.classList.remove('active');
@@ -917,6 +972,13 @@
         window.onload = () => {
             const now = new Date();
             const dayOfWeek = now.getDay(); // 0=Sun, 1=Mon, etc.
+            const currentDayOfMonth = now.getDate();
+
+            // Auto-reset logic: Check if a new day has started
+            const lastResetDay = parseInt(localStorage.getItem('lastChecklistResetDay'));
+            if (isNaN(lastResetDay) || lastResetDay !== currentDayOfMonth) {
+                performReset(); // Triggers reload, so code below won't run until after reset
+            }
 
             setupHealthTooltips();
             fetchWeather(dayOfWeek);
@@ -1033,7 +1095,7 @@
                         <div class="health-tooltip-awareness"><strong>【意識】</strong>${awareness}</div>
                     `;
 
-                    const rect = this.getBoundingClientRect();
+                    const rect = item.getBoundingClientRect(); // Corrected: get position of the item clicked, not the tooltip
                     tooltip.style.display = 'block';
                     
                     // Position tooltip below the item
@@ -1047,7 +1109,7 @@
                     }
                     // Adjust if it goes off-screen vertically (flip to top)
                     if (tooltipRect.bottom > window.innerHeight - 10) {
-                        tooltip.style.top = `${rect.top - tooltipRect.height - 5}px`;
+                        tooltip.style.top = `${rect.top - tooltipRect.height - 5}px`; // Corrected: use rect.top for item's top
                     }
                     
                     tooltip.dataset.currentItemId = this.querySelector('input').id;
@@ -1064,13 +1126,18 @@
             });
         }
 
+        // New function for core reset logic
+        function performReset() {
+            const lastTab = localStorage.getItem('lastTab'); // Preserve last active tab
+            localStorage.clear();
+            localStorage.setItem('lastTab', lastTab);
+            localStorage.setItem('lastChecklistResetDay', new Date().getDate()); // Store current day
+            location.reload();
+        }
+
+        // Modified allReset to remove confirm and directly call performReset (since button is hidden)
         function allReset() {
-            if(confirm('チェックをすべてリセットしますか？')) {
-                const lastTab = localStorage.getItem('lastTab');
-                localStorage.clear();
-                localStorage.setItem('lastTab', lastTab);
-                location.reload();
-            }
+            performReset();
         }
     </script>
 </body>
