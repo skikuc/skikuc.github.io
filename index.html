@@ -406,7 +406,11 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r3"><span>🧥 ジャケット</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r4"><span>🛀 お風呂を沸かす</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="r5"><span>📲 打刻</span></div></div>
-            <div class="checklist-item dynamic-item" id="fri-dynamic-item" style="display:none;"><div class="checklist-main"><input type="checkbox" id="r_fri"><span>🗓️ 金曜：布団カバー、コットカバー、靴、帽子、ジャケット</span></div></div>
+            <div class="checklist-item dynamic-item" id="fri-dynamic-item-futon" style="display:none;"><div class="checklist-main"><input type="checkbox" id="r_fri_futon"><span>🗓️ 金曜：布団カバー</span></div></div>
+            <div class="checklist-item dynamic-item" id="fri-dynamic-item-cot" style="display:none;"><div class="checklist-main"><input type="checkbox" id="r_fri_cot"><span>🗓️ 金曜：コットカバー</span></div></div>
+            <div class="checklist-item dynamic-item" id="fri-dynamic-item-shoes" style="display:none;"><div class="checklist-main"><input type="checkbox" id="r_fri_shoes"><span>🗓️ 金曜：靴</span></div></div>
+            <div class="checklist-item dynamic-item" id="fri-dynamic-item-hat" style="display:none;"><div class="checklist-main"><input type="checkbox" id="r_fri_hat"><span>🗓️ 金曜：帽子</span></div></div>
+            <div class="checklist-item dynamic-item" id="fri-dynamic-item-jacket" style="display:none;"><div class="checklist-main"><input type="checkbox" id="r_fri_jacket"><span>🗓️ 金曜：ジャケット</span></div></div>
         </div>
 
         <div class="sub-group bg-blue">
@@ -432,11 +436,17 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_laundry_top"><span>👕 洗濯物を干す</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho7"><span>📺 祖父母電話</span></div><button class="action-button alexa-button" onclick="runShortcut('Alexa')">Alexa</button></div>
         </div>
-        <div class="sub-group bg-purple">
+        <div class="sub-group bg-gray">
+            <div class="subgroup-title">🧹 整理</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_org_clothes"><span>👕 洋服の整理</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_org_desk"><span>🖥️ PCの机の上の整理</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_org_bulky_waste"><span>🗑️ 粗大ごみ手続き</span></div></div>
+        </div>
+        <div class="sub-group bg-purple" style="display: none;">
             <div class="subgroup-title">✨ AIおでかけ計画</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho0"><span>✨ AIおでかけプラン提案</span></div><button class="action-button pdf-button" onclick="openModal('aiModal')">AI実行</button></div>
         </div>
-        <div class="sub-group bg-orange">
+        <div class="sub-group bg-orange" style="display: none;">
             <div class="subgroup-title">✈️ AI旅行計画</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_travel"><span>✈️ AI旅行プラン・日程提案</span></div><button class="action-button travel-button" onclick="openModal('travelModal')">旅行計画</button></div>
         </div>
@@ -705,8 +715,16 @@
             });
 
             if (day === 5) {
-                const fri = document.getElementById('fri-dynamic-item');
-                if(fri) fri.style.display = 'flex';
+                const fri_futon = document.getElementById('fri-dynamic-item-futon');
+                if(fri_futon) fri_futon.style.display = 'flex';
+                const fri_cot = document.getElementById('fri-dynamic-item-cot');
+                if(fri_cot) fri_cot.style.display = 'flex';
+                const fri_shoes = document.getElementById('fri-dynamic-item-shoes');
+                if(fri_shoes) fri_shoes.style.display = 'flex';
+                const fri_hat = document.getElementById('fri-dynamic-item-hat');
+                if(fri_hat) fri_hat.style.display = 'flex';
+                const fri_jacket = document.getElementById('fri-dynamic-item-jacket');
+                if(fri_jacket) fri_jacket.style.display = 'flex';
             }
             const weekNum = Math.ceil(now.getDate() / 7);
             if (day === 2 && (weekNum === 1 || weekNum === 3)) {
