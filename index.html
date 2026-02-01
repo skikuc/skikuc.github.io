@@ -331,7 +331,7 @@
 
     <div id="daily" class="section active">
         <div class="sub-group bg-blue">
-            <div class="subgroup-title">👨 自分：50代の健康戦略</div>
+            <div class="subgroup-title">👨 50代健康戦略</div>
             <div class="health-priority-header">⚠️ 優先順位 (タップで理由)</div>
             
             <div class="checklist-item health-item" data-reason="糖尿病・認知症・癌リスクに直結。血管老化を防ぐ最優先事項。" data-awareness="ベジファースト（野菜から）、糖質の過剰摂取防止。">
@@ -777,7 +777,11 @@
                 globalFilterContainer.classList.add('active'); // Show the bar
             }
             
-            // --- Create and add "All" button ---
+            // Map to store buttons before ordering {title: buttonElement}
+            const buttonsToOrder = new Map();
+            const processedGroupTitles = new Set(); // To keep track of titles already handled
+
+            // --- Create and store "すべて" button ---
             const allBtn = document.createElement('button');
             allBtn.className = 'filter-btn'; 
             allBtn.innerText = 'すべて';
@@ -786,35 +790,39 @@
                 globalFilterContainer.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
                 allBtn.classList.add('active');
             };
-            globalFilterContainer.appendChild(allBtn);
+            buttonsToOrder.set('すべて', allBtn);
 
-            // Special handling for "daily" section for combined "お出かけ・旅行計画" button
+            // Special handling for combined buttons
             if (sectionId === 'daily') {
-                const outingGroup = Array.from(subGroups).find(group => group.querySelector('.subgroup-title')?.innerText.includes('お出かけ'));
-                const travelGroup = Array.from(subGroups).find(group => group.querySelector('.subgroup-title')?.innerText.includes('旅行計画'));
+                const outingGroup = subGroups.find(group => group.querySelector('.subgroup-title')?.innerText.includes('お出かけ'));
+                const travelGroup = subGroups.find(group => group.querySelector('.subgroup-title')?.innerText.includes('旅行計画'));
 
                 if (outingGroup && travelGroup) {
+                    const combinedBtnText = '🚗✈️ お出かけ・旅行計画';
                     const combinedBtn = document.createElement('button');
                     combinedBtn.className = 'filter-btn';
-                    combinedBtn.innerText = '🚗✈️ お出かけ・旅行計画'; // Combined title
+                    combinedBtn.innerText = combinedBtnText;
                     combinedBtn.onclick = (e) => {
                         e.stopPropagation();
-                        subGroups.forEach(sg => sg.style.display = 'none'); // Hide all
-                        outingGroup.style.display = 'block'; // Show outing
-                        travelGroup.style.display = 'block'; // Show travel
+                        subGroups.forEach(sg => sg.style.display = 'none');
+                        outingGroup.style.display = 'block';
+                        travelGroup.style.display = 'block';
                         globalFilterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                         combinedBtn.classList.add('active');
                     };
-                    globalFilterContainer.appendChild(combinedBtn);
+                    buttonsToOrder.set(combinedBtnText, combinedBtn);
+                    processedGroupTitles.add(outingGroup.querySelector('.subgroup-title').innerText);
+                    processedGroupTitles.add(travelGroup.querySelector('.subgroup-title').innerText);
                 }
-            } else if (sectionId === 'holiday') { // New logic for holiday section
-                const seiriGroup = Array.from(subGroups).find(group => group.querySelector('.subgroup-title')?.innerText.includes('整理') && !group.querySelector('.subgroup-title')?.innerText.includes('整理方法')); // Target "整理" specifically
-                const seiriMethodGroup = Array.from(subGroups).find(group => group.querySelector('.subgroup-title')?.innerText.includes('整理方法'));
+            } else if (sectionId === 'holiday') { // Logic for holiday section combined "整理・整理方法" button
+                const seiriGroup = subGroups.find(group => group.querySelector('.subgroup-title')?.innerText.includes('整理') && !group.querySelector('.subgroup-title')?.innerText.includes('整理方法')); // Target "整理" specifically
+                const seiriMethodGroup = subGroups.find(group => group.querySelector('.subgroup-title')?.innerText.includes('整理方法'));
 
                 if (seiriGroup && seiriMethodGroup) {
+                    const combinedBtnText = '🧹💡 整理・整理方法';
                     const combinedBtn = document.createElement('button');
                     combinedBtn.className = 'filter-btn';
-                    combinedBtn.innerText = '🧹💡 整理・整理方法'; // Combined title
+                    combinedBtn.innerText = combinedBtnText;
                     combinedBtn.onclick = (e) => {
                         e.stopPropagation();
                         subGroups.forEach(sg => sg.style.display = 'none'); // Hide all
@@ -823,23 +831,16 @@
                         globalFilterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                         combinedBtn.classList.add('active');
                     };
-                    globalFilterContainer.appendChild(combinedBtn);
+                    buttonsToOrder.set(combinedBtnText, combinedBtn);
+                    processedGroupTitles.add(seiriGroup.querySelector('.subgroup-title').innerText);
+                    processedGroupTitles.add(seiriMethodGroup.querySelector('.subgroup-title').innerText);
                 }
             }
 
-            // --- Create individual buttons for each subgroup (excluding combined ones if applicable) ---
+            // --- Create individual buttons for each subgroup (excluding processed ones) ---
             subGroups.forEach((group) => {
                 const titleEl = group.querySelector('.subgroup-title');
-                // Skip if this group is part of the combined button in 'daily' section
-                if (sectionId === 'daily' && titleEl && (titleEl.innerText.includes('お出かけ') || titleEl.innerText.includes('旅行計画'))) {
-                    return; // Skip creating individual buttons for these
-                }
-                // Skip if this group is part of the combined button in 'holiday' section
-                if (sectionId === 'holiday' && titleEl && (titleEl.innerText.includes('整理') || titleEl.innerText.includes('整理方法'))) {
-                    return; // Skip creating individual buttons for these
-                }
-
-                if (titleEl) {
+                if (titleEl && !processedGroupTitles.has(titleEl.innerText)) {
                     const btn = document.createElement('button');
                     btn.className = 'filter-btn';
                     btn.innerText = titleEl.innerText;
@@ -850,9 +851,73 @@
                         globalFilterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                         btn.classList.add('active');
                     };
-                    globalFilterContainer.appendChild(btn);
+                    buttonsToOrder.set(titleEl.innerText, btn);
                 }
             });
+
+            // Define desired order for buttons for each section
+            const desiredOrder = {
+                'daily': [
+                    'すべて',
+                    '👨 50代健康戦略', 
+                    '🔄 ルーティン',
+                    '💡 心がけ',
+                    '🚗✈️ お出かけ・旅行計画',
+                    '🧹 家事'
+                ],
+                'holiday': [
+                    'すべて',
+                    '🧹💡 整理・整理方法', // Combined button
+                    'やる事',
+                    '自分の準備',
+                    'カーシェア',
+                    'おでかけ荷物',
+                    '交通機関',
+                    '🍽️ 食事',
+                    '家事(午後)',
+                    '身だしなみ'
+                ],
+                'home': [
+                    'すべて',
+                    '自分の準備',
+                    '午前',
+                    '午後'
+                ],
+                'nursery': [
+                    'すべて',
+                    '🌅 登園：準備・対応',
+                    '📛 登園：保育園',
+                    '🌆 降園：お迎え・行き',
+                    '🏠 降園：帰宅後',
+                    '🚌 バス運行'
+                ],
+                'work': [
+                    'すべて',
+                    '出社準備'
+                ],
+                'family': [
+                    'すべて',
+                    '👧 子',
+                    '👶 育児情報',
+                    '🏥 通院時チェックリスト',
+                    '👩 妻',
+                    '👴👵 父母'
+                ]
+            };
+
+            const currentSectionOrder = desiredOrder[sectionId] || Array.from(buttonsToOrder.keys()); // Fallback to map keys order
+            
+            // Append buttons to globalFilterContainer in desired order
+            currentSectionOrder.forEach(title => {
+                const button = buttonsToOrder.get(title);
+                if (button) {
+                    globalFilterContainer.appendChild(button);
+                    buttonsToOrder.delete(title); // Remove from map once appended
+                }
+            });
+
+            // Append any remaining buttons that weren't in the desiredOrder (shouldn't happen if order is exhaustive)
+            buttonsToOrder.forEach(button => globalFilterContainer.appendChild(button));
         }
 
         function showSection(id, tabEl) {
