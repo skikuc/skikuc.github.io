@@ -135,6 +135,19 @@
         .modal-buttons { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
         .btn-cancel { width: 100%; padding: 15px; border-radius: 10px; border: none; background: #eee; font-weight: bold; font-size: 15px; }
         .btn-submit { width: 100%; padding: 18px; border-radius: 12px; border: none; background: #E91E63; color: white; font-weight: bold; font-size: 17px; cursor: pointer; }
+
+        #date-display { display: flex; align-items: baseline; justify-content: center; gap: 4px; margin-top: -10px; font-weight: 600; color: #666; }
+        #date-display .month, #date-display .day-unit, #date-display .weekday { font-size: 18px; }
+        #date-display .day { font-size: 32px; color: #007aff; font-weight: 800; }
+        #date-display .weekday { font-size: 24px; font-weight: 700; margin-left: 5px; }
+
+        #weather-display { display: flex; align-items: center; justify-content: center; gap: 12px; font-weight: 500; min-height: 42px; }
+        .weather-icon { font-size: 36px; }
+        .weather-details { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; font-size: 14px; }
+        .weather-details .temps { font-weight: bold; }
+        .weather-details .wind { font-size: 12px; color: #555; }
+        .temp-max { color: #ff3b30; }
+        .temp-min { color: #007aff; }
     </style>
 </head>
 <body>
@@ -144,6 +157,10 @@
         <button type="button" class="reload-btn" onclick="updateMessage()" title="名言を更新">🔄</button>
     </div>
     
+    <div id="date-weather-wrapper" style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 15px;">
+        <div id="date-display"></div>
+        <div id="weather-display"></div>
+    </div>
     <div id="random-message"></div>
 
     <div class="modal-overlay" id="aiModal">
@@ -706,11 +723,84 @@
             }
         }
 
-        window.onload = () => {
-            setupHealthTooltips();
-            const now = new Date();
-            const day = now.getDay();
+        async function fetchWeather(dayOfWeek) {
+            const weatherContainer = document.getElementById('weather-display');
+            if (!weatherContainer) return;
+            weatherContainer.innerHTML = '<span>Loading weather...</span>';
 
+            try {
+                // Mon, Tue, Thu are Koto. Others are Chiba.
+                const location = [1, 2, 4].includes(dayOfWeek) ? 'Koto,Tokyo' : 'Chiba';
+                const response = await fetch(`https://wttr.in/${location}?format=j1`);
+                if (!response.ok) throw new Error('Weather data not available');
+                
+                const data = await response.json();
+                const todayForecast = data.weather[0];
+                const weatherCode = parseInt(todayForecast.hourly[0].weatherCode);
+
+                let icon = '🤔';
+                if (weatherCode === 113) icon = '☀️'; // Sunny
+                else if (weatherCode === 116) icon = '🌤️'; // Partly cloudy
+                else if (weatherCode === 119) icon = '☁️'; // Cloudy
+                else if (weatherCode === 122) icon = '🌥️'; // Overcast
+                else if ([176, 293, 296, 299, 302, 305, 308, 353, 356, 359].includes(weatherCode)) icon = '🌧️'; // Rain
+                else if ([386, 389].includes(weatherCode)) icon = '⛈️'; // Thunderstorm
+                else if ([179, 182, 185, 227, 323, 326, 329, 332, 335, 338, 368, 371].includes(weatherCode)) icon = '❄️'; // Snow
+                else if ([143, 248, 260].includes(weatherCode)) icon = '🌫️'; // Fog
+
+                const maxTemp = todayForecast.maxtempC;
+                const minTemp = todayForecast.mintempC;
+
+                let maxWindKmph = 0;
+                todayForecast.hourly.forEach(hour => {
+                    if (parseInt(hour.windspeedKmph) > maxWindKmph) {
+                        maxWindKmph = parseInt(hour.windspeedKmph);
+                    }
+                });
+                const maxWindMs = (maxWindKmph / 3.6).toFixed(1);
+
+                weatherContainer.innerHTML = `
+                    <div class="weather-icon">${icon}</div>
+                    <div class="weather-details">
+                        <div class="temps">
+                            <span class="temp-max">${maxTemp}°</span> / <span class="temp-min">${minTemp}°</span>
+                        </div>
+                        <div class="wind">💨 ${maxWindMs} m/s</div>
+                    </div>
+                `;
+            } catch (error) {
+                weatherContainer.innerHTML = '<span style="font-size:12px;">天気情報取得失敗</span>';
+                console.error("Failed to fetch weather:", error);
+            }
+        }
+
+        window.onload = () => {
+            const now = new Date();
+            const dayOfWeek = now.getDay(); // 0=Sun, 1=Mon, etc.
+
+            setupHealthTooltips();
+            fetchWeather(dayOfWeek);
+            
+            // Date Display
+            const dateContainer = document.getElementById('date-display');
+            if (dateContainer) {
+                const month = now.getMonth() + 1;
+                const dayOfMonth = now.getDate();
+                const weekdayName = ['日', '月', '火', '水', '木', '金', '土'][dayOfWeek];
+                
+                let weekdayColor = '#333';
+                if (dayOfWeek === 6) weekdayColor = '#007aff'; // Saturday
+                if (dayOfWeek === 0) weekdayColor = '#ff3b30'; // Sunday
+
+                dateContainer.innerHTML = `
+                    <span class="month">${month}</span><span class="day-unit">月</span>
+                    <span class="day">${dayOfMonth}</span><span class="day-unit">日</span>
+                    <span class="weekday" style="color: ${weekdayColor};">${weekdayName}曜日</span>
+                `;
+            }
+
+            updateMessage();
+            
             const tabIds = {
                 daily: 'tab-daily',
                 holiday: 'tab-holiday',
@@ -721,13 +811,11 @@
             };
             
             let targets = [];
-            if (day === 1 || day === 2 || day === 4) {
+            if (dayOfWeek === 1 || dayOfWeek === 2 || dayOfWeek === 4) { // Mon, Tue, Thu
                 targets = ['daily', 'work', 'family'];
-            }
-            else if (day === 3 || day === 5) {
+            } else if (dayOfWeek === 3 || dayOfWeek === 5) { // Wed, Fri
                 targets = ['daily', 'home', 'nursery', 'family'];
-            }
-            else {
+            } else { // Sat, Sun
                 targets = ['daily', 'holiday', 'family'];
             }
 
@@ -736,26 +824,19 @@
                 if(el) el.classList.add('highlight');
             });
 
-            if (day === 5) {
-                const fri_futon = document.getElementById('fri-dynamic-item-futon');
-                if(fri_futon) fri_futon.style.display = 'flex';
-                const fri_cot = document.getElementById('fri-dynamic-item-cot');
-                if(fri_cot) fri_cot.style.display = 'flex';
-                const fri_shoes = document.getElementById('fri-dynamic-item-shoes');
-                if(fri_shoes) fri_shoes.style.display = 'flex';
-                const fri_hat = document.getElementById('fri-dynamic-item-hat');
-                if(fri_hat) fri_hat.style.display = 'flex';
-                const fri_jacket = document.getElementById('fri-dynamic-item-jacket');
-                if(fri_jacket) fri_jacket.style.display = 'flex';
+            if (dayOfWeek === 5) { // Friday
+                ['fri-dynamic-item-futon', 'fri-dynamic-item-cot', 'fri-dynamic-item-shoes', 'fri-dynamic-item-hat', 'fri-dynamic-item-jacket'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.style.display = 'flex';
+                });
             }
+
             const weekNum = Math.ceil(now.getDate() / 7);
-            if (day === 2 && (weekNum === 1 || weekNum === 3)) {
+            if (dayOfWeek === 2 && (weekNum === 1 || weekNum === 3)) { // 1st or 3rd Tuesday
                 const tue = document.getElementById('tue-dynamic-item');
                 if(tue) tue.style.display = 'flex';
             }
             
-            updateMessage();
-
             const lastTab = localStorage.getItem('lastTab') || 'daily';
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(t => { if(t.getAttribute('onclick').includes("'" + lastTab + "'")) showSection(lastTab, t); });
