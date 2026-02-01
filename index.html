@@ -300,7 +300,7 @@
         <div class="sub-group bg-green">
             <div class="subgroup-title">🔄 ルーティン</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d5"><span>🌤️ 天気確認</span></div><div class="btn-box"><button class="action-button wn-button" onclick="runShortcut('WeatherNews')" style="padding: 0; background: none; border: none; min-width: 0;"><img src="IMG/weathernewspng.png" alt="WeatherNews" style="height: 36px; vertical-align: middle;"></button><button class="action-button y-button" onclick="runShortcut('Y天気')" style="padding: 0; background: none; border: none; min-width: 0;"><img src="IMG/Ytenki.png" alt="Y天気" style="height: 36px; vertical-align: middle;"></button></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d6"><span>🧺 洗濯機を回す</span></div><button class="action-button wash-button" onclick="openLink('https://weathernews.jp/s/laundry/area/chiba/12101/')">お洗濯情報</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d6"><span>🧺 洗濯機を回す</span></div><button class="action-button wash-button" onclick="openLink('https://weathernews.jp/s/laundry/area/chiba/12101/')" style="padding: 0; background: none; border: none; min-width: 0;"><img src="IMG/sentaku.jpeg" alt="お洗濯情報" style="width: 36px; height: 36px; vertical-align: middle;"></button></div>
             
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d7"><span>📺 テレビ体操</span></div><div class="btn-box"><button class="action-button nhk-button" onclick="runShortcut('NHK one')" style="padding: 0; background: none; border: none; min-width: 0;"><img src="IMG/nhk.png" alt="NHK one" style="width: 36px; height: 36px; vertical-align: middle; border-radius: 8px;"></button><button class="action-button streaks-button" onclick="runShortcut('Streaks')" style="padding: 0; background: none; border: none; min-width: 0;"><img src="IMG/str.webp" alt="Streaks" style="width: 36px; height: 36px; vertical-align: middle;"></button></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d8"><span>✓ タスク</span></div><button class="action-button tick-button" onclick="runShortcut('ticktick')" style="padding: 0; background: none; border: none; min-width: 0;"><img src="https://img.icons8.com/color/512/tick-tick.png" alt="TickTick" style="width: 36px; height: 36px; vertical-align: middle; border-radius: 8px;"></button></div>
@@ -309,7 +309,7 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_eos"><span>📷 EOS R8</span></div><button class="action-button canon-button" onclick="runShortcut('Camera Connect')" style="padding: 0; background: none; border: none; min-width: 0;"><img src="IMG/cc.webp" alt="Camera Connect" style="width: 36px; height: 36px; vertical-align: middle;"></button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_diary"><span>📔 日記</span></div><button class="action-button journal-button" onclick="runShortcut('ジャーナル')" style="padding: 0; background: none; border: none; min-width: 0;"><img src="IMG/j.png" alt="Journal" style="width: 36px; height: 36px; vertical-align: middle;"></button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_obsidian"><span>✍️ Obsidian</span></div><div class="btn-box"><button class="action-button obsidian-button" onclick="runShortcut('Capture to Daily Note')">Daily Note</button><button class="action-button obsidian-button" onclick="runShortcut('Obsidian')" style="padding: 0; background: none; border: none; min-width: 0;"><img src="IMG/unnamed.webp" alt="Obsidian" style="width: 36px; height: 36px; vertical-align: middle;"></button></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_photos"><span>📱 iPhone写真/動画バックアップ</span></div><button class="action-button photos-button" onclick="runShortcut('photos mobile')">Photos</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_photos"><span>📱 iPhone写真/動画バックアップ</span></div><button class="action-button photos-button" onclick="runShortcut('photos mobile')" style="padding: 0; background: none; border: none; min-width: 0;"><img src="IMG/pht.png" alt="Photos" style="width: 36px; height: 36px; vertical-align: middle;"></button></div>
         </div>
         
         <div class="sub-group bg-brown">
@@ -444,6 +444,24 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_org_clothes"><span>👕 洋服の整理</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_org_desk"><span>🖥️ PCの机の上の整理</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_org_bulky_waste"><span>🗑️ 粗大ごみ手続き</span></div></div>
+        </div>
+        <div class="sub-group bg-gray">
+            <div class="subgroup-title">💡 整理方法 (タップで詳細)</div>
+            <div class="checklist-item health-item" data-reason="目的は「不要物を除く」ことです。" data-awareness="手順（机1台・15分目安）：ゴミ袋を用意し、明らかなゴミを即捨て。机の上の物を全部どけて、4分類（毎日使う/時々使う/別の部屋/捨て・保留）の仮置きを作る。「保留」は箱にまとめて期限を決めて再判定。">
+                <div class="checklist-main"><input type="checkbox" id="ho_org_seiri"><span>1. 整理 (Seiri：要る/要らない)</span></div>
+            </div>
+            <div class="checklist-item health-item" data-reason="目的は「必要品を使いやすい配置にする」ことです。" data-awareness="机向けの決め方（10〜20分）：“毎日使う物だけ”を机上に戻す。置き場所・置き方をルール化（よく使う物ほど手前/利き手側）。小物は「1トレー/1ポーチ」に集約。">
+                <div class="checklist-main"><input type="checkbox" id="ho_org_seiton"><span>2. 整頓 (Seiton：定位置・取りやすさ)</span></div>
+            </div>
+            <div class="checklist-item health-item" data-reason="目的は「きれいにして、異常にも気づける状態にする」ことです。" data-awareness="天板→キーボード周辺→モニター下の順に拭く（物を戻す前が最速）。汚れが出る場所＝散らかる原因になりやすい場所なので、次の配置改善のヒントにする。">
+                <div class="checklist-main"><input type="checkbox" id="ho_org_seiso"><span>3. 清掃 (Seiso：掃除＋点検)</span></div>
+            </div>
+            <div class="checklist-item health-item" data-reason="目的は、整理〜清掃を「いつでも再現できる形」にすることです。" data-awareness="“完成形”の写真を1枚撮って、机の基準にする。ラベル・定位置を決め、誰が見ても戻せる状態にする。">
+                <div class="checklist-main"><input type="checkbox" id="ho_org_seiketsu"><span>4. 清潔 (Seiketsu：標準化)</span></div>
+            </div>
+            <div class="checklist-item health-item" data-reason="目的は、決めた基準を守る行動を習慣にすることです。" data-awareness="1日1回、終業時に「机上＝入力機器＋トレー1個」まで戻す運用にする。週1回の簡易チェック（5分）で、基準からズレた物だけ戻すようにする。">
+                <div class="checklist-main"><input type="checkbox" id="ho_org_shitsuke"><span>5. しつけ (Shitsuke：習慣化)</span></div>
+            </div>
         </div>
         <div class="sub-group bg-purple" style="display: none;">
             <div class="subgroup-title">✨ AIおでかけ計画</div>
