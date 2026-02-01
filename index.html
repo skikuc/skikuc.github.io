@@ -42,7 +42,16 @@
             background: #fff; margin: 5px; padding: 14px; border-radius: 10px; font-size: 13px; color: #444; font-weight: 500; 
             border-left: 6px solid #007aff; box-shadow: 0 2px 4px rgba(0,0,0,0.08); margin-bottom: 18px; 
             min-height: 40px; display: flex; align-items: center; 
-            white-space: nowrap; overflow-x: auto; line-height: 1.5; transition: opacity 0.2s; 
+            white-space: nowrap; overflow: hidden; line-height: 1.5; transition: opacity 0.2s;
+        }
+        #random-message .scroll-text {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 15s linear infinite;
+        }
+        @keyframes marquee {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
         }
 
         .section { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: none; margin-bottom: 20px;}
@@ -164,6 +173,7 @@
     <div id="date-weather-wrapper" style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 15px;">
         <div id="date-display"></div>
         <div id="weather-display"></div>
+        <div id="workday-display" style="display: none; font-size: 16px; font-weight: bold; color: #fff; background-color: #f39c12; padding: 4px 8px; border-radius: 6px;">出社日</div>
         <button type="button" class="reload-btn" onclick="updateMessage()" title="名言を更新">🔄</button>
     </div>
     <div id="random-message"></div>
@@ -614,6 +624,21 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_info_nhk_learning"><span>NHKラーニング</span></div><button class="action-button nhk-button" onclick="openLink('https://www.web.nhk/tv/an/nlearning/pl/series-tep-61485925G6/list?tep=WX7WG5X11V')">NHK</button></div>
             </div>
 
+            <div class="sub-group bg-blue">
+                <div class="subgroup-title">🏥 通院時チェックリスト</div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_mynumber_child"><span>子マイナンバー</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_mynumber_pin"><span>マイナンバー暗証番号</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_benefit_ticket"><span>受給券</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_temperature"><span>検温</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_diaper_set"><span>おむつセット</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_mask"><span>マスク</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_tissues"><span>ティッシュ</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_disinfecting_wipes"><span>除菌シート</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_water_bottle"><span>水筒</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_toys_tablet"><span>おもちゃ・タブレット</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_change_clothes"><span>着替え</span></div></div>
+            </div>
+
             <div class="sub-group bg-purple">
                 <div class="subgroup-title">👩 妻</div>
                 <div class="category-header">🏥 健康</div>
@@ -659,7 +684,9 @@
             const msgEl = document.getElementById('random-message');
             msgEl.style.opacity = 0;
             setTimeout(() => {
-                msgEl.innerText = messages[Math.floor(Math.random() * messages.length)];
+                const text = messages[Math.floor(Math.random() * messages.length)];
+                // Wrap in span for scrolling animation
+                msgEl.innerHTML = `<span class="scroll-text">${text}</span>`;
                 msgEl.style.opacity = 1;
             }, 200);
         }
@@ -786,6 +813,14 @@
             setupHealthTooltips();
             fetchWeather(dayOfWeek);
             
+            // Show "出社日" on Mon/Tue
+            if (dayOfWeek === 1 || dayOfWeek === 2) {
+                const workdayEl = document.getElementById('workday-display');
+                if (workdayEl) {
+                    workdayEl.style.display = 'block';
+                }
+            }
+
             // Date Display
             const dateContainer = document.getElementById('date-display');
             if (dateContainer) {
