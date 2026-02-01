@@ -162,6 +162,9 @@
         .weather-details .wind { font-size: 12px; color: #555; }
         .temp-max { color: #ff3b30; }
         .temp-min { color: #007aff; }
+        .filter-bar-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        .filter-btn { padding: 6px 12px; border: 1px solid #007aff; background: #fff; color: #007aff; border-radius: 16px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .filter-btn.active { background: #007aff; color: #fff; }
     </style>
 </head>
 <body>
@@ -302,6 +305,7 @@
     </div>
 
     <div id="daily" class="section active">
+        <div class="filter-bar-container"></div>
         <div class="sub-group bg-blue">
             <div class="subgroup-title">👨 自分：50代の健康戦略</div>
             <div class="health-priority-header">⚠️ 優先順位 (タップで理由)</div>
@@ -368,6 +372,7 @@
     </div>
 
     <div id="home" class="section">
+        <div class="filter-bar-container"></div>
         <div class="sub-group bg-blue">
             <div class="subgroup-title">自分の準備</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="h_prep_change"><span>👕 着替え</span></div></div>
@@ -399,6 +404,7 @@
     </div>
 
     <div id="nursery" class="section">
+        <div class="filter-bar-container"></div>
         <button class="reset-button qr-button" onclick="runShortcut('登降園QR')">📱 登降園QRを表示</button>
 
         <div class="sub-group bg-green">
@@ -464,6 +470,7 @@
     </div>
 
     <div id="holiday" class="section">
+        <div class="filter-bar-container"></div>
         <div class="sub-group bg-gray">
             <div class="subgroup-title">やる事</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_wash"><span>🧺 洗濯機を回す</span></div></div>
@@ -562,6 +569,7 @@
     </div>
 
     <div id="work" class="section">
+        <div class="filter-bar-container"></div>
         <div class="sub-group bg-blue">
             <div class="subgroup-title">出社準備</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="w1"><span>🪒 髭剃り</span></div></div>
@@ -577,6 +585,7 @@
     </div>
     
     <div id="family" class="section">
+        <div class="filter-bar-container"></div>
         <div class="sub-group bg-blue">
             <div class="subgroup-title">👨‍👩‍👧 家族</div>
 
@@ -736,12 +745,71 @@
         function runShortcut(name) { window.location.href = 'shortcuts://run-shortcut?name=' + encodeURIComponent(name); }
         function openLink(url) { window.open(url, '_blank'); }
 
+        function generateFilterBar(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (!section) return;
+
+            const filterContainer = section.querySelector('.filter-bar-container');
+            const subGroups = Array.from(section.querySelectorAll('.sub-group'));
+            
+            if (filterContainer) {
+                filterContainer.innerHTML = '';
+            } else {
+                return;
+            }
+
+            if (subGroups.length <= 1) return;
+
+            const allBtn = document.createElement('button');
+            allBtn.className = 'filter-btn'; // Not active by default
+            allBtn.innerText = 'すべて';
+            allBtn.onclick = () => {
+                subGroups.forEach(sg => sg.style.display = 'block');
+                filterContainer.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                allBtn.classList.add('active');
+            };
+            filterContainer.appendChild(allBtn);
+
+            subGroups.forEach((group) => {
+                const titleEl = group.querySelector('.subgroup-title');
+                if (titleEl) {
+                    const btn = document.createElement('button');
+                    btn.className = 'filter-btn';
+                    btn.innerText = titleEl.innerText;
+                    btn.onclick = (e) => {
+                        e.stopPropagation();
+                        subGroups.forEach(sg => sg.style.display = 'none');
+                        group.style.display = 'block';
+                        filterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                    };
+                    filterContainer.appendChild(btn);
+                }
+            });
+        }
+
         function showSection(id, tabEl) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+            
+            const section = document.getElementById(id);
+            section.classList.add('active');
             tabEl.classList.add('active');
             localStorage.setItem('lastTab', id);
+
+            generateFilterBar(id);
+            
+            const subGroups = section.querySelectorAll('.sub-group');
+            if (subGroups.length > 0) {
+                subGroups.forEach(sg => sg.style.display = 'none');
+                subGroups[0].style.display = 'block';
+
+                const filterBtns = section.querySelectorAll('.filter-bar-container .filter-btn');
+                if (filterBtns.length > 1) {
+                     filterBtns.forEach(btn => btn.classList.remove('active'));
+                     filterBtns[1].classList.add('active');
+                }
+            }
         }
 
         function toggleDoneStyle(cb) {
