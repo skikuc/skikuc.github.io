@@ -6,7 +6,7 @@
     <title>Routine：CheckList</title>
     <style>
         /* body下部にタブ分の余白を確保 */
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 220px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 100%; margin: 0; padding: 8px; background: #f0f4f8; color: #333; padding-bottom: 140px; }
         
         /* ヘッダーエリア */
         .app-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 15px 0; position: relative; }
@@ -137,7 +137,6 @@
         /* リセットボタン等の大型ボタン */
         .reset-button { width: 100%; padding: 20px; background: #34c759; color: white; border: none; border-radius: 12px; font-size: 20px; margin-top: 10px; font-weight: bold; cursor: pointer; }
         .qr-button { background: #5856D6; margin-bottom: 20px; margin-top: 0; }
-        .reset-button { display: none; }
 
         /* モーダル共通 */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
@@ -163,33 +162,6 @@
         .weather-details .wind { font-size: 12px; color: #555; }
         .temp-max { color: #ff3b30; }
         .temp-min { color: #007aff; }
-        /* Global filter bar styles */
-        #global-filter-bar {
-            display: flex; flex-wrap: wrap; gap: 8px;
-            position: fixed;
-            bottom: 80px; /* Adjust based on tab-container height */
-            left: 0; right: 0;
-            background: rgba(242, 242, 247, 0.96); /* Match tab-container background */
-            padding: 12px 5px; /* Match tab-container padding */
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.08); /* Match tab-container shadow */
-            z-index: 899; /* Below tab-container */
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(0,0,0,0.05);
-            justify-content: center; /* Center the buttons */
-            overflow-x: auto; /* Allow scrolling if many buttons */
-            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-            transition: transform 0.3s ease-out, opacity 0.3s ease-out; /* Smooth transitions */
-            transform: translateY(100%); /* Start off-screen */
-            opacity: 0;
-            pointer-events: none; /* Disable interaction when hidden */
-        }
-        #global-filter-bar.active {
-            transform: translateY(0); /* Slide in */
-            opacity: 1;
-            pointer-events: auto; /* Enable interaction when active */
-        }
-        .filter-btn { padding: 6px 12px; border: 1px solid #007aff; background: #fff; color: #007aff; border-radius: 16px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
-        .filter-btn.active { background: #007aff; color: #fff; }
     </style>
 </head>
 <body>
@@ -331,7 +303,7 @@
 
     <div id="daily" class="section active">
         <div class="sub-group bg-blue">
-            <div class="subgroup-title">👨 50代健康戦略</div>
+            <div class="subgroup-title">👨 自分：50代の健康戦略</div>
             <div class="health-priority-header">⚠️ 優先順位 (タップで理由)</div>
             
             <div class="checklist-item health-item" data-reason="糖尿病・認知症・癌リスクに直結。血管老化を防ぐ最優先事項。" data-awareness="ベジファースト（野菜から）、糖質の過剰摂取防止。">
@@ -372,7 +344,15 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_photos"><span>📱 iPhone写真/動画バックアップ</span></div><button class="action-button photos-button" onclick="runShortcut('photos mobile')" style="padding: 0; background: none; border: none; min-width: 0;"><img src="IMG/pht.png" alt="Photos" style="width: 36px; height: 36px; vertical-align: middle;"></button></div>
         </div>
         
-
+        <div class="sub-group bg-brown">
+            <div class="subgroup-title">🧹 家事</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_towel"><span>🧴 洗面所のタオル交換</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d10"><span>🪟 窓の結露拭き</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d12"><span>🛁 お風呂洗い確認</span></div><button class="action-button bath-button" onclick="runShortcut('お風呂掃除済み')">LINE連絡</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d13"><span>💧 加湿器の水</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d14"><span>🗑️ ゴミ捨て</span></div></div>
+            <div class="checklist-item dynamic-item" id="tue-dynamic-item" style="display:none;"><div class="checklist-main"><input type="checkbox" id="d_tue"><span>📦 ダンボール出し (第1・3火曜)</span></div></div>
+        </div>
 
         <div class="sub-group bg-orange">
             <div class="subgroup-title">🚗 お出かけ</div>
@@ -484,15 +464,6 @@
     </div>
 
     <div id="holiday" class="section">
-        <div class="sub-group bg-brown">
-            <div class="subgroup-title">🧹 家事</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_towel"><span>🧴 洗面所のタオル交換</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_window_condensation"><span>🪟 窓の結露拭き</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_bath_cleaning"><span>🛁 お風呂洗い確認</span></div><button class="action-button bath-button" onclick="runShortcut('お風呂掃除済み')">LINE連絡</button></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_humidifier_water"><span>💧 加湿器の水</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_garbage"><span>🗑️ ゴミ捨て</span></div></div>
-            <div class="checklist-item dynamic-item" id="ho_tue-dynamic-item" style="display:none;"><div class="checklist-main"><input type="checkbox" id="ho_tue_cardboard"><span>📦 ダンボール出し (第1・3火曜)</span></div></div>
-        </div>
         <div class="sub-group bg-gray">
             <div class="subgroup-title">やる事</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_wash"><span>🧺 洗濯機を回す</span></div></div>
@@ -524,7 +495,14 @@
                 <div class="checklist-main"><input type="checkbox" id="ho_org_shitsuke"><span>5. しつけ (Shitsuke：習慣化)</span></div>
             </div>
         </div>
-
+        <div class="sub-group bg-purple" style="display: none;">
+            <div class="subgroup-title">✨ AIおでかけ計画</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho0"><span>✨ AIおでかけプラン提案</span></div><button class="action-button pdf-button" onclick="openModal('aiModal')">AI実行</button></div>
+        </div>
+        <div class="sub-group bg-orange" style="display: none;">
+            <div class="subgroup-title">✈️ AI旅行計画</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_travel"><span>✈️ AI旅行プラン・日程提案</span></div><button class="action-button travel-button" onclick="openModal('travelModal')">旅行計画</button></div>
+        </div>
         <div class="sub-group bg-blue">
             <div class="subgroup-title">自分の準備</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho1"><span>👕 着替え</span></div></div>
@@ -555,7 +533,11 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho20"><span>👕 着替え</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho21"><span>🧼 ハンカチ</span></div></div>
         </div>
-
+        <div class="sub-group bg-green">
+            <div class="subgroup-title">交通機関</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho22"><span>🚌 バス</span></div><div class="btn-box"><button class="action-button sp-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/19time_baytown.pdf')">SP</button><button class="action-button marine-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/baytown00_3.pdf')">マリン</button></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho23"><span>🚃 電車：海浜幕張駅</span></div><button class="action-button train-button" onclick="openLink('https://transit.yahoo.co.jp/timetable/22226/950')">時刻表</button></div>
+        </div>
         <div class="sub-group bg-brown">
             <div class="subgroup-title">🍽️ 食事</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_okano"><span>☕️ cafe okano</span></div><button class="action-button okano-button" onclick="openLink('https://x.com/cafeokano?s=21&t=EjJBVaQXUmSoBZe-IjkvnA')">X</button></div>
@@ -595,85 +577,80 @@
     </div>
     
     <div id="family" class="section">
-        <div class="sub-group bg-green">
-            <div class="subgroup-title">👧 子</div>
-            <div class="checklist-item health-item" data-reason="安全基地としての親の存在確認" data-awareness="スキンシップを意識的に増やす。子どもの感情を受け入れ、その背景を理解する。">
-                <div class="checklist-main"><input type="checkbox" id="child_health_1"><span>🤗 心理的安定性</span></div>
+        <div class="sub-group bg-blue">
+            <div class="subgroup-title">👨‍👩‍👧 家族</div>
+
+            <div class="sub-group bg-green" style="margin-top: 15px;">
+                <div class="subgroup-title">👧 子</div>
+                <div class="checklist-item health-item" data-reason="安全基地としての親の存在確認" data-awareness="スキンシップを意識的に増やす。子どもの感情を受け入れ、その背景を理解する。">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_1"><span>🤗 心理的安定性</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="夜の就寝時刻の固定" data-awareness="就寝ルーティン（入浴→絵本→消灯）を固定し、休日も大きく崩さない。">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_2"><span>😴 睡眠リズム</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="主食・主菜・副菜の型を作る" data-awareness="まずは「朝：タンパク質」「夜：野菜＋汁物」を固定して迷いを減らす。">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_3"><span>🥗 栄養管理</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="“量”より”頻度”を減らす" data-awareness="おやつの時間を固定（ダラダラ食べを避ける）。甘い飲み物は日常化させず基本は水・お茶に寄せる。糖が口内に残る時間を短くする考え方 solasto-career">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_5"><span>🍬 甘いもの管理</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="よく噛む習慣で顎・歯列の土台を作る" data-awareness="「流し込み食べ」を減らす（ひと口ごとに飲み物を挟まない）。噛みごたえのある食材（根菜、きのこ、厚め肉、海藻など）を”無理なく”増やす。口腔機能の観点（咀嚼の獲得）">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_6"><span>🦷 噛む力（咀嚼）</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="唇を閉じて噛む/口呼吸のサインを拾う" data-awareness="食事中に口が開きがちなら「お口チャックでモグモグ」と短く促す。口腔周囲筋や口唇閉鎖の課題がある場合は支援対象になり得る">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_7"><span>👄 口の使い方</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="片側噛み（偏咀嚼）を減らす" data-awareness="左右どちらで噛んでいるか観察し、気づいたら声かけで反対側も使う練習。偏咀嚼の確認は評価項目として挙げられている">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_8"><span>↔️ 噛み方の偏り</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="口腔機能の遅れを早めに見極める" data-awareness="「噛めない」「丸呑み」「むせやすい」「発音が気になる」「口がいつも開いている」などが続く場合、歯科（小児歯科）で相談。口腔機能発達不全症は早期の評価・介入が重要という考え方">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_9"><span>🩺 受診・相談の目安</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="全身を使う遊びの“毎週の型”" data-awareness="公園遊び・散歩・鬼ごっこ・ボールなど、週の中で固定枠を作る（平日短め＋休日長め）。">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_10"><span>🏃‍♀️ 運動習慣</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="友達トラブルを”学び”に変える" data-awareness="まず気持ちを受け止めてから「次どうする？」と一緒に考える（裁くより再発防止の作戦会議）。">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_11"><span>🤝 社会性</span></div>
+                </div>
+                <div class="checklist-item health-item" data-reason="ワークより言語・好奇心" data-awareness="絵本の読み聞かせ＋「どう思う？」の会話を増やす。数・文字は生活の中（買い物、時計、カレンダー）で触れる。">
+                    <div class="checklist-main"><input type="checkbox" id="child_health_12"><span>📚 学習（就学前の土台）</span></div>
+                </div>
             </div>
-            <div class="checklist-item health-item" data-reason="夜の就寝時刻の固定" data-awareness="就寝ルーティン（入浴→絵本→消灯）を固定し、休日も大きく崩さない。">
-                <div class="checklist-main"><input type="checkbox" id="child_health_2"><span>😴 睡眠リズム</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="主食・主菜・副菜の型を作る" data-awareness="まずは「朝：タンパク質」「夜：野菜＋汁物」を固定して迷いを減らす。">
-                <div class="checklist-main"><input type="checkbox" id="child_health_3"><span>🥗 栄養管理</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="“量”より”頻度”を減らす" data-awareness="おやつの時間を固定（ダラダラ食べを避ける）。甘い飲み物は日常化させず基本は水・お茶に寄せる。糖が口内に残る時間を短くする考え方 solasto-career">
-                <div class="checklist-main"><input type="checkbox" id="child_health_5"><span>🍬 甘いもの管理</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="よく噛む習慣で顎・歯列の土台を作る" data-awareness="「流し込み食べ」を減らす（ひと口ごとに飲み物を挟まない）。噛みごたえのある食材（根菜、きのこ、厚め肉、海藻など）を”無理なく”増やす。口腔機能の観点（咀嚼の獲得）">
-                <div class="checklist-main"><input type="checkbox" id="child_health_6"><span>🦷 噛む力（咀嚼）</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="唇を閉じて噛む/口呼吸のサインを拾う" data-awareness="食事中に口が開きがちなら「お口チャックでモグモグ」と短く促す。口腔周囲筋や口唇閉鎖の課題がある場合は支援対象になり得る">
-                <div class="checklist-main"><input type="checkbox" id="child_health_7"><span>👄 口の使い方</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="片側噛み（偏咀嚼）を減らす" data-awareness="左右どちらで噛んでいるか観察し、気づいたら声かけで反対側も使う練習。偏咀嚼の確認は評価項目として挙げられている">
-                <div class="checklist-main"><input type="checkbox" id="child_health_8"><span>↔️ 噛み方の偏り</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="口腔機能の遅れを早めに見極める" data-awareness="「噛めない」「丸呑み」「むせやすい」「発音が気になる」「口がいつも開いている」などが続く場合、歯科（小児歯科）で相談。口腔機能発達不全症は早期の評価・介入が重要という考え方">
-                <div class="checklist-main"><input type="checkbox" id="child_health_9"><span>🩺 受診・相談の目安</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="全身を使う遊びの“毎週の型”" data-awareness="公園遊び・散歩・鬼ごっこ・ボールなど、週の中で固定枠を作る（平日短め＋休日長め）。">
-                <div class="checklist-main"><input type="checkbox" id="child_health_10"><span>🏃‍♀️ 運動習慣</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="友達トラブルを”学び”に変える" data-awareness="まず気持ちを受け止めてから「次どうする？」と一緒に考える（裁くより再発防止の作戦会議）。">
-                <div class="checklist-main"><input type="checkbox" id="child_health_11"><span>🤝 社会性</span></div>
-            </div>
-            <div class="checklist-item health-item" data-reason="ワークより言語・好奇心" data-awareness="絵本の読み聞かせ＋「どう思う？」の会話を増やす。数・文字は生活の中（買い物、時計、カレンダー）で触れる。">
-                <div class="checklist-main"><input type="checkbox" id="child_health_12"><span>📚 学習（就学前の土台）</span></div>
-            </div>
-        </div>
-        <div class="sub-group bg-orange">
-            <div class="subgroup-title">👶 育児情報</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_info_sukusuku"><span>すくすく子育て</span></div><button class="action-button ikoyo-button" onclick="openLink('https://www.sukusuku.com/contents/theme/sukusuku')">Link</button></div>
+
+            <div class="sub-group bg-orange">
+                <div class="category-header">👶 育児情報</div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_info_sukusuku"><span>すくすく子育て</span></div><button class="action-button ikoyo-button" onclick="openLink('https://www.sukusuku.com/contents/theme/sukusuku')">Link</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_info_hello"><span>ハローちびっこモンスター</span></div><button class="action-button nhk-button" onclick="openLink('https://www.web.nhk/tv/pl/series-tep-QJG2G3956Y')">NHK</button></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_info_nhk_learning"><span>NHKラーニング</span></div><button class="action-button nhk-button" onclick="openLink('https://www.web.nhk/tv/an/nlearning/pl/series-tep-61485925G6/list?tep=WX7WG5X11V')">NHK</button></div>
-        </div>
-        <div class="sub-group bg-blue">
-            <div class="subgroup-title">🏥 通院時チェックリスト</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_mynumber_child"><span>子マイナンバー</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_mynumber_pin"><span>マイナンバー暗証番号</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_benefit_ticket"><span>受給券</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_temperature"><span>検温</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_diaper_set"><span>おむつセット</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_mask"><span>マスク</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_tissues"><span>ティッシュ</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_disinfecting_wipes"><span>除菌シート</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_water_bottle"><span>水筒</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_toys_tablet"><span>おもちゃ・タブレット</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_change_clothes"><span>着替え</span></div></div>
-        </div>
-        <div class="sub-group bg-purple">
-            <div class="subgroup-title">👩 妻</div>
-            <div class="category-header">🏥 健康</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_wi_health"><span>🛀 リラックス</span></div></div>
-        </div>
-        <div class="sub-group bg-gray">
-            <div class="subgroup-title">👴👵 父母</div>
-            <div class="category-header">🏥 健康</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_pa_health"><span>📞 体調確認</span></div></div>
-        </div>
-        <div class="sub-group bg-green">
-            <div class="subgroup-title">交通機関</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_ho22"><span>🚌 バス</span></div><div class="btn-box"><button class="action-button sp-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/19time_baytown.pdf')">SP</button><button class="action-button marine-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/baytown00_3.pdf')">マリン</button></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_ho23"><span>🚃 電車：海浜幕張駅</span></div><button class="action-button train-button" onclick="openLink('https://transit.yahoo.co.jp/timetable/22226/950')">時刻表</button></div>
-        </div>
-        <div class="sub-group bg-green">
-            <div class="subgroup-title">交通機関</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_ho22"><span>🚌 バス</span></div><div class="btn-box"><button class="action-button sp-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/19time_baytown.pdf')">SP</button><button class="action-button marine-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/baytown00_3.pdf')">マリン</button></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_ho23"><span>🚃 電車：海浜幕張駅</span></div><button class="action-button train-button" onclick="openLink('https://transit.yahoo.co.jp/timetable/22226/950')">時刻表</button></div>
+            </div>
+
+            <div class="sub-group bg-blue">
+                <div class="subgroup-title">🏥 通院時チェックリスト</div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_mynumber_child"><span>子マイナンバー</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_mynumber_pin"><span>マイナンバー暗証番号</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_benefit_ticket"><span>受給券</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_temperature"><span>検温</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_diaper_set"><span>おむつセット</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_mask"><span>マスク</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_tissues"><span>ティッシュ</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_disinfecting_wipes"><span>除菌シート</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_water_bottle"><span>水筒</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_toys_tablet"><span>おもちゃ・タブレット</span></div></div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_hospital_change_clothes"><span>着替え</span></div></div>
+            </div>
+
+            <div class="sub-group bg-purple">
+                <div class="subgroup-title">👩 妻</div>
+                <div class="category-header">🏥 健康</div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_wi_health"><span>🛀 リラックス</span></div></div>
+            </div>
+            <div class="sub-group bg-gray">
+                <div class="subgroup-title">👴👵 父母</div>
+                <div class="category-header">🏥 健康</div>
+                <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_pa_health"><span>📞 体調確認</span></div></div>
+            </div>
         </div>
     </div>
-
-    <div id="global-filter-bar" class="filter-bar-container"></div>
 
     <button class="reset-button" onclick="allReset()">全チェックリセット</button>
 
@@ -759,217 +736,12 @@
         function runShortcut(name) { window.location.href = 'shortcuts://run-shortcut?name=' + encodeURIComponent(name); }
         function openLink(url) { window.open(url, '_blank'); }
 
-        function generateFilterBar(sectionId) {
-            const section = document.getElementById(sectionId);
-            if (!section) return;
-
-            const globalFilterContainer = document.getElementById('global-filter-bar');
-            if (!globalFilterContainer) return;
-            globalFilterContainer.innerHTML = ''; // Clear previous buttons
-
-            const subGroups = Array.from(section.querySelectorAll('.sub-group'));
-            
-            // Only show filter bar if there are multiple subgroups
-            if (subGroups.length <= 1) {
-                globalFilterContainer.classList.remove('active'); // Hide the bar
-                return;
-            } else {
-                globalFilterContainer.classList.add('active'); // Show the bar
-            }
-            
-            // Map to store buttons before ordering {title: buttonElement}
-            const buttonsToOrder = new Map();
-            const processedGroupTitles = new Set(); // To keep track of titles already handled
-
-            // --- Create and store "すべて" button ---
-            const allBtn = document.createElement('button');
-            allBtn.className = 'filter-btn'; 
-            allBtn.innerText = 'すべて';
-            allBtn.onclick = () => {
-                subGroups.forEach(sg => sg.style.display = 'block');
-                globalFilterContainer.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-                allBtn.classList.add('active');
-            };
-            buttonsToOrder.set('すべて', allBtn);
-
-            // Special handling for combined buttons
-            if (sectionId === 'daily') {
-                const outingGroup = subGroups.find(group => group.querySelector('.subgroup-title')?.innerText.includes('お出かけ'));
-                const travelGroup = subGroups.find(group => group.querySelector('.subgroup-title')?.innerText.includes('旅行計画'));
-
-                if (outingGroup && travelGroup) {
-                    const combinedBtnText = '🚗✈️ お出かけ・旅行計画';
-                    const combinedBtn = document.createElement('button');
-                    combinedBtn.className = 'filter-btn';
-                    combinedBtn.innerText = combinedBtnText;
-                    combinedBtn.onclick = (e) => {
-                        e.stopPropagation();
-                        subGroups.forEach(sg => sg.style.display = 'none');
-                        outingGroup.style.display = 'block';
-                        travelGroup.style.display = 'block';
-                        globalFilterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                        combinedBtn.classList.add('active');
-                    };
-                    buttonsToOrder.set(combinedBtnText, combinedBtn);
-                    processedGroupTitles.add(outingGroup.querySelector('.subgroup-title').innerText);
-                    processedGroupTitles.add(travelGroup.querySelector('.subgroup-title').innerText);
-                }
-            } else if (sectionId === 'holiday') { // Logic for holiday section combined "整理・整理方法" button
-                const seiriGroup = subGroups.find(group => group.querySelector('.subgroup-title')?.innerText.includes('整理') && !group.querySelector('.subgroup-title')?.innerText.includes('整理方法')); // Target "整理" specifically
-                const seiriMethodGroup = subGroups.find(group => group.querySelector('.subgroup-title')?.innerText.includes('整理方法'));
-
-                if (seiriGroup && seiriMethodGroup) {
-                    const combinedBtnText = '🧹💡 整理・整理方法';
-                    const combinedBtn = document.createElement('button');
-                    combinedBtn.className = 'filter-btn';
-                    combinedBtn.innerText = combinedBtnText;
-                    combinedBtn.onclick = (e) => {
-                        e.stopPropagation();
-                        subGroups.forEach(sg => sg.style.display = 'none'); // Hide all
-                        seiriGroup.style.display = 'block'; // Show seiri
-                        seiriMethodGroup.style.display = 'block'; // Show seiri method
-                        globalFilterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                        combinedBtn.classList.add('active');
-                    };
-                    buttonsToOrder.set(combinedBtnText, combinedBtn);
-                    processedGroupTitles.add(seiriGroup.querySelector('.subgroup-title').innerText);
-                    processedGroupTitles.add(seiriMethodGroup.querySelector('.subgroup-title').innerText);
-                }
-            }
-
-            // --- Create individual buttons for each subgroup (excluding processed ones) ---
-            subGroups.forEach((group) => {
-                const titleEl = group.querySelector('.subgroup-title');
-                if (titleEl && !processedGroupTitles.has(titleEl.innerText)) {
-                    const btn = document.createElement('button');
-                    btn.className = 'filter-btn';
-                    btn.innerText = titleEl.innerText;
-                    btn.onclick = (e) => {
-                        e.stopPropagation();
-                        subGroups.forEach(sg => sg.style.display = 'none');
-                        group.style.display = 'block';
-                        globalFilterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                    };
-                    buttonsToOrder.set(titleEl.innerText, btn);
-                }
-            });
-
-            // Define desired order for buttons for each section
-            const desiredOrder = {
-                'daily': [
-                    'すべて',
-                    '👨 50代健康戦略', 
-                    '🔄 ルーティン',
-                    '💡 心がけ',
-                    '🚗✈️ お出かけ・旅行計画'
-                ],
-                'holiday': [
-                    'すべて',
-                    '🧹 家事', // Added
-                    '🧹💡 整理・整理方法', // Combined button
-                    'やる事',
-                    '自分の準備',
-                    'カーシェア',
-                    'おでかけ荷物',
-                    '🍽️ 食事',
-                    '家事(午後)',
-                    '身だしなみ'
-                ],
-                'home': [
-                    'すべて',
-                    '自分の準備',
-                    '午前',
-                    '午後'
-                ],
-                'nursery': [
-                    'すべて',
-                    '🌅 登園：準備・対応',
-                    '📛 登園：保育園',
-                    '🌆 降園：お迎え・行き',
-                    '🏠 降園：帰宅後',
-                    '🚌 バス運行'
-                ],
-                'work': [
-                    'すべて',
-                    '出社準備'
-                ],
-                'family': [
-                    'すべて',
-                    '👧 子',
-                    '👶 育児情報',
-                    '🏥 通院時チェックリスト',
-                    '👩 妻',
-                    '👴👵 父母',
-                    '交通機関' // Added
-                ]
-            };
-
-            const currentSectionOrder = desiredOrder[sectionId] || Array.from(buttonsToOrder.keys()); // Fallback to map keys order
-            
-            // Append buttons to globalFilterContainer in desired order
-            currentSectionOrder.forEach(title => {
-                const button = buttonsToOrder.get(title);
-                if (button) {
-                    globalFilterContainer.appendChild(button);
-                    buttonsToOrder.delete(title); // Remove from map once appended
-                }
-            });
-
-            // Append any remaining buttons that weren't in the desiredOrder (shouldn't happen if order is exhaustive)
-            buttonsToOrder.forEach(button => globalFilterContainer.appendChild(button));
-        }
-
         function showSection(id, tabEl) {
-            // Hide all sections first
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            // Remove active from all tabs
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            
-            const section = document.getElementById(id);
-            section.classList.add('active'); // Show active section
+            document.getElementById(id).classList.add('active');
             tabEl.classList.add('active');
             localStorage.setItem('lastTab', id);
-
-            // Generate and populate the filter bar for the active section
-            generateFilterBar(id);
-            
-            // Ensure initial visibility of sub-groups based on default filter
-            const subGroups = section.querySelectorAll('.sub-group');
-            if (subGroups.length > 0) {
-                subGroups.forEach(sg => sg.style.display = 'none'); // Hide all initially
-
-                const globalFilterContainer = document.getElementById('global-filter-bar');
-                if (globalFilterContainer) {
-                    globalFilterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-
-                    if (id === 'daily') {
-                        // For 'daily' section, activate the combined button if it exists
-                        const combinedBtn = Array.from(globalFilterContainer.querySelectorAll('.filter-btn')).find(btn => btn.innerText === '🚗✈️ お出かけ・旅行計画'); // Corrected selector
-                        if (combinedBtn) {
-                            combinedBtn.click(); // Simulate click to show both and activate button
-                        } else {
-                            // Fallback if combined button not found, default to first sub-group
-                            subGroups[0].style.display = 'block';
-                            const firstSubGroupBtn = globalFilterContainer.querySelector('.filter-btn:nth-child(2)'); // After "すべて"
-                            if (firstSubGroupBtn) firstSubGroupBtn.classList.add('active');
-                            else { const allBtn = globalFilterContainer.querySelector('.filter-btn:first-child'); if (allBtn) allBtn.classList.add('active'); }
-                        }
-                    } else {
-                        // For other sections, show the first sub-group and activate its button
-                        subGroups[0].style.display = 'block';
-                        const firstSubGroupBtn = globalFilterContainer.querySelector('.filter-btn:nth-child(2)'); // After "すべて"
-                        if (firstSubGroupBtn) firstSubGroupBtn.classList.add('active');
-                        else { const allBtn = globalFilterContainer.querySelector('.filter-btn:first-child'); if (allBtn) allBtn.classList.add('active'); }
-                    }
-                }
-            } else {
-                // If no subgroups in the section, hide the filter bar completely
-                const globalFilterContainer = document.getElementById('global-filter-bar');
-                if (globalFilterContainer) {
-                    globalFilterContainer.classList.remove('active');
-                }
-            }
         }
 
         function toggleDoneStyle(cb) {
@@ -1037,13 +809,6 @@
         window.onload = () => {
             const now = new Date();
             const dayOfWeek = now.getDay(); // 0=Sun, 1=Mon, etc.
-            const currentDayOfMonth = now.getDate();
-
-            // Auto-reset logic: Check if a new day has started
-            const lastResetDay = parseInt(localStorage.getItem('lastChecklistResetDay'));
-            if (isNaN(lastResetDay) || lastResetDay !== currentDayOfMonth) {
-                performReset(); // Triggers reload, so code below won't run until after reset
-            }
 
             setupHealthTooltips();
             fetchWeather(dayOfWeek);
@@ -1160,7 +925,7 @@
                         <div class="health-tooltip-awareness"><strong>【意識】</strong>${awareness}</div>
                     `;
 
-                    const rect = item.getBoundingClientRect(); // Corrected: get position of the item clicked, not the tooltip
+                    const rect = this.getBoundingClientRect();
                     tooltip.style.display = 'block';
                     
                     // Position tooltip below the item
@@ -1174,7 +939,7 @@
                     }
                     // Adjust if it goes off-screen vertically (flip to top)
                     if (tooltipRect.bottom > window.innerHeight - 10) {
-                        tooltip.style.top = `${rect.top - tooltipRect.height - 5}px`; // Corrected: use rect.top for item's top
+                        tooltip.style.top = `${rect.top - tooltipRect.height - 5}px`;
                     }
                     
                     tooltip.dataset.currentItemId = this.querySelector('input').id;
@@ -1191,18 +956,13 @@
             });
         }
 
-        // New function for core reset logic
-        function performReset() {
-            const lastTab = localStorage.getItem('lastTab'); // Preserve last active tab
-            localStorage.clear();
-            localStorage.setItem('lastTab', lastTab);
-            localStorage.setItem('lastChecklistResetDay', new Date().getDate()); // Store current day
-            location.reload();
-        }
-
-        // Modified allReset to remove confirm and directly call performReset (since button is hidden)
         function allReset() {
-            performReset();
+            if(confirm('チェックをすべてリセットしますか？')) {
+                const lastTab = localStorage.getItem('lastTab');
+                localStorage.clear();
+                localStorage.setItem('lastTab', lastTab);
+                location.reload();
+            }
         }
     </script>
 </body>
