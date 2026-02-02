@@ -372,15 +372,7 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_photos"><span>📱 iPhone写真/動画バックアップ</span></div><button class="action-button photos-button" onclick="runShortcut('photos mobile')" style="padding: 0; background: none; border: none; min-width: 0;"><img src="IMG/pht.png" alt="Photos" style="width: 36px; height: 36px; vertical-align: middle;"></button></div>
         </div>
         
-        <div class="sub-group bg-brown">
-            <div class="subgroup-title">🧹 家事</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d_towel"><span>🧴 洗面所のタオル交換</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d10"><span>🪟 窓の結露拭き</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d12"><span>🛁 お風呂洗い確認</span></div><button class="action-button bath-button" onclick="runShortcut('お風呂掃除済み')">LINE連絡</button></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d13"><span>💧 加湿器の水</span></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="d14"><span>🗑️ ゴミ捨て</span></div></div>
-            <div class="checklist-item dynamic-item" id="tue-dynamic-item" style="display:none;"><div class="checklist-main"><input type="checkbox" id="d_tue"><span>📦 ダンボール出し (第1・3火曜)</span></div></div>
-        </div>
+
 
         <div class="sub-group bg-orange">
             <div class="subgroup-title">🚗 お出かけ</div>
@@ -492,6 +484,15 @@
     </div>
 
     <div id="holiday" class="section">
+        <div class="sub-group bg-brown">
+            <div class="subgroup-title">🧹 家事</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_towel"><span>🧴 洗面所のタオル交換</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_window_condensation"><span>🪟 窓の結露拭き</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_bath_cleaning"><span>🛁 お風呂洗い確認</span></div><button class="action-button bath-button" onclick="runShortcut('お風呂掃除済み')">LINE連絡</button></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_humidifier_water"><span>💧 加湿器の水</span></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_garbage"><span>🗑️ ゴミ捨て</span></div></div>
+            <div class="checklist-item dynamic-item" id="ho_tue-dynamic-item" style="display:none;"><div class="checklist-main"><input type="checkbox" id="ho_tue_cardboard"><span>📦 ダンボール出し (第1・3火曜)</span></div></div>
+        </div>
         <div class="sub-group bg-gray">
             <div class="subgroup-title">やる事</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_wash"><span>🧺 洗濯機を回す</span></div></div>
@@ -523,14 +524,7 @@
                 <div class="checklist-main"><input type="checkbox" id="ho_org_shitsuke"><span>5. しつけ (Shitsuke：習慣化)</span></div>
             </div>
         </div>
-        <div class="sub-group bg-purple" style="display: none;">
-            <div class="subgroup-title">✨ AIおでかけ計画</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho0"><span>✨ AIおでかけプラン提案</span></div><button class="action-button pdf-button" onclick="openModal('aiModal')">AI実行</button></div>
-        </div>
-        <div class="sub-group bg-orange" style="display: none;">
-            <div class="subgroup-title">✈️ AI旅行計画</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_travel"><span>✈️ AI旅行プラン・日程提案</span></div><button class="action-button travel-button" onclick="openModal('travelModal')">旅行計画</button></div>
-        </div>
+
         <div class="sub-group bg-blue">
             <div class="subgroup-title">自分の準備</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho1"><span>👕 着替え</span></div></div>
@@ -561,11 +555,7 @@
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho20"><span>👕 着替え</span></div></div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho21"><span>🧼 ハンカチ</span></div></div>
         </div>
-        <div class="sub-group bg-green">
-            <div class="subgroup-title">交通機関</div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho22"><span>🚌 バス</span></div><div class="btn-box"><button class="action-button sp-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/19time_baytown.pdf')">SP</button><button class="action-button marine-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/baytown00_3.pdf')">マリン</button></div></div>
-            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho23"><span>🚃 電車：海浜幕張駅</span></div><button class="action-button train-button" onclick="openLink('https://transit.yahoo.co.jp/timetable/22226/950')">時刻表</button></div>
-        </div>
+
         <div class="sub-group bg-brown">
             <div class="subgroup-title">🍽️ 食事</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="ho_okano"><span>☕️ cafe okano</span></div><button class="action-button okano-button" onclick="openLink('https://x.com/cafeokano?s=21&t=EjJBVaQXUmSoBZe-IjkvnA')">X</button></div>
@@ -670,6 +660,16 @@
             <div class="subgroup-title">👴👵 父母</div>
             <div class="category-header">🏥 健康</div>
             <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_pa_health"><span>📞 体調確認</span></div></div>
+        </div>
+        <div class="sub-group bg-green">
+            <div class="subgroup-title">交通機関</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_ho22"><span>🚌 バス</span></div><div class="btn-box"><button class="action-button sp-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/19time_baytown.pdf')">SP</button><button class="action-button marine-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/baytown00_3.pdf')">マリン</button></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_ho23"><span>🚃 電車：海浜幕張駅</span></div><button class="action-button train-button" onclick="openLink('https://transit.yahoo.co.jp/timetable/22226/950')">時刻表</button></div>
+        </div>
+        <div class="sub-group bg-green">
+            <div class="subgroup-title">交通機関</div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_ho22"><span>🚌 バス</span></div><div class="btn-box"><button class="action-button sp-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/19time_baytown.pdf')">SP</button><button class="action-button marine-button" onclick="openLink('https://heiwakotsu.com/timefare_baytown/baytown00_3.pdf')">マリン</button></div></div>
+            <div class="checklist-item"><div class="checklist-main"><input type="checkbox" id="fam_ho23"><span>🚃 電車：海浜幕張駅</span></div><button class="action-button train-button" onclick="openLink('https://transit.yahoo.co.jp/timetable/22226/950')">時刻表</button></div>
         </div>
     </div>
 
@@ -862,17 +862,16 @@
                     '👨 50代健康戦略', 
                     '🔄 ルーティン',
                     '💡 心がけ',
-                    '🚗✈️ お出かけ・旅行計画',
-                    '🧹 家事'
+                    '🚗✈️ お出かけ・旅行計画'
                 ],
                 'holiday': [
                     'すべて',
+                    '🧹 家事', // Added
                     '🧹💡 整理・整理方法', // Combined button
                     'やる事',
                     '自分の準備',
                     'カーシェア',
                     'おでかけ荷物',
-                    '交通機関',
                     '🍽️ 食事',
                     '家事(午後)',
                     '身だしなみ'
@@ -901,7 +900,8 @@
                     '👶 育児情報',
                     '🏥 通院時チェックリスト',
                     '👩 妻',
-                    '👴👵 父母'
+                    '👴👵 父母',
+                    '交通機関' // Added
                 ]
             };
 
