@@ -154,14 +154,6 @@
         #date-display .month, #date-display .day-unit, #date-display .weekday { font-size: 18px; }
         #date-display .day { font-size: 32px; color: #007aff; font-weight: 800; }
         #date-display .weekday { font-size: 24px; font-weight: 700; margin-left: 5px; }
-
-        #weather-display { display: flex; align-items: center; justify-content: center; gap: 12px; font-weight: 500; min-height: 42px; }
-        .weather-icon { font-size: 36px; }
-        .weather-details { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; font-size: 14px; }
-        .weather-details .temps { font-weight: bold; }
-        .weather-details .wind { font-size: 12px; color: #555; }
-        .temp-max { color: #ff3b30; }
-        .temp-min { color: #007aff; }
     </style>
 </head>
 <body>
@@ -170,9 +162,10 @@
         <h1>Routine：CheckList</h1>
     </div>
     
+    <div id="ww_2fcdd4cfcd6ba" v='1.3' loc='auto' a='{"t":"ticker","lang":"ja","sl_lpl":1,"ids":["wl1499"],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"#616161","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'><a href="https://weatherwidget.org/ja/" id="ww_2fcdd4cfcd6ba_u" target="_blank">html 天気予報 表示</a></div><script async src="https://app3.weatherwidget.org/js/?id=ww_2fcdd4cfcd6ba"></script>
+
     <div id="date-weather-wrapper" style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 15px;">
         <div id="date-display"></div>
-        <div id="weather-display"></div>
         <div id="workday-display" style="display: none; font-size: 16px; font-weight: bold; color: #fff; background-color: #f39c12; padding: 4px 8px; border-radius: 6px;">出社日</div>
         <button type="button" class="reload-btn" onclick="updateMessage()" title="名言を更新">🔄</button>
     </div>
@@ -682,13 +675,21 @@
 
         function updateMessage() {
             const msgEl = document.getElementById('random-message');
-            msgEl.style.opacity = 0;
+            msgEl.style.opacity = 0; // Start fade out
+
             setTimeout(() => {
                 const text = messages[Math.floor(Math.random() * messages.length)];
-                // Wrap in span for scrolling animation
-                msgEl.innerHTML = `<span class="scroll-text">${text}</span>`;
-                msgEl.style.opacity = 1;
-            }, 200);
+                msgEl.innerHTML = `<span class="scroll-text">${text}</span>`; // Update content
+
+                const scrollTextSpan = msgEl.querySelector('.scroll-text');
+                if (scrollTextSpan) {
+                    // Add an event listener for when the animation ends
+                    scrollTextSpan.addEventListener('animationend', () => {
+                        updateMessage(); // Call updateMessage again to get a new random message
+                    }, { once: true }); // Ensure the listener runs only once
+                }
+                msgEl.style.opacity = 1; // Fade in new message
+            }, 200); // Allow time for fade out
         }
 
         function submitAIPlan() {
@@ -741,6 +742,7 @@
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             tabEl.classList.add('active');
+            localStorage.setItem(`lastActiveSubGroup_${id}`, tabEl.innerText); // Store active sub-group
             localStorage.setItem('lastTab', id);
         }
 
@@ -755,63 +757,13 @@
             }
         }
 
-        async function fetchWeather(dayOfWeek) {
-            const weatherContainer = document.getElementById('weather-display');
-            if (!weatherContainer) return;
-            weatherContainer.innerHTML = '<span>Loading weather...</span>';
 
-            try {
-                // Mon, Tue, Thu are Koto. Others are Chiba.
-                const location = [1, 2, 4].includes(dayOfWeek) ? 'Koto,Tokyo' : 'Chiba';
-                const response = await fetch(`https://wttr.in/${location}?format=j1`);
-                if (!response.ok) throw new Error('Weather data not available');
-                
-                const data = await response.json();
-                const todayForecast = data.weather[0];
-                const weatherCode = parseInt(todayForecast.hourly[0].weatherCode);
-
-                let icon = '🤔';
-                if (weatherCode === 113) icon = '☀️'; // Sunny
-                else if (weatherCode === 116) icon = '🌤️'; // Partly cloudy
-                else if (weatherCode === 119) icon = '☁️'; // Cloudy
-                else if (weatherCode === 122) icon = '🌥️'; // Overcast
-                else if ([176, 293, 296, 299, 302, 305, 308, 353, 356, 359].includes(weatherCode)) icon = '🌧️'; // Rain
-                else if ([386, 389].includes(weatherCode)) icon = '⛈️'; // Thunderstorm
-                else if ([179, 182, 185, 227, 323, 326, 329, 332, 335, 338, 368, 371].includes(weatherCode)) icon = '❄️'; // Snow
-                else if ([143, 248, 260].includes(weatherCode)) icon = '🌫️'; // Fog
-
-                const maxTemp = todayForecast.maxtempC;
-                const minTemp = todayForecast.mintempC;
-
-                let maxWindKmph = 0;
-                todayForecast.hourly.forEach(hour => {
-                    if (parseInt(hour.windspeedKmph) > maxWindKmph) {
-                        maxWindKmph = parseInt(hour.windspeedKmph);
-                    }
-                });
-                const maxWindMs = (maxWindKmph / 3.6).toFixed(1);
-
-                weatherContainer.innerHTML = `
-                    <div class="weather-icon">${icon}</div>
-                    <div class="weather-details">
-                        <div class="temps">
-                            <span class="temp-max">${maxTemp}°</span> / <span class="temp-min">${minTemp}°</span>
-                        </div>
-                        <div class="wind">💨 ${maxWindMs} m/s</div>
-                    </div>
-                `;
-            } catch (error) {
-                weatherContainer.innerHTML = '<span style="font-size:12px;">天気情報取得失敗</span>';
-                console.error("Failed to fetch weather:", error);
-            }
-        }
 
         window.onload = () => {
             const now = new Date();
             const dayOfWeek = now.getDay(); // 0=Sun, 1=Mon, etc.
 
             setupHealthTooltips();
-            fetchWeather(dayOfWeek);
             
             // Show "出社日" on Mon/Tue
             if (dayOfWeek === 1 || dayOfWeek === 2) {
