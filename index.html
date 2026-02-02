@@ -162,11 +162,14 @@
         <h1>Routine：CheckList</h1>
     </div>
     
-    <div id="ww_2fcdd4cfcd6ba" v='1.3' loc='auto' a='{"t":"ticker","lang":"ja","sl_lpl":1,"ids":["wl1499"],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"#616161","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'><a href="https://weatherwidget.org/ja/" id="ww_2fcdd4cfcd6ba_u" target="_blank">html 天気予報 表示</a></div><script async src="https://app3.weatherwidget.org/js/?id=ww_2fcdd4cfcd6ba"></script>
+
 
     <div id="date-weather-wrapper" style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 15px;">
         <div id="date-display"></div>
-        <div id="workday-display" style="display: none; font-size: 16px; font-weight: bold; color: #fff; background-color: #f39c12; padding: 4px 8px; border-radius: 6px;">出社日</div>
+        <div style="display: flex; align-items: center; gap: 5px;">
+            <div id="workday-display" style="display: none; font-size: 16px; font-weight: bold; color: #333; background-color: #FFFFFF; padding: 4px 8px; border-radius: 6px;">出社日</div>
+            <img src="IMG/BN.png" alt="Bandai Namco Logo" id="bn-logo" style="height: 38px; display: none;">
+        </div>
         <button type="button" class="reload-btn" onclick="updateMessage()" title="名言を更新">🔄</button>
     </div>
     <div id="random-message"></div>
@@ -765,11 +768,15 @@
 
             setupHealthTooltips();
             
-            // Show "出社日" on Mon/Tue
-            if (dayOfWeek === 1 || dayOfWeek === 2) {
+            // Show "出社日" and BN logo on Mon/Tue/Thu
+            if (dayOfWeek === 1 || dayOfWeek === 2 || dayOfWeek === 4) {
                 const workdayEl = document.getElementById('workday-display');
+                const bnLogo = document.getElementById('bn-logo'); // Get the new image element
                 if (workdayEl) {
                     workdayEl.style.display = 'block';
+                }
+                if (bnLogo) {
+                    bnLogo.style.display = 'block';
                 }
             }
 
@@ -787,7 +794,7 @@
                 dateContainer.innerHTML = `
                     <span class="month">${month}</span><span class="day-unit">月</span>
                     <span class="day">${dayOfMonth}</span><span class="day-unit">日</span>
-                    <span class="weekday" style="color: ${weekdayColor};">${weekdayName}曜日</span>
+                    <span class="weekday" style="color: ${weekdayColor};">${weekdayName}</span>
                 `;
             }
 
